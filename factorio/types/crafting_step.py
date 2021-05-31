@@ -1,13 +1,14 @@
 from dataclasses import dataclass, field
-from factorio.production_unit import ProductionUnit
+from .production_unit import ProductionUnit
 from typing import List
 
 
 @dataclass(repr=False)
 class CraftingStep:
-    # reference to next step of type CraftingStep
     producer: ProductionUnit
-    amount: float
+    amount_producers: float = 1  # amount of producers on this step
+
+    # reference to steps of type CraftingStep
     next_step: object = None
     previous_steps: List[object] = field(default_factory=list)
 
@@ -18,5 +19,11 @@ class CraftingStep:
             result += child.__repr__(level+1)
         return result
 
+    def get_id(self):
+        return self.producer.get_id()
+
     def get_result(self):
-        return self.producer.craft()
+        return self.producer.craft(self.amount_producers)
+
+    def get_requirements(self):
+        return self.producer.get_requirements(self.amount_producers)

@@ -13,7 +13,7 @@ class Material:
         return Material(self.id, self.amount * multiplier)
 
     def __add__(self, other):
-        assert isinstance(other, self.__class__)
+        assert issubclass(other.__class__, self.__class__)
         if other.id != self.id: raise ValueError("cannot add items of different types")
         return Material(self.id, self.amount + other.amount)
 

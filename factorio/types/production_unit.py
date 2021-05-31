@@ -1,21 +1,25 @@
 from dataclasses import dataclass
 from .recipe import Recipe
-from factorio import recipe
 
 
 @dataclass
 class ProductionUnit:
+    '''represents one unit of crafting machinery'''
+
     crafting_speed: float
     recipe: Recipe = None
 
     def get_id(self):
-        return self.recipe.result.items[0].id
+        return self.recipe.result.get_combined_name()
 
     def setup(self, recipe):
         return ProductionUnit(self.crafting_speed, recipe)
 
-    def craft(self):
-        return self.recipe.craft()
+    def get_requirements(self, product_amount: float = 1):
+        return self.recipe.get_requirements(product_amount)
+
+    def craft(self, product_amount: float = 1):
+        return self.recipe.craft(product_amount)
 
     # todo: rethink this function interface using craft amount
     def craft_with_time(self):

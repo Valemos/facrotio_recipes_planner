@@ -1,9 +1,9 @@
-from typing import Dict
-from factorio.material_collection import MaterialCollection
-from factorio.material import Material
-from factorio.recipe import Recipe
+from .types.material import Material
+from .types.recipe import Recipe
+
 import json
 from pathlib import Path
+from typing import Dict
 
 
 with Path("factorio/recipes.json").open() as fin:
