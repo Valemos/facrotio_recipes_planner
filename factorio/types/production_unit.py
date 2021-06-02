@@ -21,8 +21,8 @@ class ProductionUnit:
     def get_required_materials(self, amount: float = 1):
         return self.recipe.get_required_materials(amount)
 
-    def craft(self, amount: float = 1):
-        return self.recipe.craft(amount)
+    def get_result_scaled(self, amount: float = 1):
+        return self.recipe.get_result_scaled(amount)
 
 
 assembling_machine_1 = ProductionUnit(0.5)

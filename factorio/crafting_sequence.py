@@ -1,51 +1,58 @@
 
+from factorio.types.material_collection import MaterialCollection
 from .misc import to_material
 from .types.crafting_step import CraftingStep
 from .types.crafting_environment import CraftingEnvironment, DEFAULT_ENVIRONMENT
 from .types.material import Material
-from typing import Dict, Union
+from typing import Dict, List, Tuple, Union
 from .recipe_collections import recipes_info
 
 
-def get_crafting_sequence(material: Union[str, Material], 
-                        environment: CraftingEnvironment = DEFAULT_ENVIRONMENT,
-                        visited_nodes: Dict[str, CraftingStep] = None) -> CraftingStep:
-    """
-    this function gets all crafting steps from environment, connects them into tree
-    as the final step, all unconstrained tree nodes update their config considering all previous connections
-    """
+def get_crafting_tree(material: Material, environment: CraftingEnvironment = DEFAULT_ENVIRONMENT):
+    assert isinstance(material, Material)
     
-    if visited_nodes is None:
-        visited_nodes = {}
+    # constrain desired craft in tree if material amount is finite
+    if material.amount != 0:
+        environment.add_constraint_amount_produced(material)
+    
+    crafting_tree, constrained_steps = get_crafting_subtree_recursive(material, environment)
+    
+    for step in constrained_steps:
+        step.propagate_output_constraint()
 
-    material = to_material(material)
+    return crafting_tree
+
+
+def get_crafting_subtree_recursive(material: Material, 
+                                environment: CraftingEnvironment, 
+                                constrained_steps: List[CraftingStep] = None) -> Tuple[CraftingStep, List[CraftingStep]]:
+    """
+    gets all crafting steps from environment and connects them into tree
+    """
+    assert isinstance(material, Material)
+
+    if constrained_steps is None:
+        constrained_steps = []
+
     recipe = recipes_info[material.id]
 
-    # repeating resources must connect into one node
-    cur_step_id = recipe.global_id
-    if cur_step_id in visited_nodes:
-        # return already visited node as subtree to update 
-        return visited_nodes[cur_step_id]
-
     config = environment.get_production_config(recipe)
-    config.machine_amount = recipe.get_result_amount(material)
-    cur_step = CraftingStep()
-    visited_nodes[cur_step_id] = cur_step
+    cur_step = CraftingStep(config)
+
+    if cur_step.is_constrained():
+        constrained_steps.append(cur_step)
+    else:
+        cur_step.config.set_material_production(material)
+
+    if environment.is_final_recipe(recipe):
+        return cur_step, constrained_steps
 
     for ingredient in cur_step.get_required_materials():
         # get all subtrees
-        prev_step = get_crafting_sequence(ingredient, environment, visited_nodes)
+        prev_step, _ = get_crafting_subtree_recursive(ingredient, environment, constrained_steps)
 
         # connect tree
         cur_step.previous_steps.append(prev_step)
-        prev_step.next_steps.append(cur_step)
+        prev_step.next_step = cur_step
 
-    add_tree_producers_constraints(cur_step)
-    return cur_step
-
-
-def add_tree_producers_constraints(root_step: CraftingStep):
-    """calculate all not fixed nodes in tree"""
-
-    if root_step.fixed_nodes_count() == 0:
-        root_step.config.fixed = True
+    return cur_step, constrained_steps

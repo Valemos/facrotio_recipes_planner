@@ -1,6 +1,7 @@
 from dataclasses import dataclass, field
 from typing import Dict, Union
 from collections.abc import MutableMapping
+from copy import deepcopy
 from .material import Material
 
 
@@ -43,16 +44,20 @@ class MaterialCollection(MutableMapping):
     def __add__(self, other):
         assert isinstance(other, self.__class__)
 
-        for _id, material in other.items:
-            self.items[_id] += material
+        new_collection = deepcopy(self)
+
+        for material in other:
+            new_collection.add(material)
+
+        return new_collection
 
     def __mul__(self, multiplier):
         assert isinstance(multiplier, float) or isinstance(multiplier, int)
 
         new_collection = MaterialCollection()
 
-        for item in self.items.values():
-            new_collection.add(item * multiplier)
+        for item in self:
+            new_collection.add(item * multiplier) 
 
         return new_collection
 

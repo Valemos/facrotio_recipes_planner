@@ -1,5 +1,4 @@
 from dataclasses import dataclass, field
-from factorio.misc import to_material
 from .material_collection import MaterialCollection
 from .material import Material
 from typing import List
@@ -30,5 +29,5 @@ class Recipe:
     def get_required_materials(self, amount = 1) -> MaterialCollection:
         return self.ingredients * amount if amount != 1 else self.ingredients
 
-    def craft(self, amount = 1) -> MaterialCollection:
+    def get_result_scaled(self, amount = 1) -> MaterialCollection:
         return self.result * amount if amount != 1 else self.result

@@ -33,10 +33,16 @@ class CraftingEnvironment:
         self.inserter_type = inserter_type
         self.constraints: Dict[str, ProductionConfig] = {}
 
-    def add_constraint(self, config: ProductionConfig):
+    def add_constraint_config(self, config: ProductionConfig):
         """constrain amount of recipe crafts that can be produced by system"""
         config.fixed = True
-        self.constraints[config.machine.recipe.global_id] = config
+        self.constraints[config.get_recipe().global_id] = config
+
+    def add_constraint_amount_produced(self, material: Material):
+        recipe = recipes_info[material.id]
+        config = self._get_production_config_unconstrained(recipe)
+        config.set_material_production(material)
+        self.add_constraint_config(config)
 
     def clear_constraints(self):
         self.constraints = {}
@@ -50,9 +56,13 @@ class CraftingEnvironment:
                 [self.inserter_type])
 
     def get_production_config(self, recipe: Recipe) -> ProductionConfig:
-        """if material production is constrained, user producer config will apply"""
+        """
+        if material production is constrained, user producer config will apply
+        
+        WARNING! if the same config is requested multiple times, the same object will be returned
+        """
         if recipe.global_id in self.constraints:
-            return deepcopy(self.constraints[recipe.global_id])
+            return self.constraints[recipe.global_id]
 
         return self._get_production_config_unconstrained(recipe)
 

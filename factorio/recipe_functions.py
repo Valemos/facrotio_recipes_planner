@@ -7,19 +7,18 @@ from .types.material import Material
 from .types.material_collection import MaterialCollection
 from .recipe_collections import recipes_info
 from .misc import to_material
-from factorio.crafting_sequence import get_crafting_sequence
+from factorio.crafting_sequence import get_crafting_tree
 
 
-def get_basic_resources(material: Union[str, Material], environment: CraftingEnvironment = DEFAULT_ENVIRONMENT) -> MaterialCollection:
+def get_basic_resources(material: Material, environment: CraftingEnvironment = DEFAULT_ENVIRONMENT) -> MaterialCollection:
     '''
     returns dictionary with time, yield amount and dict of (component-id: (amount, time needed for construction))
     '''
-
-    material = to_material(material) # set material amount to default
+    assert isinstance(material, Material)
     recipe = recipes_info[material.id]
     
     if environment.is_final_recipe(recipe):
-        return recipe.craft(material.amount)
+        return recipe.get_result_scaled(material.amount)
 
     basic_materials = MaterialCollection()
     basic_materials.add(recipe.get_time_material())
@@ -64,5 +63,5 @@ def get_crafting_graph(cur_node: CraftingStep, graph=None, visited_nodes=None):
 
 
 def build_recipe_graph(component_id, environment: CraftingEnvironment = DEFAULT_ENVIRONMENT):
-    return get_crafting_graph(get_crafting_sequence(component_id, environment))
+    return get_crafting_graph(get_crafting_tree(component_id, environment))
 

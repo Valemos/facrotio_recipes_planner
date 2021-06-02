@@ -1,6 +1,6 @@
 from factorio.types.material import Material
 from factorio.types.crafting_environment import CraftingEnvironment
-from factorio.recipe_functions import build_recipe_graph, get_basic_resources, get_crafting_sequence
+from factorio.recipe_functions import *
 import factorio.types.transport_belt as transport
 from factorio.types.production_config import ProductionConfig
 from factorio.recipe_collections import recipes_info
@@ -8,13 +8,13 @@ from factorio.types.production_unit import assembling_machine_1
 
 
 environment = CraftingEnvironment(['electronic-circuit', 'copper-plate', 'iron-plate'])
-environment.add_constraint(
+environment.add_constraint_config(
     ProductionConfig(
         assembling_machine_1.setup(recipes_info['electronic-circuit']),
         machine_amount=3))
 
 # TODO: fix incorrect crafting sequence
-result = get_crafting_sequence('assembling-machine-1', environment)
+result = get_crafting_tree(Material('assembling-machine-1', 1), environment)
 print(result)
 
 # name = "iron-stick"

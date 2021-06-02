@@ -6,7 +6,7 @@ class Material:
     '''a bunch of items of the same type'''
 
     id: str = field(hash=True)
-    amount: float = field(default=1, hash=False)
+    amount: float = field(default=0, hash=False)  # 0 value indicates empty material holder and considered as unconstrained amount
 
     def __mul__(self, multiplier):
         assert isinstance(multiplier, float) or isinstance(multiplier, int)
