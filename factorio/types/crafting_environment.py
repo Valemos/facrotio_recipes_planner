@@ -2,11 +2,9 @@ from dataclasses import dataclass, field
 import math
 from typing import Dict, List, Set, Union
 from copy import deepcopy
-from .crafting_step import CraftingStep
 from .production_config import ProductionConfig
 from .recipe import Recipe
 from .material import Material
-from .material_collection import MaterialCollection
 from .production_unit import ProductionUnit, assembling_machine_1
 from .inserter_unit import InserterUnit, inserter
 from ..misc import to_material
@@ -62,7 +60,7 @@ class CraftingEnvironment:
         WARNING! if the same config is requested multiple times, the same object will be returned
         """
         if recipe.global_id in self.constraints:
-            return self.constraints[recipe.global_id]
+            return deepcopy(self.constraints[recipe.global_id])
 
         return self._get_production_config_unconstrained(recipe)
 

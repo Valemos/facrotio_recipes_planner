@@ -1,10 +1,10 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from .material import Material
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, eq=True)
 class TransportBelt(Material):
-    item_speed: float = 0
+    item_speed: float = field(default=0, hash=True)
 
 
 transport_belt_1 = TransportBelt(item_speed=15, id="transport-belt")

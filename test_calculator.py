@@ -8,13 +8,9 @@ from factorio.types.production_unit import assembling_machine_1
 
 
 environment = CraftingEnvironment(['electronic-circuit', 'copper-plate', 'iron-plate'])
-environment.add_constraint_config(
-    ProductionConfig(
-        assembling_machine_1.setup(recipes_info['electronic-circuit']),
-        machine_amount=3))
+# environment.add_constraint_amount_produced(Material('electronic-circuit', 3))
 
-# TODO: fix incorrect crafting sequence
-result = get_crafting_tree(Material('assembling-machine-1', 1), environment)
+result = build_recipe_graph(Material('logistic-robot', 1), environment)
 print(result)
 
 # name = "iron-stick"

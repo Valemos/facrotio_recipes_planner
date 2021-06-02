@@ -10,12 +10,12 @@ import math
 class ProductionConfig:
     """represents production unit combined with input and output inserters"""
 
-    machine: ProductionUnit
+    producer: ProductionUnit
     input: List[InserterUnit] = field(default_factory=list)
     output: List[InserterUnit] = field(default_factory=list)
 
     # not fixed config will be updated later during execution
-    machine_amount: float = float('inf')
+    producers_amount: float = float('inf')
     fixed: bool = False
 
 
@@ -30,14 +30,14 @@ class ProductionConfig:
         return self._get_inserters_speed(self.output)
 
     def get_required_materials(self):
-        return self.machine.get_required_materials(self.machine_amount)
+        return self.producer.get_required_materials(self.producers_amount)
 
     def set_material_production(self, material: Material):
-        items_per_craft = self.machine.recipe.get_result_amount(material)
-        self.machine_amount = math.ceil(material.amount / items_per_craft)
+        items_per_craft = self.producer.recipe.get_result_amount(material)
+        self.producers_amount = math.ceil(material.amount / items_per_craft)
 
     def get_result(self):
-        return self.machine.get_result_scaled(self.machine_amount)
+        return self.producer.get_result_scaled(self.producers_amount)
 
     def get_recipe(self):
-        return self.machine.recipe
+        return self.producer.recipe

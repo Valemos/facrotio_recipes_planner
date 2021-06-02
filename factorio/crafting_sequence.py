@@ -1,4 +1,5 @@
 
+from copy import deepcopy
 from factorio.types.material_collection import MaterialCollection
 from .misc import to_material
 from .types.crafting_step import CraftingStep
@@ -8,18 +9,25 @@ from typing import Dict, List, Tuple, Union
 from .recipe_collections import recipes_info
 
 
-def get_crafting_tree(material: Material, environment: CraftingEnvironment = DEFAULT_ENVIRONMENT):
-    assert isinstance(material, Material)
+def get_crafting_tree(material: Union[str, Material], environment: CraftingEnvironment = DEFAULT_ENVIRONMENT):
+    material = to_material(material, 0)
     
-    # constrain desired craft in tree if material amount is finite
+    # constrain desired craft in tree if material amount is not 0
     if material.amount != 0:
+        environment = deepcopy(environment)
         environment.add_constraint_amount_produced(material)
     
     crafting_tree, constrained_steps = get_crafting_subtree_recursive(material, environment)
     
+    if len(constrained_steps) == 0:        
+        print("WARNING! crafting tree has no constraints. add constrains to environment to get not infinite results")
+        return crafting_tree
+
     for step in constrained_steps:
         step.propagate_output_constraint()
 
+    crafting_tree.deduce_infinite_materials()
+    
     return crafting_tree
 
 
@@ -27,7 +35,7 @@ def get_crafting_subtree_recursive(material: Material,
                                 environment: CraftingEnvironment, 
                                 constrained_steps: List[CraftingStep] = None) -> Tuple[CraftingStep, List[CraftingStep]]:
     """
-    gets all crafting steps from environment and connects them into tree
+    gets all crafting steps from environment and connects them into one tree
     """
     assert isinstance(material, Material)
 
@@ -42,7 +50,7 @@ def get_crafting_subtree_recursive(material: Material,
     if cur_step.is_constrained():
         constrained_steps.append(cur_step)
     else:
-        cur_step.config.set_material_production(material)
+        cur_step.config.producers_amount = float('inf')
 
     if environment.is_final_recipe(recipe):
         return cur_step, constrained_steps
