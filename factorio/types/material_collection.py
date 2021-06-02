@@ -73,3 +73,6 @@ class MaterialCollection(MutableMapping):
             self.items[material.id] += material
         else:
             self.items[material.id] = material
+
+    def total_items(self):
+        return sum(m.amount for m in self)

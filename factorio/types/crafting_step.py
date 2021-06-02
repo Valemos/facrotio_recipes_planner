@@ -39,10 +39,12 @@ class CraftingStep:
         return self.config.producer.get_id()
 
     def get_result(self):
-        return self.config.get_result()
+        # TODO: update result function to return material output rates
+        return self.config.get_craft_result()
 
     def get_required_materials(self):
-        return self.config.get_required_materials()
+        # TODO: update requirements function to return material input rates
+        return self.config.get_requirements()
 
     def iterate_all_steps(self):
         yield self
@@ -88,11 +90,11 @@ class CraftingStep:
 
         required_inputs = self.get_required_materials()
         if len(required_inputs) == 0:
-            return 
+            return
 
-        for required_material in required_inputs:
-            for ingredient_step in self.previous_steps:
-                if ingredient_step.config.producers_amount == float('inf'):
+        for ingredient_step in self.previous_steps:
+            if ingredient_step.config.producers_amount == float('inf'):
+                for required_material in required_inputs:
                     if required_material in ingredient_step.get_result():
                         ingredient_step.config.set_material_production(required_material)
                         ingredient_step.deduce_infinite_materials()

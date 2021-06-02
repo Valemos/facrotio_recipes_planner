@@ -3,15 +3,13 @@ from factorio.types.material_collection import MaterialCollection
 from .material import Material
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, eq=True)
 class InserterUnit(Material):
     cycle_speed: float = 0
     capacity: float = 1
+    
 
-    input = None
-    output = None
-
-    def get_output_speed(self):
+    def get_item_rate(self):
         return self.cycle_speed * self.capacity
 
 

@@ -6,7 +6,7 @@ from .recipe import Recipe
 class ProductionUnit:
     '''represents one unit of crafting machinery'''
 
-    crafting_speed: float  # items / second
+    crafting_speed: float  # amount of work / time unit
     recipe: Recipe = None
 
     def get_id(self):
@@ -22,6 +22,9 @@ class ProductionUnit:
         return self.recipe.get_required_materials(amount)
 
     def get_result_scaled(self, amount: float = 1):
+        return self.recipe.get_result_scaled(amount)
+
+    def get_productivity_scaled(self, amount: float):
         return self.recipe.get_result_scaled(amount)
 
 
