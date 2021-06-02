@@ -4,6 +4,7 @@ from .types.recipe import Recipe
 import json
 from pathlib import Path
 from typing import Dict
+from itertools import count
 
 
 with Path("factorio/recipes.json").open() as fin:
@@ -12,14 +13,14 @@ with Path("factorio/recipes.json").open() as fin:
 
 recipes_info: Dict[str, Recipe] = {}
 
-for item in recipes_json:
+for item_id, item in zip(count(1), recipes_json):
     if item['recipe']['time'] is None:
         item['recipe']['time'] = 0
 
     if item['recipe']['yield'] is None:
         item['recipe']['yield'] = 1
 
-    recipe = Recipe(time=item['recipe']['time'])
+    recipe = Recipe(time=item['recipe']['time'], global_id=item_id)
     for ingredient in item['recipe']['ingredients']:
         recipe.add_ingredient(Material.from_dict(ingredient))
 

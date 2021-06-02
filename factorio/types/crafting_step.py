@@ -1,29 +1,39 @@
 from dataclasses import dataclass, field
-from .production_unit import ProductionUnit
+from .production_config import ProductionConfig
 from typing import List
 
 
 @dataclass(repr=False)
 class CraftingStep:
-    producer: ProductionUnit
-    amount_producers: float = 1  # amount of producers on this step
+    config: ProductionConfig
 
     # reference to steps of type CraftingStep
-    next_step: object = None
+    next_steps: List[object] = field(default_factory=list)
     previous_steps: List[object] = field(default_factory=list)
 
 
     def __repr__(self, level=0) -> str:
-        result = "\t"*level+repr(self.producer.recipe.result)+"\n"
+        result = "\t"*level + repr(self.get_result()) + "\n"
         for child in self.previous_steps:
             result += child.__repr__(level+1)
         return result
 
     def get_id(self):
-        return self.producer.get_id()
+        return self.config.machine.get_id()
 
     def get_result(self):
-        return self.producer.craft(self.amount_producers)
+        return self.config.craft()
 
-    def get_requirements(self):
-        return self.producer.get_requirements(self.amount_producers)
+    def get_required_materials(self):
+        return self.config.get_required_materials()
+
+    def fixed_nodes_count(self):
+        if len(self.previous_steps) == 0:
+            # for final step check if fixed
+            return 1 if self.fixed else 0
+
+        total = 0
+        for child in self.previous_steps:
+            total += child.fixed_nodes_count(total)
+
+        return total

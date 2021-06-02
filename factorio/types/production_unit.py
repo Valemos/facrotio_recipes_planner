@@ -6,24 +6,23 @@ from .recipe import Recipe
 class ProductionUnit:
     '''represents one unit of crafting machinery'''
 
-    crafting_speed: float
+    crafting_speed: float  # items / second
     recipe: Recipe = None
 
     def get_id(self):
-        return self.recipe.result.get_combined_name()
+        return self.recipe.global_id
 
     def setup(self, recipe):
         return ProductionUnit(self.crafting_speed, recipe)
 
-    def get_requirements(self, product_amount: float = 1):
-        return self.recipe.get_requirements(product_amount)
+    def get_craft_time(self):
+        return self.recipe.time / self.crafting_speed
 
-    def craft(self, product_amount: float = 1):
-        return self.recipe.craft(product_amount)
+    def get_required_materials(self, amount: float = 1):
+        return self.recipe.get_required_materials(amount)
 
-    # todo: rethink this function interface using craft amount
-    def craft_with_time(self):
-        return self.recipe.craft_with_time(self.crafting_speed)
+    def craft(self, amount: float = 1):
+        return self.recipe.craft(amount)
 
 
 assembling_machine_1 = ProductionUnit(0.5)

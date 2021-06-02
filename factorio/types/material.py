@@ -1,12 +1,12 @@
 from dataclasses import dataclass, field
 
 
-@dataclass
+@dataclass(frozen=True, eq=True)
 class Material:
     '''a bunch of items of the same type'''
 
-    id: str
-    amount: float = field(default=1)
+    id: str = field(hash=True)
+    amount: float = field(default=1, hash=False)
 
     def __mul__(self, multiplier):
         assert isinstance(multiplier, float) or isinstance(multiplier, int)
