@@ -24,7 +24,7 @@ def get_crafting_tree(material: Union[str, Material], environment: CraftingEnvir
         return crafting_tree
 
     for step in constrained_steps:
-        step.propagate_output_constraint()
+        step.propagate_output_constraints()
 
     crafting_tree.deduce_infinite_materials()
     
@@ -55,7 +55,7 @@ def get_crafting_subtree_recursive(material: Material,
     if environment.is_final_recipe(recipe):
         return cur_step, constrained_steps
 
-    for ingredient in cur_step.get_required_materials():
+    for ingredient in cur_step.get_required():
         # get all subtrees
         prev_step, _ = get_crafting_subtree_recursive(ingredient, environment, constrained_steps)
 

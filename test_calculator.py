@@ -10,7 +10,9 @@ from factorio.types.production_unit import assembling_machine_1
 environment = CraftingEnvironment(['electronic-circuit', 'copper-plate', 'iron-plate'])
 # environment.add_constraint_amount_produced(Material('electronic-circuit', 3))
 
-result = build_recipe_graph(Material('logistic-robot', 1), environment)
+result = build_recipe_graph(Material('assembling-machine-1', 0.5), environment)
+result = build_recipe_graph(Material('assembling-machine-1', 1), environment)
+result = build_recipe_graph(Material('assembling-machine-1', 2), environment)
 print(result)
 
 # name = "iron-stick"

@@ -1,6 +1,5 @@
 from dataclasses import dataclass, field
-from factorio.types.material import Material
-from typing import Dict, List
+from typing import List
 from .transport_belt import TransportBelt
 from .inserter_unit import InserterUnit
 from .material_collection import MaterialCollection
@@ -18,7 +17,7 @@ class ItemBus:
         amount_units represents how much machines 
         connected to the same transport belt with the same inserter setup
         """
-        belt_rate = self.transport_belt.item_rate
+        belt_rate = self.transport_belt.item_rate if self.transport_belt is not None else float('inf') 
         inserters_rate = amount_units * sum(inserter.get_item_rate() for inserter in self.inserters)
         return min(belt_rate, inserters_rate)
 

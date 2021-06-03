@@ -26,11 +26,8 @@ class Recipe:
         
         return self.result.items[material.id].amount
 
-    def get_required_materials(self, amount = 1) -> MaterialCollection:
-        return self.ingredients * amount if amount != 1 else self.ingredients
+    def get_required(self) -> MaterialCollection:
+        return self.ingredients
 
-    def get_result_scaled(self, amount = 1) -> MaterialCollection:
-        return self.result * amount if amount != 1 else self.result
-    
-    def get_productivity_scaled(self, amount = 1) -> MaterialCollection:
-        return self.result * (amount / self.time) if amount != 1 else self.result
+    def get_results(self) -> MaterialCollection:
+        return self.result

@@ -1,4 +1,6 @@
 from dataclasses import dataclass, field
+from factorio.types.transport_belt import TransportBelt, transport_belt_1
+from .item_bus import ItemBus
 import math
 from typing import Dict, List, Set, Union
 from copy import deepcopy
@@ -16,11 +18,13 @@ class CraftingEnvironment:
     final_recipe_ids: Set[int]
     crafting_machine: ProductionUnit
     inserter_type: InserterUnit
+    transport_belt_type: TransportBelt
 
     def __init__(self, 
                 materials: List[Union[str, Material]], 
                 crafting_machine=assembling_machine_1,
-                inserter_type=inserter) -> None:
+                inserter_type=inserter,
+                transport_belt_type=transport_belt_1) -> None:
 
         self.final_recipe_ids = set()
         for material in materials:
@@ -29,6 +33,7 @@ class CraftingEnvironment:
         
         self.crafting_machine = crafting_machine
         self.inserter_type = inserter_type
+        self.transport_belt_type = transport_belt_type
         self.constraints: Dict[str, ProductionConfig] = {}
 
     def add_constraint_config(self, config: ProductionConfig):
@@ -39,7 +44,7 @@ class CraftingEnvironment:
     def add_constraint_amount_produced(self, material: Material):
         recipe = recipes_info[material.id]
         config = self._get_production_config_unconstrained(recipe)
-        config.set_material_production(material)
+        config.set_material_rate(material)
         self.add_constraint_config(config)
 
     def clear_constraints(self):
@@ -47,11 +52,11 @@ class CraftingEnvironment:
 
     def _get_production_config_unconstrained(self, recipe: Recipe):
         # inserters can pick 2 items from two lanes on conveyor
-        input_inserters_number = math.ceil(0.5 * len(recipe.get_required_materials()))  
+        input_inserters_number = math.ceil(0.5 * len(recipe.get_required()))  
         return ProductionConfig(
                 self.crafting_machine.setup(recipe),
-                [self.inserter_type] * input_inserters_number,
-                [self.inserter_type])
+                ItemBus([self.inserter_type] * input_inserters_number, self.transport_belt_type),
+                ItemBus([self.inserter_type], self.transport_belt_type))
 
     def get_production_config(self, recipe: Recipe) -> ProductionConfig:
         """

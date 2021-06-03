@@ -20,7 +20,7 @@ class CraftingStep:
             super().__init__(*args)
 
     def __repr__(self, level=0) -> str:
-        result = "\t"*level + repr(self.get_result()) + "\n"
+        result = "\t"*level + repr(self.get_results()) + "\n"
         for child in self.previous_steps:
             result += child.__repr__(level+1)
         return result
@@ -38,13 +38,11 @@ class CraftingStep:
     def get_id(self):
         return self.config.producer.get_id()
 
-    def get_result(self):
-        # TODO: update result function to return material output rates
-        return self.config.get_craft_result()
+    def get_results(self):
+        return self.config.get_results_rates()
 
-    def get_required_materials(self):
-        # TODO: update requirements function to return material input rates
-        return self.config.get_requirements()
+    def get_required(self):
+        return self.config.get_required_rates()
 
     def iterate_all_steps(self):
         yield self
@@ -52,32 +50,14 @@ class CraftingStep:
         for prev_step in self.previous_steps:
             yield from prev_step.iterate_all_steps()
 
-    def _get_maximum_craft_amount(self, ingredient: Material, recipe: Recipe) -> float:
-        return recipe.get_required_materials()[ingredient].amount / ingredient.amount
-
     def set_machine_amount_by_inputs(self):
-        """
-        sets maximum possible craft output count based on resource input
-        """
-
         input_materials = MaterialCollection()
         for prev_step in self.previous_steps:
-            input_materials += prev_step.get_result()
+            input_materials += prev_step.get_results()
         
-        # craft amount will be calculated from the most scarce resource on input e.g. minimal craft amount by each material
-        craft_amount = float('inf')
-        for ingredient in self.get_required_materials():
-            possible_craft_amount = self._get_maximum_craft_amount(ingredient, self.config.get_recipe())
-            if craft_amount > possible_craft_amount:
-                craft_amount = possible_craft_amount
-        
-        # if all input resources are inf producers amount also infinite
-        self.config.producers_amount = math.ceil(craft_amount) if craft_amount != float('inf') else float('inf')
+        self.config.set_maximum_consumers(input_materials)
 
-    def propagate_output_constraint(self):
-        """
-        deduces and changes outputs for next steps in craft chain
-        """
+    def propagate_output_constraints(self):
         current_step: CraftingStep = self.next_step
         while current_step is not None:
             current_step.set_machine_amount_by_inputs()
@@ -88,13 +68,18 @@ class CraftingStep:
         algorithm assumes, that for each ingredient in this node, there are only one ingredient source node
         """
 
-        required_inputs = self.get_required_materials()
+        required_inputs = self.get_required()
         if len(required_inputs) == 0:
             return
 
         for ingredient_step in self.previous_steps:
             if ingredient_step.config.producers_amount == float('inf'):
+                if ingredient_step.is_start_step():
+                    # can cause problem for multiple output recipes
+                    requested_material = required_inputs[ingredient_step.get_results().first()]
+                    ingredient_step.config.producers_amount = requested_material.amount
+
                 for required_material in required_inputs:
-                    if required_material in ingredient_step.get_result():
-                        ingredient_step.config.set_material_production(required_material)
+                    if required_material in ingredient_step.get_results():
+                        ingredient_step.config.set_material_rate(required_material)
                         ingredient_step.deduce_infinite_materials()

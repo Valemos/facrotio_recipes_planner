@@ -66,7 +66,7 @@ class MaterialCollection(MutableMapping):
         return next(iter(self.items.values()))
 
     def get_combined_name(self):
-        return '-'.join(self.items.keys())
+        return ';'.join(self.items.keys())
 
     def add(self, material: Material):
         if material.id in self.items:
@@ -74,5 +74,5 @@ class MaterialCollection(MutableMapping):
         else:
             self.items[material.id] = material
 
-    def total_items(self):
+    def total(self):
         return sum(m.amount for m in self)

@@ -19,7 +19,7 @@ def get_basic_materials(material: Union[str, Material], environment: CraftingEnv
     crafting_tree = get_crafting_tree(to_material(material, 1), environment)
     for step in crafting_tree.iterate_all_steps():
         if step.is_start_step():
-            basic_materials += step.get_result()
+            basic_materials += step.get_results()
 
     return basic_materials
 
@@ -29,21 +29,21 @@ def get_crafting_graph(cur_node: CraftingStep, graph=None):
         graph = Digraph()
 
     cur_node_id = str(cur_node.get_id())
-    cur_node_name = cur_node.get_result().first().id
+    cur_node_name = cur_node.get_results().first().id
     if len(cur_node.previous_steps) == 0:
         # for basic nodes specify their total amount and no crafting time
         graph.node(cur_node_id, label=f"{cur_node_name}\\n x{cur_node.config.producers_amount}\\n")
         return
 
     # put label on current node
-    craft_time = cur_node.config.producer.get_craft_time()
-    node_label = f"{cur_node_name}\\n{craft_time}s\\n"
+    production_rate = cur_node.config.get_production_rate()
+    node_label = f"{cur_node_name}\\n{production_rate} items/s\\n"
     if cur_node.config.producers_amount != float('inf'):
         node_label += f"x{cur_node.config.producers_amount}\\n"
     graph.node(cur_node_id, label=node_label)
 
     for prev_node in cur_node.previous_steps:
-        required_resources = prev_node.get_result()
+        required_resources = prev_node.get_results()
         prev_node_id = str(prev_node.get_id())
 
         graph.edge(prev_node_id, cur_node_id, label=str(required_resources.first().amount))
