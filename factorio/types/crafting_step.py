@@ -15,17 +15,13 @@ class CraftingStep:
     next_step: object = None
     previous_steps: List[object] = field(default_factory=list)
 
-    class ConstraintError(Exception):
-        def __init__(self, *args: object) -> None:
-            super().__init__(*args)
-
     def __repr__(self, level=0) -> str:
         result = "\t"*level + repr(self.get_results()) + "\n"
         for child in self.previous_steps:
             result += child.__repr__(level+1)
         return result
 
-    def is_start_step(self):
+    def is_source_step(self):
         """returns True if node represents basic resourse in crafting tree"""
         return len(self.previous_steps) == 0
 
@@ -66,19 +62,20 @@ class CraftingStep:
     def deduce_infinite_materials(self):
         """
         algorithm assumes, that for each ingredient in this node, there are only one ingredient source node
-        """
+        """ 
 
-        required_inputs = self.get_required()
+        required_inputs = self.config.get_required_rates()
         if len(required_inputs) == 0:
             return
 
         for ingredient_step in self.previous_steps:
-            if ingredient_step.config.producers_amount == float('inf'):
-                if ingredient_step.is_start_step():
-                    # can cause problem for multiple output recipes
-                    requested_material = required_inputs[ingredient_step.get_results().first()]
-                    ingredient_step.config.producers_amount = requested_material.amount
+            if ingredient_step.is_source_step() and not ingredient_step.is_constrained():
+                # can cause problem for multiple output recipes
+                requested_material = required_inputs[ingredient_step.get_results().first()]
+                ingredient_step.config.set_basic_material_rate(requested_material)
+                continue
 
+            if ingredient_step.config.producers_amount == float('inf'):
                 for required_material in required_inputs:
                     if required_material in ingredient_step.get_results():
                         ingredient_step.config.set_material_rate(required_material)

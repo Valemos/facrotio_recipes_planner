@@ -7,7 +7,6 @@ from .material import Material
 class InserterUnit(Material):
     cycle_speed: float = 0
     capacity: float = 1
-    
 
     def get_item_rate(self):
         return self.cycle_speed * self.capacity

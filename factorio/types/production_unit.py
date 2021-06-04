@@ -35,7 +35,7 @@ class ProductionUnit:
         return self.recipe.get_results() * result_multiplier
 
 
-
+assembling_machine_inf = ProductionUnit(float('inf'))
 assembling_machine_1 = ProductionUnit(0.5)
 assembling_machine_2 = ProductionUnit(0.75)
 assembling_machine_3 = ProductionUnit(1.25)

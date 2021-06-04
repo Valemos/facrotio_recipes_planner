@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field
+from factorio.additional_configurations import compressed_belt_config
 from factorio.types.transport_belt import TransportBelt, transport_belt_1
 from .item_bus import ItemBus
 import math
@@ -66,6 +67,9 @@ class CraftingEnvironment:
         """
         if recipe.global_id in self.constraints:
             return deepcopy(self.constraints[recipe.global_id])
+
+        if self.is_final_recipe(recipe):
+            return compressed_belt_config(self.transport_belt_type).copy_with_recipe(recipe)
 
         return self._get_production_config_unconstrained(recipe)
 

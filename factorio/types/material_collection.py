@@ -63,6 +63,8 @@ class MaterialCollection(MutableMapping):
 
     def first(self):
         '''returns first element from material dictionary as defined by .values()'''
+        if len(self.items) == 0:
+            return Material("Empty", 0)
         return next(iter(self.items.values()))
 
     def get_combined_name(self):
