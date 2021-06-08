@@ -27,7 +27,7 @@ class ItemBus:
         materials_total = 0
         for material_rate in materials_rate:
             material_type = get_material_type(material_rate)
-            if material_type != MaterialType.FLUID:
+            if material_type != MaterialType.BASIC_FLUID:
                 materials_total += material_rate.amount
 
         inserter_rate_total = self.get_max_rate()

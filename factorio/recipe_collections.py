@@ -11,12 +11,17 @@ with Path("factorio/recipes.json").open() as fin:
     recipes_json = json.load(fin)
 
 
-recipes_info: Dict[str, Recipe] = {}
 fluid_types = set()
-ore_types = {"copper-ore", "iron-ore"}
+basic_ore_types = {"copper-ore", "iron-ore"}
+oil_derived_types = {"light-oil", "heavy-oil", "petroleum-gas"}
+
+recipes_info: Dict[str, Recipe] = {}
+oil_recipes_info: Dict[str, Recipe] = {}
 
 # empty recipe id is 0
-for item_id, item in zip(count(1), recipes_json):
+recipe_id_counter = count(1)
+
+for item_id, item in zip(recipe_id_counter, recipes_json):
     if item['recipe']['time'] is None:
         item['recipe']['time'] = 0
 
@@ -33,3 +38,18 @@ for item_id, item in zip(count(1), recipes_json):
     recipe.add_result(Material(item['id'], item['recipe']['yield']))
 
     recipes_info[item['id']] = recipe
+
+
+with Path("factorio/recipes_oil.json").open() as fin:
+    oil_recipes_json = json.load(fin)
+
+
+for oil_recipe_id, item in zip(recipe_id_counter, oil_recipes_json):
+    recipe = Recipe(time=item['time'], global_id=oil_recipe_id)
+    for ingredient in item['ingredients']:
+        recipe.add_ingredient(Material.from_dict(ingredient))
+
+    for result in item['yield']:
+        recipe.add_result(Material.from_dict(result))
+
+    oil_recipes_info[item["id"]] = recipe

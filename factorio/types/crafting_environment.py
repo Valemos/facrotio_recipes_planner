@@ -53,20 +53,6 @@ class CraftingEnvironment:
     def clear_constraints(self):
         self.constraints = {}
 
-    def _get_production_config_unconstrained(self, recipe: Recipe):
-        # inserters can pick 2 items from two lanes on conveyor
-        input_inserters_number = math.ceil(0.5 * len(recipe.get_required()))  
-        return ProductionConfig(
-                self.assembler_type.setup(recipe),
-                ItemBus([self.inserter_type] * input_inserters_number, self.transport_belt_type),
-                ItemBus([self.inserter_type], self.transport_belt_type))
-
-    def _get_smelting_config_unconstrained(self, recipe: Recipe):
-        return ProductionConfig(
-                self.furnace_type.setup(recipe),
-                ItemBus([self.inserter_type], self.transport_belt_type),
-                ItemBus([self.inserter_type], self.transport_belt_type))
-
     def get_production_config(self, recipe: Recipe) -> ProductionConfig:
         """
         if material production is constrained, user producer config will apply
@@ -76,7 +62,7 @@ class CraftingEnvironment:
         if recipe.global_id in self.constraints:
             return deepcopy(self.constraints[recipe.global_id])
 
-        if get_material_type(recipe.result.first()) == MaterialType.FLUID:
+        if get_material_type(recipe.result.first()) == MaterialType.BASIC_FLUID:
             return config_infinite_input_output.copy_with_recipe(recipe)
 
         if self.is_final_recipe(recipe):
@@ -93,6 +79,20 @@ class CraftingEnvironment:
 
         # if not found in ready components, check if object is the simplest component    
         return len(recipe.ingredients) == 0
+
+    def _get_production_config_unconstrained(self, recipe: Recipe):
+        # inserters can pick 2 items from two lanes on conveyor
+        input_inserters_number = math.ceil(0.5 * len(recipe.get_required()))  
+        return ProductionConfig(
+                self.assembler_type.setup(recipe),
+                ItemBus([self.inserter_type] * input_inserters_number, self.transport_belt_type),
+                ItemBus([self.inserter_type], self.transport_belt_type))
+
+    def _get_smelting_config_unconstrained(self, recipe: Recipe):
+        return ProductionConfig(
+                self.furnace_type.setup(recipe),
+                ItemBus([self.inserter_type], self.transport_belt_type),
+                ItemBus([self.inserter_type], self.transport_belt_type))
 
 
 DEFAULT_ENVIRONMENT = CraftingEnvironment([])
