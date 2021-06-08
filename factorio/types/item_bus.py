@@ -15,7 +15,7 @@ class ItemBus:
     def get_max_rate(self, amount_units: int = 1):
         """
         amount_units represents how much machines 
-        connected to the same transport belt with the same inserter setup
+        are connected to the same transport belt with the same inserter setup
         """
         belt_rate = self.transport_belt.item_rate if self.transport_belt is not None else float('inf') 
         inserters_rate = amount_units * sum(inserter.get_item_rate() for inserter in self.inserters)
@@ -26,7 +26,7 @@ class ItemBus:
 
         materials_total = 0
         for material_rate in materials_rate:
-            material_type = get_material_type(material_rate.amount)
+            material_type = get_material_type(material_rate)
             if material_type != MaterialType.FLUID:
                 materials_total += material_rate.amount
 

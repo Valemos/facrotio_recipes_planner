@@ -25,7 +25,7 @@ class ProductionConfig:
         new_config.producer = self.producer.setup(new_recipe)
         return new_config
 
-    def get_required_input(self):
+    def get_required(self):
         return self.producer.get_required_scaled(self.producers_amount)
 
     def get_required_rates(self):

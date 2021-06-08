@@ -10,10 +10,10 @@ from .recipe_collections import recipes_info
 
 
 def get_crafting_tree(material: Union[str, Material], environment: CraftingEnvironment = DEFAULT_ENVIRONMENT):
-    material = to_material(material, 0)
+    material = to_material(material, float('inf'))
     
     # constrain desired craft in tree if material amount is not 0
-    if material.amount != 0:
+    if material.amount != float('inf'):
         environment = deepcopy(environment)
         environment.add_constraint_amount_produced(material)
     

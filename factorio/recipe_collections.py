@@ -13,7 +13,9 @@ with Path("factorio/recipes.json").open() as fin:
 
 recipes_info: Dict[str, Recipe] = {}
 fluid_types = set()
+ore_types = {"copper-ore", "iron-ore"}
 
+# empty recipe id is 0
 for item_id, item in zip(count(1), recipes_json):
     if item['recipe']['time'] is None:
         item['recipe']['time'] = 0

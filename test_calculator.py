@@ -1,5 +1,4 @@
 
-from factorio.additional_configurations import compressed_belt_1_config
 from factorio.types.material import Material
 from factorio.types.crafting_environment import CraftingEnvironment
 from factorio.recipe_graph import *
@@ -8,7 +7,7 @@ from factorio.recipe_collections import recipes_info
 
 environment = CraftingEnvironment(['electronic-circuit', 'copper-plate', 'iron-plate'])
 
-result = build_recipe_graph(Material('assembling-machine-1', 2), environment)
+result = build_recipe_graph(Material('science-pack-3', 2), environment)
 print(result)
 
 # name = "iron-stick"

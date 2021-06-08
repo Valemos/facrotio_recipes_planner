@@ -2436,8 +2436,8 @@
                     "amount": 1
                 },
                 {
-                    "id": "gun-turret",
-                    "amount": 1
+                    "id": "stone-wall",
+                    "amount": 2
                 },
                 {
                     "id": "piercing-rounds-magazine",
@@ -3049,16 +3049,20 @@
         "wiki_link": "https://wiki.factorio.com/Production_science_pack",
         "category": "Intermediate product",
         "recipe": {
-            "time": 14,
-            "yield": 2,
+            "time": 21,
+            "yield": 3 ,
             "ingredients": [
                 {
-                    "id": "electric-engine-unit",
+                    "id": "productivity-module",
                     "amount": 1
                 },
                 {
                     "id": "electric-furnace",
                     "amount": 1
+                },
+                {
+                    "id": "rail",
+                    "amount": 30
                 }
             ]
         }
@@ -3526,6 +3530,10 @@
                 {
                     "id": "solid-fuel",
                     "amount": 10
+                },
+                {
+                    "id": "light-oil",
+                    "amount": 10
                 }
             ]
         }
@@ -3699,20 +3707,20 @@
         "wiki_link": "https://wiki.factorio.com/Science_pack_3",
         "category": "Intermediate product",
         "recipe": {
-            "time": 12,
-            "yield": 1,
+            "time": 24,
+            "yield": 2,
             "ingredients": [
                 {
                     "id": "advanced-circuit",
-                    "amount": 1
+                    "amount": 3
                 },
                 {
-                    "id": "electric-mining-drill",
+                    "id": "sulfur",
                     "amount": 1
                 },
                 {
                     "id": "engine-unit",
-                    "amount": 1
+                    "amount": 2
                 }
             ]
         }

@@ -46,6 +46,20 @@ class CraftingStep:
         for prev_step in self.previous_steps:
             yield from prev_step.iterate_all_steps()
 
+    def find_root_step(self):
+        root_step = self
+        while root_step.next_step != None:
+            root_step = root_step.next_step
+        return root_step
+
+    def get_source_materials(self):
+        basic_materials = MaterialCollection()
+        for step in self.iterate_all_steps():
+            if step.is_source_step():
+                basic_materials += step.config.get_results()
+
+        return basic_materials
+
     def set_machine_amount_by_inputs(self):
         input_materials = MaterialCollection()
         for prev_step in self.previous_steps:
@@ -62,21 +76,27 @@ class CraftingStep:
     def deduce_infinite_materials(self):
         """
         algorithm assumes, that for each ingredient in this node, there are only one ingredient source node
-        """ 
+        """
 
         required_inputs = self.config.get_required_rates()
         if len(required_inputs) == 0:
             return
 
-        for ingredient_step in self.previous_steps:
-            if ingredient_step.is_source_step() and not ingredient_step.is_constrained():
-                # can cause problem for multiple output recipes
-                requested_material = required_inputs[ingredient_step.get_results().first()]
-                ingredient_step.config.set_basic_material_rate(requested_material)
+        material_source_steps = {}
+        for material in required_inputs:
+            for step in self.previous_steps:
+                if material in step.config.get_recipe().get_results():
+                    material_source_steps[material] = step
+
+        for requested_material, ingredient_step in material_source_steps.items():
+            if ingredient_step.is_constrained():
+                ingredient_step.deduce_infinite_materials()
                 continue
 
-            if ingredient_step.config.producers_amount == float('inf'):
-                for required_material in required_inputs:
-                    if required_material in ingredient_step.get_results():
-                        ingredient_step.config.set_material_rate(required_material)
-                        ingredient_step.deduce_infinite_materials()
+            if ingredient_step.is_source_step():
+                ingredient_step.config.set_basic_material_rate(requested_material)
+
+            elif ingredient_step.config.producers_amount == float('inf'):
+                ingredient_step.config.set_material_rate(requested_material)
+
+            ingredient_step.deduce_infinite_materials()

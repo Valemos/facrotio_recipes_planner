@@ -58,7 +58,11 @@ def _get_intermediate_step_label(step: CraftingStep):
     return step_label
 
 def _get_first_step_label(step):
-    return f"{step.get_results().first().id}\\n x{round(step.config.producers_amount, 3)}\\n"
+    return f"{step.get_results().first().id}\\n {round(step.config.producers_amount, 3)} items/s\\n"
+
+
+def _get_edge_label(prev_node: CraftingStep, cur_node: CraftingStep):
+    return f" {round(prev_node.get_results().first().amount, 3)} "
 
 
 def build_crafting_tree_graph(cur_node: CraftingStep, graph=None, node_clusters=None, group_ids=None):
@@ -76,10 +80,8 @@ def build_crafting_tree_graph(cur_node: CraftingStep, graph=None, node_clusters=
     new_cur_node_id = _add_group_node(cur_node, _get_intermediate_step_label(cur_node), node_clusters, group_ids)
 
     for prev_node in cur_node.previous_steps:
-        required_resources = prev_node.get_results()
-
         new_prev_node_id = build_crafting_tree_graph(prev_node, graph, node_clusters, group_ids)
-        graph.edge(str(new_prev_node_id), str(new_cur_node_id), label=str(round(required_resources.first().amount, 3)))
+        graph.edge(str(new_prev_node_id), str(new_cur_node_id), label=_get_edge_label(prev_node, cur_node))
 
     if not is_root_node:
         return new_cur_node_id
