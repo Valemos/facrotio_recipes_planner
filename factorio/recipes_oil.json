@@ -1,0 +1,118 @@
+[
+    {
+        "id": "advanced-oil-processing",
+        "time": 5,
+        "ingredients": [
+            {
+                "id": "crude-oil",
+                "amount": 100
+            },
+            {
+                "id": "water",
+                "amount": 50
+            }
+        ],
+        "yield": [
+            {
+                "id": "heavy-oil",
+                "amount": 25
+            },
+            {
+                "id": "light-oil",
+                "amount": 45
+            },
+            {
+                "id": "petroleum-gas",
+                "amount": 55
+            }
+        ]
+    },
+    {
+        "id": "basic-oil-processing",
+        "time": 5,
+        "ingredients": [
+            {
+                "id": "crude-oil",
+                "amount": 100
+            }
+        ],
+        "yield": [
+            {
+                "id": "petroleum-gas",
+                "amount": 45
+            }
+        ]
+    },
+    {
+        "id": "heavy-oil-cracking",
+        "time": 2,
+        "ingredients": [
+            {
+                "id": "heavy-oil",
+                "amount": 40
+            },
+            {
+                "id": "water",
+                "amount": 30
+            }
+        ],
+        "yield": [
+            {
+                "id": "light-oil",
+                "amount": 30
+            }
+        ]
+    },
+    {
+        "id": "light-oil-cracking",
+        "time": 2,
+        "ingredients": [
+            {
+                "id": "light-oil",
+                "amount": 30
+            },
+            {
+                "id": "water",
+                "amount": 30
+            }
+        ],
+        "yield": [
+            {
+                "id": "petroleum-gas",
+                "amount": 20
+            }
+        ]
+    },
+    {
+        "id": "coal-liquefaction",
+        "time": 5,
+        "ingredients": [
+            {
+                "id": "coal",
+                "amount": 10
+            },
+            {
+                "id": "heavy-oil",
+                "amount": 25
+            },
+            {
+                "id": "steam",
+                "amount": 50
+            }
+        ],
+        "yield": [
+            {
+                "id": "heavy-oil",
+                "amount": 90
+            },
+            {
+                "id": "light-oil",
+                "amount": 20
+            },
+            {
+                "id": "petroleum-gas",
+                "amount": 10
+            }
+        ]
+    }
+]
