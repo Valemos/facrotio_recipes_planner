@@ -63,7 +63,8 @@ class ProductionConfig:
 
         assert all(material in self.producer.recipe.ingredients for material in input_material_rate)
 
-        consumers_amount = float('inf')
+        # use current producers_amount as max possible at this point
+        consumers_amount = self.producers_amount
         for ingredient in input_material_rate:
             max_consumers = self.get_maximum_ingredient_consumers(ingredient)
             if consumers_amount > max_consumers:

@@ -57,8 +57,8 @@ def _get_intermediate_step_label(step: CraftingStep):
 
     return step_label
 
-def _get_first_step_label(step):
-    return f"{step.get_results().first().id}\\n {round(step.config.producers_amount, 3)} items/s\\n"
+def _get_first_step_label(step: CraftingStep):
+    return f"{step.get_results().first().id}\\n {round(step.config.get_production_rate(), 3)} items/s\\n"
 
 
 def _get_edge_label(prev_node: CraftingStep, cur_node: CraftingStep):
@@ -74,7 +74,11 @@ def build_crafting_tree_graph(cur_node: CraftingStep, graph=None, node_clusters=
         group_ids: Dict[int, List[int]] = {}  # for each step we save it`s new_id
 
     if len(cur_node.previous_steps) == 0:
-        # for basic nodes specify their total amount and no crafting time
+        if is_root_node:
+            graph.node(_get_first_step_label(cur_node))
+            return graph
+
+        # for source nodes specify their total amount and no crafting time
         return _add_group_node(cur_node, _get_first_step_label(cur_node), node_clusters, group_ids)
 
     new_cur_node_id = _add_group_node(cur_node, _get_intermediate_step_label(cur_node), node_clusters, group_ids)
