@@ -26,10 +26,15 @@ class CraftingStep:
         return len(self.previous_steps) == 0
 
     def is_constrained(self):
-        return self.config.fixed
+        return self.config.constrained
 
     def set_constrained(self, fixed=True):
-        self.config.fixed = fixed
+        self.config.constrained = fixed
+
+    def set_next_step(self, next_step):
+        assert isinstance(next_step, self.__class__)
+        self.next_step = next_step
+        next_step.previous_steps.append(self)
 
     def get_id(self):
         return self.config.producer.get_id()

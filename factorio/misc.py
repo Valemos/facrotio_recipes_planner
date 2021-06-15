@@ -1,7 +1,7 @@
 from typing import Union
 from enum import Enum
 from .types.material import Material
-from .recipe_collections import fluid_types, basic_ore_types, oil_derived_types
+from .recipe_collections import fluid_types, basic_ore_types, oil_recipe_types
 
 
 class MaterialType(Enum):
@@ -20,7 +20,7 @@ def to_material_id(material: Union[str, Material]) -> str:
 
 
 def get_material_type(material: Union[str, Material]):
-    if to_material_id(material) in oil_derived_types:
+    if to_material_id(material) in oil_recipe_types:
         return MaterialType.OIL_DERIVED
     elif to_material_id(material) in fluid_types:
         return MaterialType.BASIC_FLUID

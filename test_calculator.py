@@ -5,10 +5,10 @@ from factorio.recipe_graph import *
 from factorio.recipe_collections import recipes_info
 
 
-environment = CraftingEnvironment(['electronic-circuit', 'copper-plate', 'iron-plate'])
+local = CraftingEnvironment(['electronic-circuit', 'copper-plate'])
+local.furnace_type = furnace_3
 
-result = build_recipe_graph(Material('science-pack-3', 2), environment)
-print(result)
+build_recipe_graph(Material("iron-plate", 10000), local)
 
 # name = "iron-stick"
 # config = environment.get_production_config(recipes_info[name])

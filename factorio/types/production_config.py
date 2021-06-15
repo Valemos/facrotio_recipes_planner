@@ -2,7 +2,7 @@ from copy import deepcopy
 from dataclasses import dataclass, field
 from .recipe import Recipe
 from .material_collection import MaterialCollection
-from .item_bus import ItemBus
+from .item_bus import FixedItemBus, ItemBus
 from .material import Material
 from .production_unit import ProductionUnit
 import math
@@ -18,7 +18,7 @@ class ProductionConfig:
 
     # not fixed config will be updated later during execution
     producers_amount: float = float('inf')
-    fixed: bool = False
+    constrained: bool = False
 
     def copy_with_recipe(self, new_recipe: Recipe):
         new_config = deepcopy(self)
@@ -43,13 +43,6 @@ class ProductionConfig:
     def get_production_rate(self):
         return self._get_config_production_rate(self.producers_amount)
 
-    @staticmethod
-    def _warn_rate_too_high(item_name: str, rate: float, bus_type: str = None):
-        message = f'WARNING! production config cannot support {item_name} rate = {rate}'
-        if bus_type is not None:
-            message += f' for {bus_type}'
-        print(message)
-
     def set_material_rate(self, material_rate: Material):
         """sets desired material rate if possible"""
         # for recipes with more than one result correcting factor is added to match recipe craft results 
@@ -61,9 +54,6 @@ class ProductionConfig:
     def set_basic_material_rate(self, material_rate: Material):
         max_possible_rate = self.output.get_max_rate()
         self.producers_amount = min(material_rate.amount, max_possible_rate)
-
-    def set_max_output_rate(self):
-        self.producers_amount = self.output.get_max_rate()
 
     def set_maximum_consumers(self, input_material_rate: MaterialCollection):
         """
@@ -97,6 +87,13 @@ class ProductionConfig:
         craft_rate_by_ingredient = self.producer.get_craft_rate() * rate_scaling
 
         return self._get_machine_amount_for_craft_rate(craft_rate_by_ingredient)
+
+    @staticmethod
+    def _warn_rate_too_high(item_name: str, rate: float, bus_type: str = None):
+        message = f'WARNING! production config cannot support {item_name} rate = {rate}'
+        if bus_type is not None:
+            message += f' for {bus_type}'
+        print(message)
 
     def _get_config_production_rate(self, machine_amount: float = 1):
         if machine_amount == float('inf'): return float('inf')
@@ -135,3 +132,28 @@ class ProductionConfig:
             return self._get_machine_amount_for_craft_rate(actual_rate)
         else:
             return theoretical_machine_amount
+
+
+class SourceProductionConfig(ProductionConfig):
+
+    def __init__(self, recipe: Recipe, item_bus: FixedItemBus, is_constrained=False):
+        self.material = recipe.result.first()
+        super().__init__(ProductionUnit(1, recipe), item_bus, item_bus, item_bus.max_rate, is_constrained)
+
+    def get_results_rates(self):
+        collection = MaterialCollection()
+        collection.add(Material(self.material.id, self.output.get_max_rate()))
+        return collection
+
+    def get_production_rate(self):
+        return self.producers_amount
+
+    def set_material_rate(self, material_rate: Material):
+        assert self.material.id == material_rate.id
+        self.producers_amount = material_rate.amount
+    
+    def set_basic_material_rate(self, material_rate: Material):
+        self.set_material_rate(material_rate)
+
+    def set_maximum_consumers(self, input_material_rate: MaterialCollection):
+        print("WARN! trying to deduce producers amount for source material")

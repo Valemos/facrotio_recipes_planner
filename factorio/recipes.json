@@ -859,7 +859,7 @@
         "wiki_link": "https://wiki.factorio.com/Copper_plate",
         "category": "Intermediate product",
         "recipe": {
-            "time": 3.5,
+            "time": 3.2,
             "yield": 1,
             "ingredients": [
                 {
@@ -1946,30 +1946,26 @@
         }
     },
     {
-        "id": "high-tech-science-pack",
+        "id": "utility-science-pack",
         "name": "High tech science pack",
         "type": "Science pack",
-        "wiki_link": "https://wiki.factorio.com/High_tech_science_pack",
+        "wiki_link": "https://wiki.factorio.com/Utility_science_pack",
         "category": "Intermediate product",
         "recipe": {
-            "time": 14,
-            "yield": 2,
+            "time": 21,
+            "yield": 3,
             "ingredients": [
                 {
-                    "id": "battery",
+                    "id": "flying-robot-frame",
                     "amount": 1
                 },
                 {
-                    "id": "copper-cable",
-                    "amount": 30
-                },
-                {
-                    "id": "processing-unit",
+                    "id": "low-density-structure",
                     "amount": 3
                 },
                 {
-                    "id": "speed-module",
-                    "amount": 1
+                    "id": "processing-unit",
+                    "amount": 2
                 }
             ]
         }
@@ -2073,7 +2069,7 @@
         "wiki_link": "https://wiki.factorio.com/Iron_plate",
         "category": "Intermediate product",
         "recipe": {
-            "time": 3.5,
+            "time": 3.2,
             "yield": 1,
             "ingredients": [
                 {
@@ -3853,9 +3849,14 @@
         "wiki_link": "https://wiki.factorio.com/Solid_fuel",
         "category": "Intermediate product",
         "recipe": {
-            "time": null,
-            "yield": null,
-            "ingredients": []
+            "time": 2,
+            "yield": 1,
+            "ingredients": [
+                {
+                    "id": "light-oil",
+                    "amount": 10
+                }
+            ]
         }
     },
     {

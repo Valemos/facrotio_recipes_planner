@@ -15,7 +15,7 @@ def get_crafting_tree(material: Union[str, Material], environment: CraftingEnvir
     # constrain desired craft in tree if material amount is not 0
     if material.amount != float('inf'):
         environment = deepcopy(environment)
-        environment.add_constraint_amount_produced(material)
+        environment.add_constraint_material_rate(material)
     
     crafting_tree, constrained_steps = get_crafting_subtree_recursive(material, environment)
     

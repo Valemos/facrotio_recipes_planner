@@ -43,3 +43,6 @@ assembling_machine_3 = ProductionUnit(1.25)
 furnace_1 = ProductionUnit(1)
 furnace_2 = ProductionUnit(2)
 furnace_3 = ProductionUnit(2)
+
+chemical_plant = ProductionUnit(1)
+oil_refinery = ProductionUnit(1)

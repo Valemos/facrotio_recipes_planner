@@ -1,5 +1,6 @@
+from abc import abstractmethod
 from dataclasses import dataclass, field
-from typing import List
+from typing import List, overload
 from .transport_belt import TransportBelt
 from .inserter_unit import InserterUnit
 from .material_collection import MaterialCollection
@@ -21,17 +22,10 @@ class ItemBus:
         inserters_rate = amount_units * sum(inserter.get_item_rate() for inserter in self.inserters)
         return min(belt_rate, inserters_rate)
 
-    def get_transport_rate(self, materials_rate: MaterialCollection):
-        # inserters sorted by their output rate rising for best distribution
 
-        materials_total = 0
-        for material_rate in materials_rate:
-            material_type = get_material_type(material_rate)
-            if material_type != MaterialType.BASIC_FLUID:
-                materials_total += material_rate.amount
+@dataclass
+class FixedItemBus(ItemBus):
+    max_rate: float = 0
 
-        inserter_rate_total = self.get_max_rate()
-        if materials_total > inserter_rate_total:
-            return inserter_rate_total
-        else:
-            return materials_total
+    def get_max_rate(self, amount_units: int = 1):
+        return self.max_rate

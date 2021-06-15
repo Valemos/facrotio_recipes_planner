@@ -1,7 +1,15 @@
 from dataclasses import dataclass, field
+from enum import Enum
 from .material_collection import MaterialCollection
 from .material import Material
 from typing import List
+
+
+class CraftStationType(Enum):
+    ASSEMBLING = 0
+    FURNACE = 1
+    CHEMICAL_PLANT = 2
+    OIL_REFINERY = 3
 
 
 @dataclass
@@ -9,6 +17,7 @@ class Recipe:
     time: float  # second per craft
     ingredients: MaterialCollection = field(default_factory=MaterialCollection)
     result: MaterialCollection = field(default_factory=MaterialCollection)
+    producer_type: CraftStationType = CraftStationType.ASSEMBLING
     global_id: int = None  # must remain constant 
 
     def get_time_material(self):
