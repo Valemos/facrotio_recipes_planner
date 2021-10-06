@@ -17,7 +17,8 @@ class MenuWithHandler(tk.OptionMenu):
         else:
             raise ValueError("menu must have choice function handler")
 
-        self.choice_list = choice_list if choice_list is not None else []
+        self.choice_list = []
+        self.update_choices(choice_list)
 
     def handle_option_changed(self, choice_index):
         if 0 <= choice_index < len(self.choice_list):

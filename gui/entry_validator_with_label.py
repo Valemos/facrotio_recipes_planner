@@ -1,4 +1,5 @@
 from abc import ABCMeta, abstractmethod
+from pathlib import Path
 from tkinter import StringVar
 
 from gui.entry_with_label import EntryWithLabel
@@ -6,12 +7,13 @@ from gui.entry_with_label import EntryWithLabel
 
 class EntryValidatorWithLabel(EntryWithLabel, metaclass=ABCMeta):
 
-    def __init__(self, root, label, width):
+    def __init__(self, root, label, width, fallback_value):
         super().__init__(root, label, width)
+        self._fallback_value = fallback_value
 
     @property
     @abstractmethod
-    def converter_function(self):
+    def convert_function(self):
         """
         must return function to convert string to a specific value widget must hold
         if conversion fails function should raise ValueError
@@ -20,27 +22,34 @@ class EntryValidatorWithLabel(EntryWithLabel, metaclass=ABCMeta):
 
     def is_valid(self, value):
         try:
-            self.converter_function(value)
+            self.convert_function(value)
             return True
         except ValueError:
             return False
 
     def update_field(self):
-        if self.str_variable.get() == "": return
-        if not self.is_valid(self.str_variable.get()):
-            self.str_variable.set("")
+        if super().get() == "": return
+        if not self.is_valid(super().get()):
+            super().set(self._fallback_value)
 
     def get(self):
         self.update_field()
-        return self.converter_function(self.str_variable.get())
+        try:
+            return self.convert_function(super().get())
+        except ValueError:
+            return self._fallback_value
 
     def set(self, value):
-        self.str_variable.set(str(value))
+        super().set(str(value))
 
 
 class EntryIntegerWithLabel(EntryValidatorWithLabel):
+
+    def __init__(self, root, label, width):
+        super().__init__(root, label, width, 0)
+
     @property
-    def converter_function(self):
+    def convert_function(self):
         return int
 
     def get(self) -> int:
@@ -51,12 +60,43 @@ class EntryIntegerWithLabel(EntryValidatorWithLabel):
 
 
 class EntryFloatWithLabel(EntryValidatorWithLabel):
+    def __init__(self, root, label, width):
+        super().__init__(root, label, width, 0.0)
+
     @property
-    def converter_function(self):
+    def convert_function(self):
         return float
 
     def get(self) -> float:
         return super().get()
 
     def set(self, value: float):
+        super().set(value)
+
+
+class EntryExistingPath(EntryValidatorWithLabel):
+    def __init__(self, root, label, width, default_path: Path):
+        super().__init__(root, label, width, default_path)
+
+    def is_valid(self, value):
+        return Path(value).exists()
+
+    @property
+    def convert_function(self):
+        return Path
+
+    def get(self):
+        self.update_field()
+        try:
+            path = self.convert_function(super().get())
+            if path.is_dir(): raise ValueError
+
+            if not path.exists():
+                path.parent.mkdir(parents=True)
+                path.touch()
+            return path
+        except Exception:
+            return self._fallback_value
+
+    def set(self, value):
         super().set(value)
