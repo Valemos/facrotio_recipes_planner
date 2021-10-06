@@ -1,11 +1,12 @@
 from copy import deepcopy
-from dataclasses import dataclass, field
+from dataclasses import dataclass
+import math
 from .recipe import Recipe
 from .material_collection import MaterialCollection
 from .item_bus import FixedItemBus, ItemBus
 from .material import Material
 from .production_unit import ProductionUnit
-import math
+from factorio.recipe_util.misc import get_material_numeric_id
 
 
 @dataclass
@@ -22,7 +23,7 @@ class ProductionConfig:
 
     def copy_with_recipe(self, new_recipe: Recipe):
         new_config = deepcopy(self)
-        new_config.producer = self.producer.setup(new_recipe)
+        new_config.set_recipe(new_recipe)
         return new_config
 
     def get_required(self):
@@ -39,7 +40,13 @@ class ProductionConfig:
 
     def get_recipe(self):
         return self.producer.recipe
-    
+
+    def get_id(self):
+        return self.producer.get_id()
+
+    def set_recipe(self, recipe: Recipe):
+        self.producer = self.producer.setup(recipe)
+
     def get_production_rate(self):
         return self._get_config_production_rate(self.producers_amount)
 
@@ -138,19 +145,27 @@ class ProductionConfig:
 class SourceProductionConfig(ProductionConfig):
 
     def __init__(self, recipe: Recipe, item_bus: FixedItemBus, is_constrained=False):
-        self.material = recipe.result.first()
+        self.material = recipe.get_results().first() if len(recipe.get_results()) > 0 else Material("Placeholder", 0)
         super().__init__(ProductionUnit(1, recipe), item_bus, item_bus, item_bus.max_rate, is_constrained)
+
+    def get_id(self):
+        return get_material_numeric_id(self.material)
 
     def get_results_rates(self):
         collection = MaterialCollection()
-        collection.add(Material(self.material.id, self.output.get_max_rate()))
+        collection.add(Material(self.material.name, self.output.get_max_rate()))
         return collection
 
     def get_production_rate(self):
         return self.producers_amount
 
+    def set_recipe(self, recipe: Recipe):
+        """Must only be valid recipe on input. NOT empty recipe or else cannot assign valid material for this source"""
+        self.material = recipe.result.first()
+        self.producer = self.producer.setup(recipe)
+
     def set_material_rate(self, material_rate: Material):
-        assert self.material.id == material_rate.id
+        assert self.material.name == material_rate.name
         self.producers_amount = material_rate.amount
     
     def set_basic_material_rate(self, material_rate: Material):

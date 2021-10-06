@@ -1,17 +1,17 @@
-from dataclasses import dataclass, field
-from factorio.additional_configurations import compressed_belt_config, config_infinite_input_output
-from factorio.types.transport_belt import TransportBelt, transport_belt_1, transport_belt_3
-from .item_bus import ItemBus
+from dataclasses import dataclass
 import math
 from typing import Dict, List, Set, Union
 from copy import deepcopy
+from .transport_belt import TransportBelt, transport_belt_1, transport_belt_3
+from .item_bus import ItemBus
 from .production_config import ProductionConfig
 from .recipe import CraftStationType, Recipe
 from .material import Material
-from .production_unit import ProductionUnit, assembling_machine_1, assembling_machine_3, furnace_1, furnace_3, chemical_plant
+from .production_unit import ProductionUnit, assembling_machine_1, assembling_machine_3, furnace_1, furnace_3, \
+    chemical_plant
 from .inserter_unit import InserterUnit, inserter, inserter_stack
-from ..misc import MaterialType, to_material, get_material_type, to_material_id
-from ..recipe_collections import recipes_info
+from ..additional_configurations import compressed_belt_config, config_infinite_input_output
+from factorio.recipe_util.misc import MaterialType, get_material_type
 
 
 @dataclass(init=False)
@@ -21,28 +21,35 @@ class CraftingEnvironment:
     inserter_type: InserterUnit
     transport_belt_type: TransportBelt
 
-    def __init__(self, 
-                materials: List[Union[str, Material]], 
-                assembler_type=assembling_machine_1,
-                furnace_type=furnace_1,
-                inserter_type=inserter,
-                transport_belt_type=transport_belt_1) -> None:
+    def __init__(self,
+                 materials: List[Union[str, Material]],
+                 assembler_type=assembling_machine_1,
+                 furnace_type=furnace_1,
+                 inserter_type=inserter,
+                 transport_belt_type=transport_belt_1,
+                 recipes_set=None) -> None:
 
         self.final_recipe_ids = set()
         for material in materials:
-            self.add_final_recipe_name(to_material_id(material))
-        
+            self.add_final_recipe_name(Material.name_from(material))
+
         self.assembler_type: ProductionUnit = assembler_type
         self.furnace_type: ProductionUnit = furnace_type
         self.inserter_type: InserterUnit = inserter_type
         self.transport_belt_type: TransportBelt = transport_belt_type
         self.constraints: Dict[str, ProductionConfig] = {}
 
+        if recipes_set is not None:
+            self.recipes_set = recipes_set
+        else:
+            from factorio.recipe_util.vanilla_collections import recipes_vanilla
+            self.recipes_set = recipes_vanilla
+
     def add_final_recipe_name(self, recipe_name: str):
-        self.final_recipe_ids.add(recipes_info[recipe_name].global_id)
-    
+        self.final_recipe_ids.add(self.recipes_set[recipe_name].global_id)
+
     def remove_final_recipe(self, recipe_name: str):
-        self.final_recipe_ids.remove(recipes_info[recipe_name].global_id)
+        self.final_recipe_ids.remove(self.recipes_set[recipe_name].global_id)
 
     def add_constraint_config(self, config: ProductionConfig):
         """constrain amount of recipe crafts that can be produced by system"""
@@ -51,13 +58,13 @@ class CraftingEnvironment:
 
     def add_constraint_material_rate(self, material: Material):
         assert issubclass(material.__class__, Material)
-        recipe = recipes_info[material.id]
+        recipe = self.recipes_set[material.name]
         config = self.get_recipe_config_unconstrained(recipe)
         config.set_material_rate(material)
         self.add_constraint_config(config)
 
     def add_constraint_producers_amount(self, recipe_name: str, amount: float):
-        recipe = recipes_info[recipe_name]
+        recipe = self.recipes_set[recipe_name]
         config = self.get_recipe_config_unconstrained(recipe)
         config.producers_amount = amount
         self.add_constraint_config(config)
@@ -106,28 +113,24 @@ class CraftingEnvironment:
 
     def _get_production_config_unconstrained(self, recipe: Recipe):
         # inserters can pick 2 items from two lanes on conveyor
-        input_inserters_number = math.ceil(0.5 * len(recipe.get_required()))  
+        input_inserters_number = math.ceil(0.5 * len(recipe.get_required()))
         return ProductionConfig(
-                self.assembler_type.setup(recipe),
-                self._get_default_item_bus(input_inserters_number),
-                self._get_default_item_bus())
+            self.assembler_type.setup(recipe),
+            self._get_default_item_bus(input_inserters_number),
+            self._get_default_item_bus())
 
     def _get_smelting_config_unconstrained(self, recipe: Recipe):
         return ProductionConfig(
-                self.furnace_type.setup(recipe),
-                self._get_default_item_bus(),
-                self._get_default_item_bus())
+            self.furnace_type.setup(recipe),
+            self._get_default_item_bus(),
+            self._get_default_item_bus())
 
     def _get_chemical_config_unconstrained(self, recipe):
         return ProductionConfig(
-                chemical_plant.setup(recipe),
-                self._get_default_item_bus(),
-                self._get_default_item_bus())
+            chemical_plant.setup(recipe),
+            self._get_default_item_bus(),
+            self._get_default_item_bus())
 
 
 DEFAULT_ENVIRONMENT = CraftingEnvironment([])
-FINAL_ENVIRONMENT = CraftingEnvironment([],
-    assembling_machine_3,
-    furnace_3,
-    inserter_stack,
-    transport_belt_3)
+FINAL_ENVIRONMENT = CraftingEnvironment([], assembling_machine_3, furnace_3, inserter_stack, transport_belt_3)

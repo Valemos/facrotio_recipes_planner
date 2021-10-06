@@ -1,10 +1,7 @@
-from abc import abstractmethod
 from dataclasses import dataclass, field
-from typing import List, overload
+from typing import List
 from .transport_belt import TransportBelt
 from .inserter_unit import InserterUnit
-from .material_collection import MaterialCollection
-from ..misc import MaterialType, get_material_type
 
 
 @dataclass

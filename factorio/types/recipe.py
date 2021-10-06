@@ -2,7 +2,6 @@ from dataclasses import dataclass, field
 from enum import Enum
 from .material_collection import MaterialCollection
 from .material import Material
-from typing import List
 
 
 class CraftStationType(Enum):
@@ -18,7 +17,7 @@ class Recipe:
     ingredients: MaterialCollection = field(default_factory=MaterialCollection)
     result: MaterialCollection = field(default_factory=MaterialCollection)
     producer_type: CraftStationType = CraftStationType.ASSEMBLING
-    global_id: int = None  # must remain constant 
+    _global_id: int = None  # must remain constant
 
     def get_time_material(self):
         return Material('time', self.time)
@@ -31,12 +30,16 @@ class Recipe:
 
     def get_result_amount(self, material: Material) -> float:
         if material not in self.result:
-            raise ValueError(f'no such result "{material.id}" for recipe {self.result}')
+            raise ValueError(f'no such result "{material.name}" for recipe {self.result}')
         
-        return self.result.items[material.id].amount
+        return self.result.items[material.name].amount
 
     def get_required(self) -> MaterialCollection:
         return self.ingredients
 
     def get_results(self) -> MaterialCollection:
         return self.result
+
+    @property
+    def global_id(self):
+        return self._global_id

@@ -1,15 +1,23 @@
-from dataclasses import dataclass, field
 from typing import Dict, Union
 from collections.abc import MutableMapping
 from copy import deepcopy
 from .material import Material
 
 
-@dataclass(repr=False)
 class MaterialCollection(MutableMapping):
     '''represents a collection of materials and operations with them'''
 
-    items: Dict[str, Material] = field(default_factory=dict)
+    def __init__(self, initial_elements: list = None) -> None:
+        initial_elements = initial_elements if initial_elements is not None else []
+
+        if not isinstance(initial_elements, list):
+            raise ValueError("input materials not a list")
+        
+        self.items: Dict[str, Material] = {}
+
+        for elem in initial_elements:
+            self.add(elem)
+        
 
     def __getitem__(self, key):
         return self.items[self._keytransform(key)]
@@ -28,8 +36,8 @@ class MaterialCollection(MutableMapping):
 
     def _keytransform(self, key: Union[str, Material]):
         if issubclass(key.__class__, Material):
-            return key.id
-        elif isinstance(key, str):
+            return key.name
+        if isinstance(key, str):
             return key
         raise ValueError("invalid key type")
 
@@ -64,17 +72,17 @@ class MaterialCollection(MutableMapping):
     def first(self):
         '''returns first element from material dictionary as defined by .values()'''
         if len(self.items) == 0:
-            return Material("Empty", 0)
+           raise ValueError("trying to access first material in empty collection") 
         return next(iter(self.items.values()))
 
     def get_combined_name(self):
         return ';'.join(self.items.keys())
 
     def add(self, material: Material):
-        if material.id in self.items:
-            self.items[material.id] += material
+        if material.name in self.items:
+            self.items[material.name] += material
         else:
-            self.items[material.id] = material
+            self.items[material.name] = material
 
     def total(self):
         return sum(m.amount for m in self)

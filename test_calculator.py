@@ -1,14 +1,11 @@
-
-from factorio.types.material import Material
-from factorio.types.crafting_environment import CraftingEnvironment
-from factorio.recipe_graph import *
-from factorio.recipe_collections import recipes_info
+from factorio.recipe_util.recipe_graph import *
 
 
 local = CraftingEnvironment(['electronic-circuit', 'copper-plate'])
 local.furnace_type = furnace_3
 
-build_recipe_graph(Material("iron-plate", 10000), local)
+local.add_constraint_producers_amount("utility-science-pack", 1)
+build_recipe_graph("utility-science-pack", local)
 
 # name = "iron-stick"
 # config = environment.get_production_config(recipes_info[name])

@@ -1,5 +1,4 @@
 from dataclasses import dataclass, field
-from factorio.types.material_collection import MaterialCollection
 from .material import Material
 
 

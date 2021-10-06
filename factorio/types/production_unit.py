@@ -4,7 +4,7 @@ from .recipe import Recipe
 
 @dataclass
 class ProductionUnit:
-    '''represents one unit of crafting machinery'''
+    """represents one unit of crafting machinery"""
 
     crafting_multiplier: float  # amount of work / time unit
     recipe: Recipe = None

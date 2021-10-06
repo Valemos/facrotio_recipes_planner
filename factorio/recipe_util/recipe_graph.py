@@ -1,13 +1,9 @@
-from typing import Dict, List, Tuple, Union
+from typing import Dict, List, Union
 from graphviz.dot import Digraph
-from .types.crafting_environment import CraftingEnvironment, DEFAULT_ENVIRONMENT
-from .types.production_unit import *
-from .types.crafting_step import CraftingStep
-from .types.material import Material
-from .types.material_collection import MaterialCollection
-from .recipe_collections import recipes_info
-from .misc import to_material
-from .crafting_sequence import get_crafting_tree
+from factorio.types.crafting_environment import CraftingEnvironment, DEFAULT_ENVIRONMENT
+from factorio.types.crafting_step import CraftingStep
+from factorio.types.material import Material
+from factorio.recipe_util.crafting_sequence import get_crafting_tree
 
 
 
@@ -51,14 +47,15 @@ def _get_intermediate_step_label(step: CraftingStep):
     else:
         production_rate = step.config.get_production_rate()
     
-    step_label = f"{step.get_results().first().id}\\n{round(production_rate, 3)} items/s\\n"
+    step_label = f"{step.get_results().first().name}\\n{round(production_rate, 3)} items/s\\n"
     if step.config.producers_amount != float('inf'):
         step_label += f"x{step.config.producers_amount}\\n"
 
     return step_label
 
+
 def _get_first_step_label(step: CraftingStep):
-    return f"{step.get_results().first().id}\\n {round(step.config.get_production_rate(), 3)} items/s\\n"
+    return f"{step.get_results().first().name}\\n {round(step.config.get_production_rate(), 3)} items/s\\n"
 
 
 def _get_edge_label(prev_node: CraftingStep, cur_node: CraftingStep):
@@ -83,6 +80,7 @@ def build_crafting_tree_graph(cur_node: CraftingStep, graph=None, node_clusters=
 
     new_cur_node_id = _add_group_node(cur_node, _get_intermediate_step_label(cur_node), node_clusters, group_ids)
 
+    prev_node: CraftingStep
     for prev_node in cur_node.previous_steps:
         new_prev_node_id = build_crafting_tree_graph(prev_node, graph, node_clusters, group_ids)
         graph.edge(str(new_prev_node_id), str(new_cur_node_id), label=_get_edge_label(prev_node, cur_node))
@@ -98,5 +96,5 @@ def build_crafting_tree_graph(cur_node: CraftingStep, graph=None, node_clusters=
 
 
 def build_recipe_graph(material: Union[str, Material], environment: CraftingEnvironment = DEFAULT_ENVIRONMENT):
-    return build_crafting_tree_graph(get_crafting_tree(to_material(material, float('inf')), environment))
+    return build_crafting_tree_graph(get_crafting_tree(Material.from_obj(material, float('inf')), environment))
 

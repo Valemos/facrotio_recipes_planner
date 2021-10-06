@@ -37,7 +37,7 @@ class CraftingStep:
         next_step.previous_steps.append(self)
 
     def get_id(self):
-        return self.config.producer.get_id()
+        return self.config.get_id()
 
     def get_results(self):
         return self.config.get_results_rates()
