@@ -6,7 +6,6 @@ from .material_collection import MaterialCollection
 from .item_bus import FixedItemBus, ItemBus
 from .material import Material
 from .production_unit import ProductionUnit
-from factorio.recipe_util.misc import get_material_numeric_id
 
 
 @dataclass
@@ -40,9 +39,6 @@ class ProductionConfig:
 
     def get_recipe(self):
         return self.producer.recipe
-
-    def get_id(self):
-        return self.producer.get_id()
 
     def set_recipe(self, recipe: Recipe):
         self.producer = self.producer.setup(recipe)
@@ -149,7 +145,7 @@ class SourceProductionConfig(ProductionConfig):
         super().__init__(ProductionUnit(1, recipe), item_bus, item_bus, item_bus.max_rate, is_constrained)
 
     def get_id(self):
-        return get_material_numeric_id(self.material)
+        return self.material
 
     def get_results_rates(self):
         collection = MaterialCollection()
@@ -161,7 +157,7 @@ class SourceProductionConfig(ProductionConfig):
 
     def set_recipe(self, recipe: Recipe):
         """Must only be valid recipe on input. NOT empty recipe or else cannot assign valid material for this source"""
-        self.material = recipe.result.first()
+        self.material = recipe.results.first()
         self.producer = self.producer.setup(recipe)
 
     def set_material_rate(self, material_rate: Material):

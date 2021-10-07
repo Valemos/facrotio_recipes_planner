@@ -9,7 +9,7 @@ class NameAmountWidget(tk.Frame):
         super().__init__(root, **kw)
 
         self.entry_name = EntryWithLabel(self, "Name:", 10)
-        self.entry_amount = EntryIntegerWithLabel(self, "N:", 5)
+        self.entry_amount = EntryIntegerWithLabel(self, "N:", 5, fallback_value=1)
         self.entry_name.pack(side=tk.LEFT)
         self.entry_amount.pack(side=tk.LEFT)
 

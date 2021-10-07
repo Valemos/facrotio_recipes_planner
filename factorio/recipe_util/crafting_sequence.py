@@ -3,7 +3,6 @@ from factorio.types.crafting_step import CraftingStep
 from factorio.types.crafting_environment import CraftingEnvironment, DEFAULT_ENVIRONMENT
 from factorio.types.material import Material
 from typing import List, Tuple, Union
-from factorio.recipe_util.vanilla_collections import recipes_vanilla
 
 
 def get_crafting_tree(material: Union[str, Material], environment: CraftingEnvironment = DEFAULT_ENVIRONMENT):
@@ -30,8 +29,8 @@ def get_crafting_tree(material: Union[str, Material], environment: CraftingEnvir
 
 def get_crafting_subtree_recursive(material: Material,
                                    environment: CraftingEnvironment,
-                                   constrained_steps: List[CraftingStep] = None) -> Tuple[
-    CraftingStep, List[CraftingStep]]:
+                                   constrained_steps: List[CraftingStep] = None) \
+                                    -> Tuple[CraftingStep, List[CraftingStep]]:
     """
     gets all crafting steps from environment and connects them into one tree
     """
@@ -40,10 +39,10 @@ def get_crafting_subtree_recursive(material: Material,
     if constrained_steps is None:
         constrained_steps = []
 
-    recipe = recipes_vanilla[material.name]
+    recipe = environment.get_material_recipe(material)
 
     config = environment.get_production_config(recipe)
-    cur_step = CraftingStep(config)
+    cur_step = CraftingStep(config, environment)
 
     if cur_step.is_constrained():
         constrained_steps.append(cur_step)

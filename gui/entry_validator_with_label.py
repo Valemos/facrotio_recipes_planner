@@ -20,16 +20,11 @@ class EntryValidatorWithLabel(EntryWithLabel, metaclass=ABCMeta):
         """
         pass
 
-    def is_valid(self, value):
-        try:
-            self.convert_function(value)
-            return True
-        except ValueError:
-            return False
-
     def update_field(self):
         if super().get() == "": return
-        if not self.is_valid(super().get()):
+        try:
+            self.convert_function(super().get())
+        except ValueError:
             super().set(self._fallback_value)
 
     def get(self):
@@ -45,8 +40,8 @@ class EntryValidatorWithLabel(EntryWithLabel, metaclass=ABCMeta):
 
 class EntryIntegerWithLabel(EntryValidatorWithLabel):
 
-    def __init__(self, root, label, width):
-        super().__init__(root, label, width, 0)
+    def __init__(self, root, label, width, fallback_value=0):
+        super().__init__(root, label, width, fallback_value)
 
     @property
     def convert_function(self):
@@ -73,20 +68,19 @@ class EntryFloatWithLabel(EntryValidatorWithLabel):
     def set(self, value: float):
         super().set(value)
 
+    def set_raw(self, value):
+        super().set(value)
+
 
 class EntryExistingPath(EntryValidatorWithLabel):
     def __init__(self, root, label, width, default_path: Path):
         super().__init__(root, label, width, default_path)
-
-    def is_valid(self, value):
-        return Path(value).exists()
 
     @property
     def convert_function(self):
         return Path
 
     def get(self):
-        self.update_field()
         try:
             path = self.convert_function(super().get())
             if path.is_dir(): raise ValueError

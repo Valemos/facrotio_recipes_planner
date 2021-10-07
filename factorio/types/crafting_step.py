@@ -1,24 +1,23 @@
 from dataclasses import dataclass, field
-from factorio.types.recipe import Recipe
-from factorio.types.material import Material
-import math
+
 from factorio.types.material_collection import MaterialCollection
+from .crafting_environment import CraftingEnvironment
 from .production_config import ProductionConfig
-from typing import List
 
 
 @dataclass(repr=False)
 class CraftingStep:
     config: ProductionConfig
+    environment: CraftingEnvironment
 
     # reference to steps of type CraftingStep
-    next_step: object = None
-    previous_steps: List[object] = field(default_factory=list)
+    next_step = None
+    previous_steps: list = field(default_factory=list)
 
     def __repr__(self, level=0) -> str:
-        result = "\t"*level + repr(self.get_results()) + "\n"
+        result = "\t" * level + repr(self.get_results()) + "\n"
         for child in self.previous_steps:
-            result += child.__repr__(level+1)
+            result += child.__repr__(level + 1)
         return result
 
     def is_source_step(self):
@@ -37,7 +36,7 @@ class CraftingStep:
         next_step.previous_steps.append(self)
 
     def get_id(self):
-        return self.config.get_id()
+        return self.environment.get_recipe_id(self.config.get_recipe())
 
     def get_results(self):
         return self.config.get_results_rates()
@@ -47,13 +46,13 @@ class CraftingStep:
 
     def iterate_all_steps(self):
         yield self
-        
+
         for prev_step in self.previous_steps:
             yield from prev_step.iterate_all_steps()
 
     def find_root_step(self):
         root_step = self
-        while root_step.next_step != None:
+        while root_step.next_step is not None:
             root_step = root_step.next_step
         return root_step
 
@@ -69,7 +68,7 @@ class CraftingStep:
         input_materials = MaterialCollection()
         for prev_step in self.previous_steps:
             input_materials += prev_step.get_results()
-        
+
         self.config.set_maximum_consumers(input_materials)
 
     def propagate_output_constraints(self):

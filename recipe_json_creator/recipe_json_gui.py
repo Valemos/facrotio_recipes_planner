@@ -12,7 +12,7 @@ from recipe_json_creator.name_amount_widget import NameAmountWidget
 
 
 class RecipeJsonBuilder(tk.Frame):
-    default_path = Path("./test/recipes.json")
+    default_path = Path("./recipes/recipes.json")
     recipe_types = [type.name for type in CraftStationType]
 
     @staticmethod
@@ -79,10 +79,10 @@ class RecipeJsonBuilder(tk.Frame):
 
     def reset_form(self):
         self.entry_recipe_name.set("")
-        self.menu_recipe_type.handle_option_changed(0)
-        self.entry_craft_time.set(0)
+        self.entry_craft_time.set_raw("")
 
         self.widget_ingredients.reset()
+        self.widget_ingredients.create_empty_widget()
         self.widget_products.reset()
         self.widget_products.create_empty_widget()
 
@@ -110,7 +110,7 @@ class RecipeJsonBuilder(tk.Frame):
     @staticmethod
     def _get_json_from_name_amounts(widgets):
         w: NameAmountWidget
-        return [{"name": w.get_name(), "amount": w.get_amount()} for w in widgets]
+        return [{"id": w.get_name(), "amount": w.get_amount()} for w in widgets]
 
 
 if __name__ == "__main__":

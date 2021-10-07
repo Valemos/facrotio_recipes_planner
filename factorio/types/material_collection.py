@@ -5,7 +5,7 @@ from .material import Material
 
 
 class MaterialCollection(MutableMapping):
-    '''represents a collection of materials and operations with them'''
+    """represents a collection of materials and operations with them"""
 
     def __init__(self, initial_elements: list = None) -> None:
         initial_elements = initial_elements if initial_elements is not None else []
@@ -17,7 +17,6 @@ class MaterialCollection(MutableMapping):
 
         for elem in initial_elements:
             self.add(elem)
-        
 
     def __getitem__(self, key):
         return self.items[self._keytransform(key)]
@@ -34,7 +33,8 @@ class MaterialCollection(MutableMapping):
     def __len__(self):
         return len(self.items)
 
-    def _keytransform(self, key: Union[str, Material]):
+    @staticmethod
+    def _keytransform(key: Union[str, Material]):
         if issubclass(key.__class__, Material):
             return key.name
         if isinstance(key, str):
@@ -70,9 +70,9 @@ class MaterialCollection(MutableMapping):
         return new_collection
 
     def first(self):
-        '''returns first element from material dictionary as defined by .values()'''
+        """returns first element from material dictionary as defined by .values()"""
         if len(self.items) == 0:
-           raise ValueError("trying to access first material in empty collection") 
+            raise ValueError("trying to access first material in empty collection")
         return next(iter(self.items.values()))
 
     def get_combined_name(self):

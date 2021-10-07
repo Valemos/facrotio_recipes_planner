@@ -4,7 +4,7 @@ from typing import Union
 
 @dataclass(frozen=True, eq=True)
 class Material:
-    '''a bunch of items of the same type'''
+    """a bunch of items of the same type"""
 
     name: str = field(hash=True)
     amount: float = field(default=1, hash=False)  # inf value indicates is considered an unconstrained amount
@@ -18,6 +18,16 @@ class Material:
         if other.id != self.name: raise ValueError("cannot add items of different types")
         return Material(self.name, self.amount + other.amount)
 
+    def __eq__(self, other):
+        return other.name == self.name and other.amount == self.amount
+
+    def __hash__(self):
+        return hash(self.name)
+
+    @property
+    def id(self):
+        return hash(self)
+
     @staticmethod
     def from_dict(ingredient: dict):
         if 'id' not in ingredient or 'amount' not in ingredient:
@@ -30,5 +40,5 @@ class Material:
         return Material(material, default_amount) if isinstance(material, str) else material
 
     @staticmethod
-    def name_from(material):
+    def name_from(material) -> str:
         return material.name if isinstance(material, Material) else material
