@@ -1,14 +1,21 @@
-from configurations.vanilla_collections import furnace_3
+from configurations.vanilla_collections import assembling_machine_2, furnace_2, inserter_fast, \
+    transport_belt_2
 from factorio.recipe_util.recipe_graph import *
 from factorio.recipe_util.recipe_json_reading import read_space_exploration
 
 
 space_recipes = read_space_exploration("./recipes/recipes.json")
 
-local = CraftingEnvironment(['circuit', 'copper plate'], recipes_collection=space_recipes)
-local.furnace_type = furnace_3
+local = CraftingEnvironment(
+    # ['circuit', 'copper plate', 'iron plate', 'steel plate'],
+    [],
+    assembling_machine_2,
+    furnace_2,
+    inserter_fast,
+    transport_belt_2,
+    recipes_collection=space_recipes
+)
 
-local.add_constraint_producers_amount("circuit", 1)
 build_recipe_graph("circuit", local)
 
 # name = "iron-stick"

@@ -51,8 +51,7 @@ def _read_json_from_path(path):
 
 
 def _collection_from_json(path, function):
-    collection = RecipesCollection()
-    collection.read_from_json(_read_json_from_path(path), function)
+    collection = RecipesCollection.read_from_json(_read_json_from_path(path), function)
     return collection
 
 

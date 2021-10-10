@@ -7,25 +7,40 @@ from factorio.types.recipe import Recipe
 
 class RecipesCollection:
 
-    EMPTY_RECIPE = Recipe(0)
+    EMPTY_RECIPE = Recipe()
 
     def __init__(self) -> None:
         self._materials: set[Material] = set()
         self._recipes: set[Recipe] = set()
-        self._material_recipe_mapping: dict[int, list[int]] = {}
+        self._material_recipe_mapping: dict[str, list[int]] = {}
 
         self.add_unique_recipe(self.EMPTY_RECIPE)
 
-    def read_from_json(self, json_objects, read_recipe_function):
-        for recipe_json in json_objects:
+    def __getitem__(self, key):
+        return self.get_material_recipe(key)
+
+    @staticmethod
+    def read_from_json(json_objects, read_recipe_function):
+        recipes = RecipesCollection()
+        for basic_name in json_objects["basic"]:
+            basic_recipe = Recipe(name=basic_name)
+            basic_recipe.add_result(Material(basic_name))
+            recipes.add_unique_recipe(basic_recipe)
+
+        for recipe_json in json_objects["composite"]:
             recipe = read_recipe_function(recipe_json)
             for ingredient in recipe.get_required():
-                self.add_unique_material_or_skip(ingredient)
+                recipes.add_unique_material_or_skip(ingredient)
 
             for result in recipe.get_results():
-                self.add_unique_material_or_skip(result)
+                recipes.add_unique_material_or_skip(result)
 
-            self.add_unique_recipe(recipe)
+            recipes.add_unique_recipe(recipe)
+        return recipes
+
+    @property
+    def all_recipes(self):
+        return self._recipes
 
     def add_unique_recipe(self, recipe: Recipe):
         if recipe in self._recipes:
@@ -41,12 +56,11 @@ class RecipesCollection:
             self._materials.add(material)
 
     def add_material_recipe(self, material: Material, recipe: Recipe):
-        material_id = material.id
         recipe_id = recipe.id
 
-        if material_id not in self._material_recipe_mapping:
-            self._material_recipe_mapping[material_id] = []
-        self._material_recipe_mapping[material_id].append(recipe_id)
+        if not self.can_craft(material):
+            self._material_recipe_mapping[material.name] = []
+        self._material_recipe_mapping[material.name].append(recipe_id)
 
     def get_recipe(self, recipe_name: str) -> Recipe:
         for recipe in self._recipes:
@@ -55,12 +69,14 @@ class RecipesCollection:
         raise ValueError(f'no recipe with name "{recipe_name}"')
 
     def get_material_recipe(self, material: Union[str, Material]):
-        material_id = Material.from_obj(material).id
-        recipe_ids = self._material_recipe_mapping[material_id]
+        recipe_ids = self._material_recipe_mapping[Material.from_obj(material).name]
         return self.get_recipe_by_id(recipe_ids[0])
 
-    def get_recipe_by_id(self, obj_id):
+    def get_recipe_by_id(self, id_):
         for recipe in self._recipes:
-            if recipe.id == obj_id:
+            if recipe.id == id_:
                 return recipe
-        raise ValueError(f'no recipe with id "{obj_id}"')
+        raise ValueError(f'no recipe with id "{id_}"')
+
+    def can_craft(self, ingredient: Material):
+        return ingredient.name in self._material_recipe_mapping

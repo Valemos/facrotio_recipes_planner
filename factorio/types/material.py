@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from typing import Union
 
 
-@dataclass(frozen=True, eq=True)
+@dataclass(frozen=True)
 class Material:
     """a bunch of items of the same type"""
 

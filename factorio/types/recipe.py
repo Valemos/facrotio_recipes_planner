@@ -13,16 +13,15 @@ class CraftStationType(Enum):
 
 @dataclass
 class Recipe:
-    time: float  # second per craft
+    name: str = ""
+    time: float = 0  # in seconds per craft
     ingredients: MaterialCollection = field(default_factory=MaterialCollection)
     results: MaterialCollection = field(default_factory=MaterialCollection)
     producer_type: CraftStationType = CraftStationType.ASSEMBLING
-    name: str = ""
 
     def __eq__(self, other):
         return other.name == self.name and \
                other.time == self.time and \
-               other.ingridients == self.ingredients and \
                other.results == self.results and \
                other.producer_type == self.producer_type
 

@@ -16,5 +16,8 @@ class NameAmountWidget(tk.Frame):
     def get_name(self):
         return self.entry_name.get()
 
+    def set_name(self, new_name):
+        return self.entry_name.set(new_name)
+
     def get_amount(self):
         return self.entry_amount.get()
