@@ -1,9 +1,10 @@
 from dataclasses import dataclass, field
 from typing import Union
+from .a_json_savable import AJsonSavable
 
 
 @dataclass(frozen=True)
-class Material:
+class Material(AJsonSavable):
     """a bunch of items of the same type"""
 
     name: str = field(hash=True)
@@ -29,16 +30,16 @@ class Material:
         return hash(self)
 
     @staticmethod
-    def from_dict(ingredient: dict):
-        if 'id' not in ingredient or 'amount' not in ingredient:
-            raise ValueError("invalid material dictionary")
-
-        return Material(ingredient['id'], ingredient['amount'])
-
-    @staticmethod
     def from_obj(material, default_amount: float = 1):
         return Material(material, default_amount) if isinstance(material, str) else material
 
     @staticmethod
     def name_from(material) -> str:
         return material.name if isinstance(material, Material) else material
+
+    def to_json(self):
+        return {"id": self.name, "amount": self.amount}
+
+    @staticmethod
+    def from_json(json_object):
+        return Material(json_object["id"], json_object["amount"])

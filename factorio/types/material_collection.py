@@ -1,10 +1,12 @@
 from typing import Dict, Union
 from collections.abc import MutableMapping
 from copy import deepcopy
+
+from .a_json_savable import AJsonSavable
 from .material import Material
 
 
-class MaterialCollection(MutableMapping):
+class MaterialCollection(MutableMapping, AJsonSavable):
     """represents a collection of materials and operations with them"""
 
     def __init__(self, initial_elements: list = None) -> None:
@@ -18,7 +20,7 @@ class MaterialCollection(MutableMapping):
         for elem in initial_elements:
             self.add(elem)
 
-    def __getitem__(self, key):
+    def __getitem__(self, key) -> Material:
         return self.items[self._keytransform(key)]
 
     def __setitem__(self, key, value):
@@ -86,3 +88,12 @@ class MaterialCollection(MutableMapping):
 
     def total(self):
         return sum(m.amount for m in self)
+
+    def to_json(self):
+        return [material.to_json() for material in self.items.values()]
+
+    @staticmethod
+    def from_json(json_object):
+        if not isinstance(json_object, list):
+            raise ValueError("incorrect json for material collection")
+        return MaterialCollection([Material.from_json(json_material) for json_material in json_object])

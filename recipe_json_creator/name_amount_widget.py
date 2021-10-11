@@ -13,11 +13,17 @@ class NameAmountWidget(tk.Frame):
         self.entry_name.pack(side=tk.LEFT)
         self.entry_amount.pack(side=tk.LEFT)
 
-    def get_name(self):
+    def get_name(self) -> str:
         return self.entry_name.get()
 
     def set_name(self, new_name):
         return self.entry_name.set(new_name)
 
-    def get_amount(self):
+    def get_amount(self) -> int:
         return self.entry_amount.get()
+
+    def set_amount(self, amount):
+        return self.entry_amount.set(amount)
+
+    def is_empty(self):
+        return self.get_name() == ""

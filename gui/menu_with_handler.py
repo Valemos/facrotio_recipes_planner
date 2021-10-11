@@ -44,8 +44,8 @@ class MenuWithHandler(tk.OptionMenu):
 
         self.choice_list = new_choices
 
-    def set(self, group_name):
-        self.variable_menu.set(group_name if group_name is not None and group_name != "" else self.default_choice)
+    def set(self, value):
+        self.variable_menu.set(value if value is not None and value != "" else self.default_choice)
 
     def get(self):
         return self.variable_menu.get()

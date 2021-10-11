@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-from factorio.recipe_util.recipe_json_reading import read_vanilla
+from factorio.recipe_util.recipe_json_reading import read_vanilla_database
 from factorio.types.inserter_unit import InserterUnit
 from factorio.types.production_unit import ProductionUnit
 from factorio.types.transport_belt import TransportBelt
@@ -39,4 +39,4 @@ inserter_stack = InserterUnit("stack-inserter", cycle_speed=2.31, capacity=2)
 inserter_stack_filter = InserterUnit("stack-filter-inserter", cycle_speed=2.31, capacity=2)
 
 
-recipes_vanilla = read_vanilla("factorio/recipes.json")
+recipes_vanilla = read_vanilla_database("factorio/recipes.json")

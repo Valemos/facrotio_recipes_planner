@@ -37,7 +37,7 @@ class ProductionConfig:
     def get_results_rates(self):
         return self.producer.get_results_rates(self.producers_amount)
 
-    def get_recipe(self):
+    def get_recipe(self) -> Recipe:
         return self.producer.recipe
 
     def set_recipe(self, recipe: Recipe):
