@@ -20,7 +20,7 @@ class ARecipeJsonSaver(metaclass=ABCMeta):
         with self.recipe_file_path.open("r") as fin:
             try:
                 recipes = RecipesCollection.from_json(json.load(fin))
-            except Exception:
+            except ValueError:
                 recipes = RecipesCollection()
 
         return recipes

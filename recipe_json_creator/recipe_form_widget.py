@@ -33,10 +33,7 @@ class RecipeFormWidget(tk.Frame):
         self.menu_recipe_type.pack(**_center_args)
         self.entry_craft_time.pack(**_right_args)
 
-        tk.Label(self, text="Ingredients").pack(**_center_args)
         self.widget_ingredients.pack(**_center_args)
-
-        tk.Label(self, text="Products").pack(**_center_args)
         self.widget_products.pack(**_center_args)
 
         self.entry_recipe_name.pack(**_center_args)
@@ -62,20 +59,15 @@ class RecipeFormWidget(tk.Frame):
         return self.widget_products.get_widget_at(0).get_name()
 
     def get_recipe(self) -> Recipe:
-        if self.widget_products.item_amount:
-            raise ValueError()
+        if self.widget_products.item_amount == 0:
+            raise ValueError("no products provided for recipe")
 
-        if self.widget_products.get_widget_at(0).get_name() == "":
-            raise ValueError()
+        name = self._get_recipe_name_from_entries()
+        recipe_type = self.menu_recipe_type.get()
 
         ingredients = self.get_materials_from_name_amount_widgets(self.widget_ingredients.item_widgets)
         results = self.get_materials_from_name_amount_widgets(self.widget_products.item_widgets)
 
-        name = self.entry_recipe_name.get()
-        if name == "":
-            name = results[0].name
-
-        recipe_type = self.menu_recipe_type.get()
         if recipe_type == "":
             recipe_type = self.recipe_types[0]
 
@@ -124,4 +116,11 @@ class RecipeFormWidget(tk.Frame):
         if self.is_basic_material():
             return self.get_basic_material_name()
         else:
-            return self.entry_recipe_name.get()
+            return self._get_recipe_name_from_entries()
+
+    def _get_recipe_name_from_entries(self):
+        name = self.entry_recipe_name.get()
+        if name == "":
+            return self.get_basic_material_name()
+        else:
+            return name

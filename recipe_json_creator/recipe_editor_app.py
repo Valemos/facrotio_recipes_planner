@@ -48,7 +48,7 @@ class RecipeEditorApp(tk.Frame, ARecipeJsonSaver):
 
         self.button_resolve = tk.Button(root, text="Resolve unknown", command=self.resolve_dependencies, takefocus=0)
         self.buttons_show = LeftRightButtons(root, 30, self.show_prev, self.show_next)
-        self.button_show_current = tk.Button(root, text="Show current", command=self.update_recipe_entries())
+        self.button_show_current = tk.Button(root, text="Show current", command=self.update_recipe_entries)
 
         # pack
         self.entry_path.pack(side=tk.TOP, anchor=tk.CENTER)
@@ -57,7 +57,7 @@ class RecipeEditorApp(tk.Frame, ARecipeJsonSaver):
         self.recipe_form.pack(side=tk.TOP, anchor=tk.CENTER)
         self.frame_edit.pack(side=tk.TOP, anchor=tk.CENTER)
         self.buttons_show.pack(side=tk.TOP, anchor=tk.CENTER, pady=5)
-
+        self.button_show_current.pack(side=tk.TOP, anchor=tk.CENTER, pady=5)
         self.button_resolve.pack(side=tk.TOP, anchor=tk.CENTER)
 
         self.read_collection_json()
@@ -74,19 +74,18 @@ class RecipeEditorApp(tk.Frame, ARecipeJsonSaver):
         return builder
 
     def save_recipe(self):
-        recipes = self.read_recipes_from_json()
-
-        recipe = self.recipe_form.get_recipe_name()
-        self.remove_recipe_if_exists(recipe)
-
         try:
+            recipes = self.read_recipes_from_json()
+
+            recipe = self.recipe_form.get_recipe_name()
+            self.remove_recipe_if_exists(recipe)
+
             self.recipe_form.add_item_to_collection(recipes)
+            self.save_recipes_to_json(recipes)
+            self.recipe_form.reset()
+
         except ValueError as err:
             messagebox.showerror("Invalid recipe", str(err))
-            return
-
-        self.save_recipes_to_json(recipes)
-        self.recipe_form.reset()
 
     def resolve_dependencies(self):
         unresolved_names = set()
@@ -129,8 +128,10 @@ class RecipeEditorApp(tk.Frame, ARecipeJsonSaver):
         self.collection_iter = CyclicIterator(self.collection.recipes)
         self.update_recipe_entries()
 
-    def remove_recipe_if_exists(self, recipe):
-        self.collection.remove_recipe_if_exists(recipe)
+    def remove_recipe_if_exists(self, recipe_name):
+        if recipe_name not in (r.name for r in self.collection.recipes): return
+
+        self.collection.remove_recipe_by_name(recipe_name)
         self.collection_iter = CyclicIterator(self.collection.recipes)
 
     def remove_current_recipe(self):

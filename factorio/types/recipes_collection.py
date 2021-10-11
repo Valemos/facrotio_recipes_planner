@@ -12,7 +12,6 @@ class RecipesCollection(AJsonSavable):
     EMPTY_RECIPE = Recipe()
 
     def __init__(self) -> None:
-        self._materials: set[Material] = set()
         self._basic_materials: set[str] = set()
         self._recipes: list[Recipe] = []
         self._material_recipe_mapping: dict[str, list[int]] = {}
@@ -42,12 +41,7 @@ class RecipesCollection(AJsonSavable):
         if Material.name_from(material) in self._basic_materials:
             raise ValueError("basic material already exists")
 
-        self.add_unique_material_or_skip(Material.from_obj(material))
         self._basic_materials.add(Material.name_from(material))
-
-    def add_unique_material_or_skip(self, material: Material):
-        if material not in self._materials:
-            self._materials.add(material)
 
     def add_material_recipe(self, material: Material, recipe: Recipe):
         recipe_id = recipe.id
@@ -99,14 +93,14 @@ class RecipesCollection(AJsonSavable):
 
         return collection
 
-    def remove_recipe_if_exists(self, recipe: Recipe):
-        if recipe not in self._recipes: return
-
-        recipe_id = recipe.id
+    def remove_recipe(self, recipe: Recipe):
         for material in recipe.get_results():
-            self.remove_material_recipe_mapping(material, recipe_id)
+            self.remove_material_recipe_mapping(material, recipe)
 
         self._recipes.remove(recipe)
+
+    def remove_recipe_by_name(self, name):
+        self.remove_recipe(self.get_recipe_by_id(Recipe(name=name).id))
 
     def remove_material_recipe_mapping(self, material: Material, recipe: Recipe):
         self._material_recipe_mapping[material.name].remove(recipe.id)
