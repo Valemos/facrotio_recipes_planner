@@ -1,5 +1,4 @@
-from configurations.vanilla_collections import assembling_machine_2, furnace_2, inserter_fast, \
-    transport_belt_2
+from configurations.vanilla_devices import assembling_machine_2, furnace_2, transport_belt_2, inserter_fast
 from factorio.recipe_util.recipe_graph import *
 from factorio.recipe_util.recipe_json_reading import read_default
 

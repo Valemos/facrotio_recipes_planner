@@ -5,8 +5,8 @@ from copy import deepcopy
 
 from .recipes_collection import RecipesCollection
 from .transport_belt import TransportBelt
-from configurations.vanilla_collections import transport_belt_1, transport_belt_3, inserter, inserter_stack, \
-    assembling_machine_1, assembling_machine_3, furnace_1, furnace_3, chemical_plant
+from configurations.vanilla_devices import assembling_machine_1, assembling_machine_3, furnace_1, furnace_3, \
+    chemical_plant, transport_belt_1, transport_belt_3, inserter, inserter_stack
 from .item_bus import ItemBus
 from .production_config import ProductionConfig
 from .recipe import CraftStationType, Recipe
@@ -100,7 +100,7 @@ class CraftingEnvironment:
             return True
 
         # if not found in ready components, check if object is the simplest component    
-        return len(recipe.ingredients) == 0
+        return len(recipe.get_required()) == 0
 
     def get_recipe_config_unconstrained(self, recipe: Recipe):
         if recipe.producer_type == CraftStationType.ASSEMBLING:

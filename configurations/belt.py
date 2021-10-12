@@ -2,7 +2,7 @@ from factorio.types.recipe import Recipe
 from factorio.types.production_config import SourceProductionConfig
 from factorio.types.item_bus import FixedItemBus
 from factorio.types.transport_belt import TransportBelt
-from configurations.vanilla_collections import transport_belt_inf
+from configurations.vanilla_devices import transport_belt_inf
 
 
 # this config must only be used for source belts

@@ -40,14 +40,7 @@ def _read_json_from_path(path):
 def read_vanilla_database(path):
     recipes = RecipesCollection()
     for recipe_json in _read_json_from_path(path):
-        recipe = _read_recipe_vanilla(recipe_json)
-        for ingredient in recipe.get_required():
-            recipes.add_unique_material_or_skip(ingredient)
-
-        for result in recipe.get_results():
-            recipes.add_unique_material_or_skip(result)
-
-        recipes.add_unique_recipe(recipe)
+        recipes.add_unique_recipe(_read_recipe_vanilla(recipe_json))
     return recipes
 
 

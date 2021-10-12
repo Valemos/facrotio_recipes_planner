@@ -6,15 +6,15 @@ from factorio.recipe_util.recipe_json_reading import read_default
 from factorio.types.recipes_collection import RecipesCollection
 from gui.entry_validator_with_label import EntryExistingPath
 from gui.left_right_buttons import LeftRightButtons
-from recipe_json_creator.a_recipe_json_saver import ARecipeJsonSaver
+from recipe_json_creator.a_recipe_json_saver import ARecipeJsonEditor
 from recipe_json_creator.cyclic_iterator import CyclicIterator
-from recipe_json_creator.recipe_form_widget import RecipeFormWidget
+from gui.recipe_form_widget import RecipeFormWidget
 from recipe_json_creator.recipe_resolver_app import RecipeResolverApp
 
 
-class RecipeEditorApp(tk.Frame, ARecipeJsonSaver):
+class RecipeEditorApp(tk.Frame, ARecipeJsonEditor):
 
-    default_path = Path("./recipes/recipes.json")
+    default_path = Path("./test/recipes.json")
 
     @classmethod
     def run(cls):
@@ -29,7 +29,7 @@ class RecipeEditorApp(tk.Frame, ARecipeJsonSaver):
         root.configure(padx=10, pady=10)
 
         self.collection = RecipesCollection()
-        self.collection_iter = CyclicIterator(self.collection.recipes)
+        self.collection_iter = CyclicIterator([])
 
         self.entry_path = EntryExistingPath(root, "Path:", 20, self.default_path)
         self.entry_path.set(self.default_path)
@@ -46,18 +46,19 @@ class RecipeEditorApp(tk.Frame, ARecipeJsonSaver):
         self.button_reset.pack(side=tk.LEFT, anchor=tk.CENTER)
         self.button_delete.pack(side=tk.LEFT, anchor=tk.W)
 
-        self.button_resolve = tk.Button(root, text="Resolve unknown", command=self.resolve_dependencies, takefocus=0)
-        self.buttons_show = LeftRightButtons(root, 30, self.show_prev, self.show_next)
-        self.button_show_current = tk.Button(root, text="Show current", command=self.update_recipe_entries)
+        self.button_resolve = tk.Button(root, text="Resolve unknown", command=self.handle_resolve_dependencies, takefocus=0)
+        self.buttons_switch = LeftRightButtons(root, 30, self.handle_show_prev, self.handler_show_next)
+        self.button_find_by_name = tk.Button(root, text="Find by name", command=self.handle_find_by_name)
 
         # pack
         self.entry_path.pack(side=tk.TOP, anchor=tk.CENTER)
         self.button_read_file.pack(side=tk.TOP, anchor=tk.CENTER, pady=5)
+        self.buttons_switch.pack(side=tk.TOP, anchor=tk.CENTER)
+        self.button_find_by_name.pack(side=tk.TOP, anchor=tk.CENTER, pady=5)
 
         self.recipe_form.pack(side=tk.TOP, anchor=tk.CENTER)
+
         self.frame_edit.pack(side=tk.TOP, anchor=tk.CENTER)
-        self.buttons_show.pack(side=tk.TOP, anchor=tk.CENTER, pady=5)
-        self.button_show_current.pack(side=tk.TOP, anchor=tk.CENTER, pady=5)
         self.button_resolve.pack(side=tk.TOP, anchor=tk.CENTER)
 
         self.read_collection_json()
@@ -66,6 +67,12 @@ class RecipeEditorApp(tk.Frame, ARecipeJsonSaver):
     def recipe_file_path(self) -> Path:
         return self.entry_path.get()
 
+    def set_monitored_collection(self, recipes: RecipesCollection, show_position: int = None):
+        """if show position is None, collection iterator will retain previous index"""
+
+        self.collection = recipes
+        self.update_collection_iterator(show_position)  # must be called to update self.collection_iter
+
     def create_resolver_for_material(self, material_name):
         toplevel = tk.Toplevel(self)
         toplevel.geometry(f"+{self.parent.winfo_x()}+{self.parent.winfo_y()}")
@@ -73,21 +80,34 @@ class RecipeEditorApp(tk.Frame, ARecipeJsonSaver):
         builder.recipe_form.set_basic_material(material_name)
         return builder
 
+    def handle_find_by_name(self):
+        name = self.recipe_form.get_recipe_name()
+
+        try:
+            index = list(self.collection.recipe_names_iter).index(name)
+        except ValueError:
+            messagebox.showinfo("Not found", f'cannot find recipe "{name}"')
+            return
+
+        self.select_recipe_by_index(index)
+
     def save_recipe(self):
         try:
             recipes = self.read_recipes_from_json()
 
-            recipe = self.recipe_form.get_recipe_name()
-            self.remove_recipe_if_exists(recipe)
+            recipe_name = self.recipe_form.get_or_deduce_recipe_name()
+            if recipe_name in recipes.recipe_names_iter:
+                recipes.update_recipe(self.recipe_form.get_recipe())
+            else:
+                self.recipe_form.add_item_to_collection(recipes)
 
-            self.recipe_form.add_item_to_collection(recipes)
+            self.set_monitored_collection(recipes)
             self.save_recipes_to_json(recipes)
-            self.recipe_form.reset()
 
         except ValueError as err:
             messagebox.showerror("Invalid recipe", str(err))
 
-    def resolve_dependencies(self):
+    def handle_resolve_dependencies(self):
         unresolved_names = set()
         recipes: RecipesCollection = read_default(self.entry_path.get())
         for recipe in recipes.recipes:
@@ -110,11 +130,11 @@ class RecipeEditorApp(tk.Frame, ARecipeJsonSaver):
 
             if resolver.cancelled: break
 
-    def show_prev(self):
+    def handle_show_prev(self):
         self.collection_iter.prev()
         self.update_recipe_entries()
 
-    def show_next(self):
+    def handler_show_next(self):
         self.collection_iter.next()
         self.update_recipe_entries()
 
@@ -124,21 +144,26 @@ class RecipeEditorApp(tk.Frame, ARecipeJsonSaver):
             self.recipe_form.set_recipe(recipe)
 
     def read_collection_json(self):
-        self.collection = self.read_recipes_from_json()
-        self.collection_iter = CyclicIterator(self.collection.recipes)
-        self.update_recipe_entries()
+        self.set_monitored_collection(self.read_recipes_from_json(), 0)
 
-    def remove_recipe_if_exists(self, recipe_name):
-        if recipe_name not in (r.name for r in self.collection.recipes): return
+    def update_collection_iterator(self, position: int = None):
+        """if position is None, collection iterator will retain previous index"""
 
-        self.collection.remove_recipe_by_name(recipe_name)
+        if position is None:
+            position = self.collection_iter.index
+
         self.collection_iter = CyclicIterator(self.collection.recipes)
+        self.select_recipe_by_index(position)
 
     def remove_current_recipe(self):
-        recipe = self.recipe_form.get_recipe()
-        if messagebox.askyesno("Confirm delete", f'are you sure you want to delete recipe "{recipe.name}"'):
-            self.remove_recipe_if_exists(recipe)
+        recipe_name = self.recipe_form.get_or_deduce_recipe_name()
+        if messagebox.askyesno("Confirm delete", f'are you sure you want to delete recipe "{recipe_name}"'):
+
             self.update_recipe_entries()
+
+    def select_recipe_by_index(self, index):
+        self.collection_iter.select(index)
+        self.update_recipe_entries()
 
 
 if __name__ == "__main__":

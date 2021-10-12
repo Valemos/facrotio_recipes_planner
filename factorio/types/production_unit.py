@@ -9,6 +9,9 @@ class ProductionUnit:
     crafting_multiplier: float  # amount of work / time unit
     recipe: Recipe = None
 
+    def __str__(self):
+        return f"Speed: {self.crafting_multiplier}"
+
     def get_id(self):
         return hash(self.recipe.name)
 

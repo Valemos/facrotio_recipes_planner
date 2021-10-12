@@ -58,17 +58,20 @@ class ProductionConfig:
         max_possible_rate = self.output.get_max_rate()
         self.producers_amount = min(material_rate.amount, max_possible_rate)
 
-    def set_maximum_consumers(self, input_material_rate: MaterialCollection):
+    def set_maximum_consumers(self, input_material_rates: MaterialCollection):
         """
         producers amount will be calculated from the input of the most scarce resource 
         e.g. minimal craft requirements for all materials
         """
 
-        assert all(material in self.producer.recipe.ingredients for material in input_material_rate)
+        if not all(material in self.producer.recipe.get_required() for material in input_material_rates):
+            raise ValueError(f"collections don't match: \n"
+                             f"{str(self.producer.recipe.get_required())}\n"
+                             f"{str(input_material_rates)}")
 
         # use current producers_amount as max possible at this point
         consumers_amount = self.producers_amount
-        for ingredient in input_material_rate:
+        for ingredient in input_material_rates:
             max_consumers = self.get_maximum_ingredient_consumers(ingredient)
             if consumers_amount > max_consumers:
                 consumers_amount = max_consumers
@@ -167,5 +170,5 @@ class SourceProductionConfig(ProductionConfig):
     def set_basic_material_rate(self, material_rate: Material):
         self.set_material_rate(material_rate)
 
-    def set_maximum_consumers(self, input_material_rate: MaterialCollection):
+    def set_maximum_consumers(self, input_material_rates: MaterialCollection):
         print("WARN! trying to deduce producers amount for source material")

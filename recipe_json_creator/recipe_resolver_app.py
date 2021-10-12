@@ -2,11 +2,11 @@ import tkinter as tk
 from pathlib import Path
 from tkinter import messagebox
 
-from recipe_json_creator.a_recipe_json_saver import ARecipeJsonSaver
-from recipe_json_creator.recipe_form_widget import RecipeFormWidget
+from recipe_json_creator.a_recipe_json_saver import ARecipeJsonEditor
+from gui.recipe_form_widget import RecipeFormWidget
 
 
-class RecipeResolverApp(tk.Frame, ARecipeJsonSaver):
+class RecipeResolverApp(tk.Frame, ARecipeJsonEditor):
 
     def __init__(self, root, save_path: Path, **kw):
         tk.Frame.__init__(self, root, **kw)

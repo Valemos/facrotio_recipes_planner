@@ -5,7 +5,7 @@ from pathlib import Path
 from factorio.types.recipes_collection import RecipesCollection
 
 
-class ARecipeJsonSaver(metaclass=ABCMeta):
+class ARecipeJsonEditor(metaclass=ABCMeta):
 
     @property
     @abstractmethod
@@ -20,7 +20,8 @@ class ARecipeJsonSaver(metaclass=ABCMeta):
         with self.recipe_file_path.open("r") as fin:
             try:
                 recipes = RecipesCollection.from_json(json.load(fin))
-            except ValueError:
+            except ValueError as err:
+                print(err)
                 recipes = RecipesCollection()
 
         return recipes

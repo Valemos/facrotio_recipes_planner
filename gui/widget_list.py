@@ -22,8 +22,12 @@ class WidgetList(tk.Frame):
 
     @property
     def item_widgets(self):
+        return list(self.item_widgets_iter)
+
+    @property
+    def item_widgets_iter(self):
         w: DeletableListItemWidget
-        return [w.item for w in self._list_item_wrappers]
+        return (w.item for w in self._list_item_wrappers)
 
     @property
     def item_amount(self):

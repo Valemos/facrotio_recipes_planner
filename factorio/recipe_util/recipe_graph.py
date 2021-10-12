@@ -6,7 +6,6 @@ from factorio.types.material import Material
 from factorio.recipe_util.crafting_sequence import get_crafting_tree
 
 
-
 def _get_next_node_id(group_id, group_ids, increment=1000):
     if group_id in group_ids:
         return max(group_ids[group_id]) + increment

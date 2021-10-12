@@ -23,23 +23,28 @@ class RecipesCollection(AJsonSavable):
     def recipes(self):
         return self._recipes
 
+    @property
+    def recipe_names_iter(self):
+        return (r.name for r in self._recipes)
+
     def add_unique_recipe(self, recipe: Recipe):
         if recipe in self._recipes:
-            raise ValueError("recipe already exists")
+            print(f'recipe "{recipe.name}" already exists')
+            return
 
-        # remove recipe results are not basic anymore
+        self._recipes.append(recipe)
+
+        # recipe results are not basic materials anymore
         for result in recipe.get_results():
             if result in self._basic_materials:
                 self._basic_materials.remove(Material.name_from(result))
 
-        self._recipes.append(recipe)
-
-        for result in recipe.get_results():
-            self.add_material_recipe(result, recipe)
+        self._create_recipe_mappings(recipe)
 
     def add_unique_basic_material(self, material: Union[str, Material]):
         if Material.name_from(material) in self._basic_materials:
-            raise ValueError("basic material already exists")
+            print(f'basic material "{material}" already exists')
+            return
 
         self._basic_materials.add(Material.name_from(material))
 
@@ -57,7 +62,7 @@ class RecipesCollection(AJsonSavable):
         raise ValueError(f'no recipe with name "{recipe_name}"')
 
     def get_material_recipe(self, material: Union[str, Material]):
-        if material in self._basic_materials:
+        if Material.name_from(material) in self._basic_materials:
             return self._get_basic_recipe(material)
 
         recipe_ids = self._material_recipe_mapping[Material.name_from(material)]
@@ -93,10 +98,23 @@ class RecipesCollection(AJsonSavable):
 
         return collection
 
-    def remove_recipe(self, recipe: Recipe):
-        for material in recipe.get_results():
-            self.remove_material_recipe_mapping(material, recipe)
+    def update_recipe(self, new_recipe: Recipe):
+        """if recipe with equal name exists, updates it at the same position and updates new material mappings"""
 
+        recipe_index = None
+        for i, recipe in enumerate(self._recipes):
+            if recipe.name == new_recipe.name:
+                recipe_index = i
+                break
+        if recipe_index is None:
+            raise ValueError(f'cannot find recipe "{new_recipe.name}"')
+
+        self._remove_recipe_mappings(self._recipes[recipe_index])
+        self._recipes[recipe_index] = new_recipe
+        self._create_recipe_mappings(new_recipe)
+
+    def remove_recipe(self, recipe: Recipe):
+        self._remove_recipe_mappings(recipe)
         self._recipes.remove(recipe)
 
     def remove_recipe_by_name(self, name):
@@ -104,6 +122,14 @@ class RecipesCollection(AJsonSavable):
 
     def remove_material_recipe_mapping(self, material: Material, recipe: Recipe):
         self._material_recipe_mapping[material.name].remove(recipe.id)
+
+    def _remove_recipe_mappings(self, recipe):
+        for material in recipe.get_results():
+            self.remove_material_recipe_mapping(material, recipe)
+
+    def _create_recipe_mappings(self, recipe):
+        for result in recipe.get_results():
+            self.add_material_recipe(result, recipe)
 
     @staticmethod
     def _get_basic_recipe(material):

@@ -35,6 +35,9 @@ class MaterialCollection(MutableMapping, AJsonSavable):
     def __len__(self):
         return len(self.items)
 
+    def __contains__(self, item):
+        return self._keytransform(item) in self.items
+
     @staticmethod
     def _keytransform(key: Union[str, Material]):
         if issubclass(key.__class__, Material):
