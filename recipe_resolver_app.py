@@ -2,7 +2,7 @@ import tkinter as tk
 from pathlib import Path
 from tkinter import messagebox
 
-from recipe_json_creator.a_recipe_json_saver import ARecipeJsonEditor
+from app_misc.a_recipe_json_editor import ARecipeJsonEditor
 from gui.recipe_form_widget import RecipeFormWidget
 
 

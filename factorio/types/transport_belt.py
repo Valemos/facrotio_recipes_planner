@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from .material import Material
 
 
-@dataclass(frozen=True, eq=True)
+@dataclass(eq=True, unsafe_hash=True)
 class TransportBelt(Material):
     item_rate: float = field(default=0, hash=True)
 

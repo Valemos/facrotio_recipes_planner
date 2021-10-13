@@ -6,15 +6,15 @@ from factorio.recipe_util.recipe_json_reading import read_default
 from factorio.types.recipes_collection import RecipesCollection
 from gui.entry_validator_with_label import EntryExistingPath
 from gui.left_right_buttons import LeftRightButtons
-from recipe_json_creator.a_recipe_json_saver import ARecipeJsonEditor
-from recipe_json_creator.cyclic_iterator import CyclicIterator
+from app_misc.a_recipe_json_editor import ARecipeJsonEditor
+from app_misc.cyclic_iterator import CyclicIterator
 from gui.recipe_form_widget import RecipeFormWidget
-from recipe_json_creator.recipe_resolver_app import RecipeResolverApp
+from recipe_resolver_app import RecipeResolverApp
 
 
 class RecipeEditorApp(tk.Frame, ARecipeJsonEditor):
 
-    default_path = Path("./test/recipes.json")
+    default_path = Path("./recipes/recipes.json")
 
     @classmethod
     def run(cls):

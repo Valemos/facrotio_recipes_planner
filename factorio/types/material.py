@@ -1,14 +1,15 @@
 from dataclasses import dataclass, field
-from typing import Union
-from .a_json_savable import AJsonSavable
+from serialization.a_composite_json_serializable import ACompositeJsonSerializable
 
 
-@dataclass(frozen=True)
-class Material(AJsonSavable):
+@dataclass
+class Material(ACompositeJsonSerializable):
     """a bunch of items of the same type"""
 
-    name: str = field(hash=True)
+    name: str = field(default="", hash=True)
     amount: float = field(default=1, hash=False)  # inf value indicates is considered an unconstrained amount
+
+    __ignored_fields__ = "id"
 
     def __mul__(self, multiplier):
         assert isinstance(multiplier, float) or isinstance(multiplier, int)
@@ -16,7 +17,7 @@ class Material(AJsonSavable):
 
     def __add__(self, other):
         assert issubclass(other.__class__, self.__class__)
-        if other.id != self.name: raise ValueError("cannot add items of different types")
+        if other.get_id() != self.name: raise ValueError("cannot add items of different types")
         return Material(self.name, self.amount + other.amount)
 
     def __eq__(self, other):
@@ -36,10 +37,3 @@ class Material(AJsonSavable):
     @staticmethod
     def name_from(material) -> str:
         return material.name if isinstance(material, Material) else material
-
-    def to_json(self):
-        return {"id": self.name, "amount": self.amount}
-
-    @staticmethod
-    def from_json(json_object):
-        return Material(json_object["id"], json_object["amount"])

@@ -1,7 +1,7 @@
 [
     {
-        "id": "accumulator",
-        "name": "Accumulator",
+        "name": "accumulator",
+        "name_full": "Accumulator",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Accumulator",
         "category": "Production",
@@ -10,44 +10,44 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "battery",
+                    "name": "battery",
                     "amount": 5
                 },
                 {
-                    "id": "iron-plate",
+                    "name": "iron-plate",
                     "amount": 2
                 }
             ]
         }
     },
     {
-        "id": "logistic-chest-active-provider",
-        "name": "Active provider chest",
+        "name": "logistic-chest-active-provnameer",
+        "name_full": "Active provnameer chest",
         "type": "Machinery",
-        "wiki_link": "https://wiki.factorio.com/Active_provider_chest",
+        "wiki_link": "https://wiki.factorio.com/Active_provnameer_chest",
         "category": "Logistics",
         "recipe": {
             "time": 0.5,
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "advanced-circuit",
+                    "name": "advanced-circuit",
                     "amount": 1
                 },
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 3
                 },
                 {
-                    "id": "steel-chest",
+                    "name": "steel-chest",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "advanced-circuit",
-        "name": "Advanced circuit",
+        "name": "advanced-circuit",
+        "name_full": "Advanced circuit",
         "type": "Intermediate product",
         "wiki_link": "https://wiki.factorio.com/Advanced_circuit",
         "category": "Intermediate product",
@@ -56,23 +56,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "copper-cable",
+                    "name": "copper-cable",
                     "amount": 4
                 },
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 2
                 },
                 {
-                    "id": "plastic-bar",
+                    "name": "plastic-bar",
                     "amount": 2
                 }
             ]
         }
     },
     {
-        "id": "arithmetic-combinator",
-        "name": "Arithmetic combinator",
+        "name": "arithmetic-combinator",
+        "name_full": "Arithmetic combinator",
         "type": "Logic",
         "wiki_link": "https://wiki.factorio.com/Arithmetic_combinator",
         "category": "Logistics",
@@ -81,19 +81,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "copper-cable",
+                    "name": "copper-cable",
                     "amount": 5
                 },
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 5
                 }
             ]
         }
     },
     {
-        "id": "artillery-shell",
-        "name": "Artillery shell",
+        "name": "artillery-shell",
+        "name_full": "Artillery shell",
         "type": "Combat",
         "wiki_link": "https://wiki.factorio.com/Artillery_shell",
         "category": "Combat",
@@ -102,23 +102,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "explosive-cannon-shell",
+                    "name": "explosive-cannon-shell",
                     "amount": 4
                 },
                 {
-                    "id": "explosives",
+                    "name": "explosives",
                     "amount": 8
                 },
                 {
-                    "id": "radar",
+                    "name": "radar",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "artillery-targeting-remote",
-        "name": "Artillery targeting remote",
+        "name": "artillery-targeting-remote",
+        "name_full": "Artillery targeting remote",
         "type": "Item",
         "wiki_link": "https://wiki.factorio.com/Artillery_targeting_remote",
         "category": "Combat",
@@ -127,19 +127,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "processing-unit",
+                    "name": "processing-unit",
                     "amount": 1
                 },
                 {
-                    "id": "radar",
+                    "name": "radar",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "artillery-turret",
-        "name": "Artillery turret",
+        "name": "artillery-turret",
+        "name_full": "Artillery turret",
         "type": "Combat",
         "wiki_link": "https://wiki.factorio.com/Artillery_turret",
         "category": "Combat",
@@ -148,27 +148,27 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "advanced-circuit",
+                    "name": "advanced-circuit",
                     "amount": 20
                 },
                 {
-                    "id": "concrete",
+                    "name": "concrete",
                     "amount": 60
                 },
                 {
-                    "id": "iron-gear-wheel",
+                    "name": "iron-gear-wheel",
                     "amount": 40
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 60
                 }
             ]
         }
     },
     {
-        "id": "artillery-wagon",
-        "name": "Artillery wagon",
+        "name": "artillery-wagon",
+        "name_full": "Artillery wagon",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Artillery_wagon",
         "category": "Logistics",
@@ -177,31 +177,31 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "advanced-circuit",
+                    "name": "advanced-circuit",
                     "amount": 20
                 },
                 {
-                    "id": "engine-unit",
+                    "name": "engine-unit",
                     "amount": 64
                 },
                 {
-                    "id": "iron-gear-wheel",
+                    "name": "iron-gear-wheel",
                     "amount": 10
                 },
                 {
-                    "id": "pipe",
+                    "name": "pipe",
                     "amount": 16
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 40
                 }
             ]
         }
     },
     {
-        "id": "assembling-machine-1",
-        "name": "Assembling machine 1",
+        "name": "assembling-machine-1",
+        "name_full": "Assembling machine 1",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Assembling_machine_1",
         "category": "Production",
@@ -210,23 +210,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 3
                 },
                 {
-                    "id": "iron-gear-wheel",
+                    "name": "iron-gear-wheel",
                     "amount": 5
                 },
                 {
-                    "id": "iron-plate",
+                    "name": "iron-plate",
                     "amount": 9
                 }
             ]
         }
     },
     {
-        "id": "assembling-machine-2",
-        "name": "Assembling machine 2",
+        "name": "assembling-machine-2",
+        "name_full": "Assembling machine 2",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Assembling_machine_2",
         "category": "Production",
@@ -235,27 +235,27 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "assembling-machine-1",
+                    "name": "assembling-machine-1",
                     "amount": 1
                 },
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 3
                 },
                 {
-                    "id": "iron-gear-wheel",
+                    "name": "iron-gear-wheel",
                     "amount": 5
                 },
                 {
-                    "id": "iron-plate",
+                    "name": "iron-plate",
                     "amount": 9
                 }
             ]
         }
     },
     {
-        "id": "assembling-machine-3",
-        "name": "Assembling machine 3",
+        "name": "assembling-machine-3",
+        "name_full": "Assembling machine 3",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Assembling_machine_3",
         "category": "Production",
@@ -264,19 +264,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "assembling-machine-2",
+                    "name": "assembling-machine-2",
                     "amount": 2
                 },
                 {
-                    "id": "speed-module",
+                    "name": "speed-module",
                     "amount": 4
                 }
             ]
         }
     },
     {
-        "id": "atomic-bomb",
-        "name": "Atomic bomb",
+        "name": "atomic-bomb",
+        "name_full": "Atomic bomb",
         "type": "Combat",
         "wiki_link": "https://wiki.factorio.com/Atomic_bomb",
         "category": "Combat",
@@ -285,23 +285,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "explosives",
+                    "name": "explosives",
                     "amount": 10
                 },
                 {
-                    "id": "processing-unit",
+                    "name": "processing-unit",
                     "amount": 20
                 },
                 {
-                    "id": "uranium-235",
+                    "name": "uranium-235",
                     "amount": 30
                 }
             ]
         }
     },
     {
-        "id": "battery",
-        "name": "Battery",
+        "name": "battery",
+        "name_full": "Battery",
         "type": "Intermediate product",
         "wiki_link": "https://wiki.factorio.com/Battery",
         "category": "Intermediate product",
@@ -310,23 +310,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "copper-plate",
+                    "name": "copper-plate",
                     "amount": 1
                 },
                 {
-                    "id": "iron-plate",
+                    "name": "iron-plate",
                     "amount": 1
                 },
                 {
-                    "id": "sulfuric-acid",
+                    "name": "sulfuric-acname",
                     "amount": 20
                 }
             ]
         }
     },
     {
-        "id": "battery-mk1",
-        "name": "Battery MK1",
+        "name": "battery-mk1",
+        "name_full": "Battery MK1",
         "type": "Item",
         "wiki_link": "https://wiki.factorio.com/Battery_MK1",
         "category": "Combat",
@@ -335,19 +335,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "battery",
+                    "name": "battery",
                     "amount": 5
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 10
                 }
             ]
         }
     },
     {
-        "id": "battery-mk2",
-        "name": "Battery MK2",
+        "name": "battery-mk2",
+        "name_full": "Battery MK2",
         "type": "Item",
         "wiki_link": "https://wiki.factorio.com/Battery_MK2",
         "category": "Combat",
@@ -356,19 +356,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "battery-mk1",
+                    "name": "battery-mk1",
                     "amount": 10
                 },
                 {
-                    "id": "processing-unit",
+                    "name": "processing-unit",
                     "amount": 20
                 }
             ]
         }
     },
     {
-        "id": "beacon",
-        "name": "Beacon",
+        "name": "beacon",
+        "name_full": "Beacon",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Beacon",
         "category": "Logistics",
@@ -377,27 +377,27 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "advanced-circuit",
+                    "name": "advanced-circuit",
                     "amount": 20
                 },
                 {
-                    "id": "copper-cable",
+                    "name": "copper-cable",
                     "amount": 10
                 },
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 20
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 10
                 }
             ]
         }
     },
     {
-        "id": "big-electric-pole",
-        "name": "Big electric pole",
+        "name": "big-electric-pole",
+        "name_full": "Big electric pole",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Big_electric_pole",
         "category": "Logistics",
@@ -406,19 +406,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "copper-plate",
+                    "name": "copper-plate",
                     "amount": 5
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 5
                 }
             ]
         }
     },
     {
-        "id": "blueprint",
-        "name": "Blueprint",
+        "name": "blueprint",
+        "name_full": "Blueprint",
         "type": "Tool",
         "wiki_link": "https://wiki.factorio.com/Blueprint",
         "category": "Production",
@@ -429,8 +429,8 @@
         }
     },
     {
-        "id": "blueprint-book",
-        "name": "Blueprint book",
+        "name": "blueprint-book",
+        "name_full": "Blueprint book",
         "type": "Tool",
         "wiki_link": "https://wiki.factorio.com/Blueprint_book",
         "category": "Production",
@@ -441,8 +441,8 @@
         }
     },
     {
-        "id": "boiler",
-        "name": "Boiler",
+        "name": "boiler",
+        "name_full": "Boiler",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Boiler",
         "category": "Production",
@@ -451,19 +451,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "pipe",
+                    "name": "pipe",
                     "amount": 4
                 },
                 {
-                    "id": "stone-furnace",
+                    "name": "stone-furnace",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "logistic-chest-buffer",
-        "name": "Buffer chest",
+        "name": "logistic-chest-buffer",
+        "name_full": "Buffer chest",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Buffer_chest",
         "category": "Logistics",
@@ -472,23 +472,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "advanced-circuit",
+                    "name": "advanced-circuit",
                     "amount": 1
                 },
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 3
                 },
                 {
-                    "id": "steel-chest",
+                    "name": "steel-chest",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "burner-inserter",
-        "name": "Burner inserter",
+        "name": "burner-inserter",
+        "name_full": "Burner inserter",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Burner_inserter",
         "category": "Logistics",
@@ -497,19 +497,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "iron-gear-wheel",
+                    "name": "iron-gear-wheel",
                     "amount": 1
                 },
                 {
-                    "id": "iron-plate",
+                    "name": "iron-plate",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "burner-mining-drill",
-        "name": "Burner mining drill",
+        "name": "burner-mining-drill",
+        "name_full": "Burner mining drill",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Burner_mining_drill",
         "category": "Production",
@@ -518,23 +518,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "iron-gear-wheel",
+                    "name": "iron-gear-wheel",
                     "amount": 3
                 },
                 {
-                    "id": "iron-plate",
+                    "name": "iron-plate",
                     "amount": 3
                 },
                 {
-                    "id": "stone-furnace",
+                    "name": "stone-furnace",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "cannon-shell",
-        "name": "Cannon shell",
+        "name": "cannon-shell",
+        "name_full": "Cannon shell",
         "type": "Combat",
         "wiki_link": "https://wiki.factorio.com/Cannon_shell",
         "category": "Combat",
@@ -543,23 +543,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "explosives",
+                    "name": "explosives",
                     "amount": 1
                 },
                 {
-                    "id": "plastic-bar",
+                    "name": "plastic-bar",
                     "amount": 2
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 2
                 }
             ]
         }
     },
     {
-        "id": "car",
-        "name": "Car",
+        "name": "car",
+        "name_full": "Car",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Car",
         "category": "Logistics",
@@ -568,23 +568,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "engine-unit",
+                    "name": "engine-unit",
                     "amount": 8
                 },
                 {
-                    "id": "iron-plate",
+                    "name": "iron-plate",
                     "amount": 20
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 5
                 }
             ]
         }
     },
     {
-        "id": "cargo-wagon",
-        "name": "Cargo wagon",
+        "name": "cargo-wagon",
+        "name_full": "Cargo wagon",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Cargo_wagon",
         "category": "Logistics",
@@ -593,23 +593,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "iron-gear-wheel",
+                    "name": "iron-gear-wheel",
                     "amount": 10
                 },
                 {
-                    "id": "iron-plate",
+                    "name": "iron-plate",
                     "amount": 20
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 20
                 }
             ]
         }
     },
     {
-        "id": "centrifuge",
-        "name": "Centrifuge",
+        "name": "centrifuge",
+        "name_full": "Centrifuge",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Centrifuge",
         "category": "Production",
@@ -618,27 +618,27 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "advanced-circuit",
+                    "name": "advanced-circuit",
                     "amount": 100
                 },
                 {
-                    "id": "concrete",
+                    "name": "concrete",
                     "amount": 100
                 },
                 {
-                    "id": "iron-gear-wheel",
+                    "name": "iron-gear-wheel",
                     "amount": 100
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 50
                 }
             ]
         }
     },
     {
-        "id": "chemical-plant",
-        "name": "Chemical plant",
+        "name": "chemical-plant",
+        "name_full": "Chemical plant",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Chemical_plant",
         "category": "Production",
@@ -647,27 +647,27 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 5
                 },
                 {
-                    "id": "iron-gear-wheel",
+                    "name": "iron-gear-wheel",
                     "amount": 5
                 },
                 {
-                    "id": "pipe",
+                    "name": "pipe",
                     "amount": 5
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 5
                 }
             ]
         }
     },
     {
-        "id": "cliff-explosives",
-        "name": "Cliff explosives",
+        "name": "cliff-explosives",
+        "name_full": "Cliff explosives",
         "type": "Item",
         "wiki_link": "https://wiki.factorio.com/Cliff_explosives",
         "category": "Logistics",
@@ -676,23 +676,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "empty-barrel",
+                    "name": "empty-barrel",
                     "amount": 1
                 },
                 {
-                    "id": "explosives",
+                    "name": "explosives",
                     "amount": 10
                 },
                 {
-                    "id": "grenade",
+                    "name": "grenade",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "cluster-grenade",
-        "name": "Cluster grenade",
+        "name": "cluster-grenade",
+        "name_full": "Cluster grenade",
         "type": "Combat",
         "wiki_link": "https://wiki.factorio.com/Cluster_grenade",
         "category": "Combat",
@@ -701,23 +701,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "explosives",
+                    "name": "explosives",
                     "amount": 5
                 },
                 {
-                    "id": "grenade",
+                    "name": "grenade",
                     "amount": 7
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 5
                 }
             ]
         }
     },
     {
-        "id": "coal",
-        "name": "Coal",
+        "name": "coal",
+        "name_full": "Coal",
         "type": "Resource",
         "wiki_link": "https://wiki.factorio.com/Coal",
         "category": "Intermediate product",
@@ -728,8 +728,8 @@
         }
     },
     {
-        "id": "combat-shotgun",
-        "name": "Combat shotgun",
+        "name": "combat-shotgun",
+        "name_full": "Combat shotgun",
         "type": "Combat",
         "wiki_link": "https://wiki.factorio.com/Combat_shotgun",
         "category": "Combat",
@@ -738,27 +738,27 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "copper-plate",
+                    "name": "copper-plate",
                     "amount": 10
                 },
                 {
-                    "id": "iron-gear-wheel",
+                    "name": "iron-gear-wheel",
                     "amount": 5
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 15
                 },
                 {
-                    "id": "wood",
+                    "name": "wood",
                     "amount": 10
                 }
             ]
         }
     },
     {
-        "id": "concrete",
-        "name": "Concrete",
+        "name": "concrete",
+        "name_full": "Concrete",
         "type": "Item",
         "wiki_link": "https://wiki.factorio.com/Concrete",
         "category": "Logistics",
@@ -767,23 +767,23 @@
             "yield": 10,
             "ingredients": [
                 {
-                    "id": "iron-ore",
+                    "name": "iron-ore",
                     "amount": 1
                 },
                 {
-                    "id": "stone-brick",
+                    "name": "stone-brick",
                     "amount": 5
                 },
                 {
-                    "id": "water",
+                    "name": "water",
                     "amount": 100
                 }
             ]
         }
     },
     {
-        "id": "constant-combinator",
-        "name": "Constant combinator",
+        "name": "constant-combinator",
+        "name_full": "Constant combinator",
         "type": "Logic",
         "wiki_link": "https://wiki.factorio.com/Constant_combinator",
         "category": "Logistics",
@@ -792,19 +792,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "copper-cable",
+                    "name": "copper-cable",
                     "amount": 5
                 },
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 2
                 }
             ]
         }
     },
     {
-        "id": "construction-robot",
-        "name": "Construction robot",
+        "name": "construction-robot",
+        "name_full": "Construction robot",
         "type": "Item",
         "wiki_link": "https://wiki.factorio.com/Construction_robot",
         "category": "Logistics",
@@ -813,19 +813,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 2
                 },
                 {
-                    "id": "flying-robot-frame",
+                    "name": "flying-robot-frame",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "copper-cable",
-        "name": "Copper cable",
+        "name": "copper-cable",
+        "name_full": "Copper cable",
         "type": "Intermediate product",
         "wiki_link": "https://wiki.factorio.com/Copper_cable",
         "category": "Intermediate product",
@@ -834,15 +834,15 @@
             "yield": 2,
             "ingredients": [
                 {
-                    "id": "copper-plate",
+                    "name": "copper-plate",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "copper-ore",
-        "name": "Copper ore",
+        "name": "copper-ore",
+        "name_full": "Copper ore",
         "type": "Resource",
         "wiki_link": "https://wiki.factorio.com/Copper_ore",
         "category": "Intermediate product",
@@ -853,8 +853,8 @@
         }
     },
     {
-        "id": "copper-plate",
-        "name": "Copper plate",
+        "name": "copper-plate",
+        "name_full": "Copper plate",
         "type": "Intermediate product",
         "wiki_link": "https://wiki.factorio.com/Copper_plate",
         "category": "Intermediate product",
@@ -863,16 +863,16 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "copper-ore",
+                    "name": "copper-ore",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "crude-oil",
-        "name": "Crude oil",
-        "type": "Liquid",
+        "name": "crude-oil",
+        "name_full": "Crude oil",
+        "type": "Liquname",
         "wiki_link": "https://wiki.factorio.com/Crude_oil",
         "category": "Intermediate product",
         "recipe": {
@@ -882,8 +882,8 @@
         }
     },
     {
-        "id": "crude-oil-barrel",
-        "name": "Crude oil barrel",
+        "name": "crude-oil-barrel",
+        "name_full": "Crude oil barrel",
         "type": "null",
         "wiki_link": "https://wiki.factorio.com/Crude_oil_barrel",
         "category": "Intermediate product",
@@ -894,29 +894,29 @@
         }
     },
     {
-        "id": "decider-combinator",
-        "name": "Decider combinator",
+        "name": "decnameer-combinator",
+        "name_full": "Decnameer combinator",
         "type": "Logic",
-        "wiki_link": "https://wiki.factorio.com/Decider_combinator",
+        "wiki_link": "https://wiki.factorio.com/Decnameer_combinator",
         "category": "Logistics",
         "recipe": {
             "time": 0.5,
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "copper-cable",
+                    "name": "copper-cable",
                     "amount": 5
                 },
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 5
                 }
             ]
         }
     },
     {
-        "id": "deconstruction-planner",
-        "name": "Deconstruction planner",
+        "name": "deconstruction-planner",
+        "name_full": "Deconstruction planner",
         "type": "Tool",
         "wiki_link": "https://wiki.factorio.com/Deconstruction_planner",
         "category": "category_TODO",
@@ -927,8 +927,8 @@
         }
     },
     {
-        "id": "defender-capsule",
-        "name": "Defender capsule",
+        "name": "defender-capsule",
+        "name_full": "Defender capsule",
         "type": "Combat",
         "wiki_link": "https://wiki.factorio.com/Defender_capsule",
         "category": "Combat",
@@ -937,23 +937,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 2
                 },
                 {
-                    "id": "iron-gear-wheel",
+                    "name": "iron-gear-wheel",
                     "amount": 3
                 },
                 {
-                    "id": "piercing-rounds-magazine",
+                    "name": "piercing-rounds-magazine",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "destroyer-capsule",
-        "name": "Destroyer capsule",
+        "name": "destroyer-capsule",
+        "name_full": "Destroyer capsule",
         "type": "Combat",
         "wiki_link": "https://wiki.factorio.com/Destroyer_capsule",
         "category": "Combat",
@@ -962,19 +962,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "distractor-capsule",
+                    "name": "distractor-capsule",
                     "amount": 4
                 },
                 {
-                    "id": "speed-module",
+                    "name": "speed-module",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "discharge-defense",
-        "name": "Discharge defense",
+        "name": "discharge-defense",
+        "name_full": "Discharge defense",
         "type": "Item",
         "wiki_link": "https://wiki.factorio.com/Discharge_defense",
         "category": "Combat",
@@ -983,23 +983,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "laser-turret",
+                    "name": "laser-turret",
                     "amount": 10
                 },
                 {
-                    "id": "processing-unit",
+                    "name": "processing-unit",
                     "amount": 5
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 20
                 }
             ]
         }
     },
     {
-        "id": "discharge-defense-remote",
-        "name": "Discharge defense remote",
+        "name": "discharge-defense-remote",
+        "name_full": "Discharge defense remote",
         "type": "Combat",
         "wiki_link": "https://wiki.factorio.com/Discharge_defense_remote",
         "category": "Combat",
@@ -1008,15 +1008,15 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "distractor-capsule",
-        "name": "Distractor capsule",
+        "name": "distractor-capsule",
+        "name_full": "Distractor capsule",
         "type": "Combat",
         "wiki_link": "https://wiki.factorio.com/Distractor_capsule",
         "category": "Combat",
@@ -1025,19 +1025,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "advanced-circuit",
+                    "name": "advanced-circuit",
                     "amount": 3
                 },
                 {
-                    "id": "defender-capsule",
+                    "name": "defender-capsule",
                     "amount": 4
                 }
             ]
         }
     },
     {
-        "id": "effectivity-module",
-        "name": "Efficiency module",
+        "name": "effectivity-module",
+        "name_full": "Efficiency module",
         "type": "Item",
         "wiki_link": "https://wiki.factorio.com/Efficiency_module",
         "category": "Production",
@@ -1046,19 +1046,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "advanced-circuit",
+                    "name": "advanced-circuit",
                     "amount": 5
                 },
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 5
                 }
             ]
         }
     },
     {
-        "id": "effectivity-module-2",
-        "name": "Efficiency module 2",
+        "name": "effectivity-module-2",
+        "name_full": "Efficiency module 2",
         "type": "Item",
         "wiki_link": "https://wiki.factorio.com/Efficiency_module_2",
         "category": "Production",
@@ -1067,23 +1067,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "advanced-circuit",
+                    "name": "advanced-circuit",
                     "amount": 5
                 },
                 {
-                    "id": "effectivity-module",
+                    "name": "effectivity-module",
                     "amount": 4
                 },
                 {
-                    "id": "processing-unit",
+                    "name": "processing-unit",
                     "amount": 5
                 }
             ]
         }
     },
     {
-        "id": "effectivity-module-3",
-        "name": "Efficiency module 3",
+        "name": "effectivity-module-3",
+        "name_full": "Efficiency module 3",
         "type": "Item",
         "wiki_link": "https://wiki.factorio.com/Efficiency_module_3",
         "category": "Production",
@@ -1092,23 +1092,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "advanced-circuit",
+                    "name": "advanced-circuit",
                     "amount": 5
                 },
                 {
-                    "id": "effectivity-module-2",
+                    "name": "effectivity-module-2",
                     "amount": 5
                 },
                 {
-                    "id": "processing-unit",
+                    "name": "processing-unit",
                     "amount": 5
                 }
             ]
         }
     },
     {
-        "id": "electric-engine-unit",
-        "name": "Electric engine unit",
+        "name": "electric-engine-unit",
+        "name_full": "Electric engine unit",
         "type": "Intermediate product",
         "wiki_link": "https://wiki.factorio.com/Electric_engine_unit",
         "category": "Intermediate product",
@@ -1117,23 +1117,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 2
                 },
                 {
-                    "id": "engine-unit",
+                    "name": "engine-unit",
                     "amount": 1
                 },
                 {
-                    "id": "lubricant",
+                    "name": "lubricant",
                     "amount": 15
                 }
             ]
         }
     },
     {
-        "id": "electric-furnace",
-        "name": "Electric furnace",
+        "name": "electric-furnace",
+        "name_full": "Electric furnace",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Electric_furnace",
         "category": "Production",
@@ -1142,23 +1142,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "advanced-circuit",
+                    "name": "advanced-circuit",
                     "amount": 5
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 10
                 },
                 {
-                    "id": "stone-brick",
+                    "name": "stone-brick",
                     "amount": 10
                 }
             ]
         }
     },
     {
-        "id": "electric-mining-drill",
-        "name": "Electric mining drill",
+        "name": "electric-mining-drill",
+        "name_full": "Electric mining drill",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Electric_mining_drill",
         "category": "Production",
@@ -1167,23 +1167,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 3
                 },
                 {
-                    "id": "iron-gear-wheel",
+                    "name": "iron-gear-wheel",
                     "amount": 5
                 },
                 {
-                    "id": "iron-plate",
+                    "name": "iron-plate",
                     "amount": 10
                 }
             ]
         }
     },
     {
-        "id": "electronic-circuit",
-        "name": "Electronic circuit",
+        "name": "electronic-circuit",
+        "name_full": "Electronic circuit",
         "type": "Intermediate product",
         "wiki_link": "https://wiki.factorio.com/Electronic_circuit",
         "category": "Intermediate product",
@@ -1192,19 +1192,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "copper-cable",
+                    "name": "copper-cable",
                     "amount": 3
                 },
                 {
-                    "id": "iron-plate",
+                    "name": "iron-plate",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "empty-barrel",
-        "name": "Empty barrel",
+        "name": "empty-barrel",
+        "name_full": "Empty barrel",
         "type": "null",
         "wiki_link": "https://wiki.factorio.com/Empty_barrel",
         "category": "Intermediate product",
@@ -1213,15 +1213,15 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "energy-shield",
-        "name": "Energy shield",
+        "name": "energy-shield",
+        "name_full": "Energy shield",
         "type": "Item",
         "wiki_link": "https://wiki.factorio.com/Energy_shield",
         "category": "Combat",
@@ -1230,19 +1230,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "advanced-circuit",
+                    "name": "advanced-circuit",
                     "amount": 5
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 10
                 }
             ]
         }
     },
     {
-        "id": "energy-shield-mk2",
-        "name": "Energy shield MK2",
+        "name": "energy-shield-mk2",
+        "name_full": "Energy shield MK2",
         "type": "Item",
         "wiki_link": "https://wiki.factorio.com/Energy_shield_MK2",
         "category": "Combat",
@@ -1251,19 +1251,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "energy-shield",
+                    "name": "energy-shield",
                     "amount": 10
                 },
                 {
-                    "id": "processing-unit",
+                    "name": "processing-unit",
                     "amount": 10
                 }
             ]
         }
     },
     {
-        "id": "engine-unit",
-        "name": "Engine unit",
+        "name": "engine-unit",
+        "name_full": "Engine unit",
         "type": "Intermediate product",
         "wiki_link": "https://wiki.factorio.com/Engine_unit",
         "category": "Intermediate product",
@@ -1272,23 +1272,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "iron-gear-wheel",
+                    "name": "iron-gear-wheel",
                     "amount": 1
                 },
                 {
-                    "id": "pipe",
+                    "name": "pipe",
                     "amount": 2
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "exoskeleton",
-        "name": "Exoskeleton",
+        "name": "exoskeleton",
+        "name_full": "Exoskeleton",
         "type": "Item",
         "wiki_link": "https://wiki.factorio.com/Exoskeleton",
         "category": "Combat",
@@ -1297,23 +1297,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "electric-engine-unit",
+                    "name": "electric-engine-unit",
                     "amount": 30
                 },
                 {
-                    "id": "processing-unit",
+                    "name": "processing-unit",
                     "amount": 10
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 20
                 }
             ]
         }
     },
     {
-        "id": "explosive-cannon-shell",
-        "name": "Explosive cannon shell",
+        "name": "explosive-cannon-shell",
+        "name_full": "Explosive cannon shell",
         "type": "Combat",
         "wiki_link": "https://wiki.factorio.com/Explosive_cannon_shell",
         "category": "Combat",
@@ -1322,23 +1322,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "explosives",
+                    "name": "explosives",
                     "amount": 2
                 },
                 {
-                    "id": "plastic-bar",
+                    "name": "plastic-bar",
                     "amount": 2
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 2
                 }
             ]
         }
     },
     {
-        "id": "explosive-rocket",
-        "name": "Explosive rocket",
+        "name": "explosive-rocket",
+        "name_full": "Explosive rocket",
         "type": "Combat",
         "wiki_link": "https://wiki.factorio.com/Explosive_rocket",
         "category": "Combat",
@@ -1347,19 +1347,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "explosives",
+                    "name": "explosives",
                     "amount": 2
                 },
                 {
-                    "id": "rocket",
+                    "name": "rocket",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "explosive-uranium-cannon-shell",
-        "name": "Explosive uranium cannon shell",
+        "name": "explosive-uranium-cannon-shell",
+        "name_full": "Explosive uranium cannon shell",
         "type": "Combat",
         "wiki_link": "https://wiki.factorio.com/Explosive_uranium_cannon_shell",
         "category": "Combat",
@@ -1368,19 +1368,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "explosive-cannon-shell",
+                    "name": "explosive-cannon-shell",
                     "amount": 1
                 },
                 {
-                    "id": "uranium-238",
+                    "name": "uranium-238",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "explosives",
-        "name": "Explosives",
+        "name": "explosives",
+        "name_full": "Explosives",
         "type": "Item",
         "wiki_link": "https://wiki.factorio.com/Explosives",
         "category": "Intermediate product",
@@ -1389,23 +1389,23 @@
             "yield": 2,
             "ingredients": [
                 {
-                    "id": "coal",
+                    "name": "coal",
                     "amount": 1
                 },
                 {
-                    "id": "sulfur",
+                    "name": "sulfur",
                     "amount": 1
                 },
                 {
-                    "id": "water",
+                    "name": "water",
                     "amount": 10
                 }
             ]
         }
     },
     {
-        "id": "express-splitter",
-        "name": "Express splitter",
+        "name": "express-splitter",
+        "name_full": "Express splitter",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Express_splitter",
         "category": "Logistics",
@@ -1414,27 +1414,27 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "advanced-circuit",
+                    "name": "advanced-circuit",
                     "amount": 10
                 },
                 {
-                    "id": "fast-splitter",
+                    "name": "fast-splitter",
                     "amount": 1
                 },
                 {
-                    "id": "iron-gear-wheel",
+                    "name": "iron-gear-wheel",
                     "amount": 10
                 },
                 {
-                    "id": "lubricant",
+                    "name": "lubricant",
                     "amount": 80
                 }
             ]
         }
     },
     {
-        "id": "express-transport-belt",
-        "name": "Express transport belt",
+        "name": "express-transport-belt",
+        "name_full": "Express transport belt",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Express_transport_belt",
         "category": "Logistics",
@@ -1443,23 +1443,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "fast-transport-belt",
+                    "name": "fast-transport-belt",
                     "amount": 1
                 },
                 {
-                    "id": "iron-gear-wheel",
+                    "name": "iron-gear-wheel",
                     "amount": 10
                 },
                 {
-                    "id": "lubricant",
+                    "name": "lubricant",
                     "amount": 20
                 }
             ]
         }
     },
     {
-        "id": "express-underground-belt",
-        "name": "Express underground belt",
+        "name": "express-underground-belt",
+        "name_full": "Express underground belt",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Express_underground_belt",
         "category": "Logistics",
@@ -1468,23 +1468,23 @@
             "yield": 2,
             "ingredients": [
                 {
-                    "id": "fast-underground-belt",
+                    "name": "fast-underground-belt",
                     "amount": 2
                 },
                 {
-                    "id": "iron-gear-wheel",
+                    "name": "iron-gear-wheel",
                     "amount": 80
                 },
                 {
-                    "id": "lubricant",
+                    "name": "lubricant",
                     "amount": 40
                 }
             ]
         }
     },
     {
-        "id": "fast-inserter",
-        "name": "Fast inserter",
+        "name": "fast-inserter",
+        "name_full": "Fast inserter",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Fast_inserter",
         "category": "Logistics",
@@ -1493,23 +1493,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 2
                 },
                 {
-                    "id": "inserter",
+                    "name": "inserter",
                     "amount": 1
                 },
                 {
-                    "id": "iron-plate",
+                    "name": "iron-plate",
                     "amount": 2
                 }
             ]
         }
     },
     {
-        "id": "fast-splitter",
-        "name": "Fast splitter",
+        "name": "fast-splitter",
+        "name_full": "Fast splitter",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Fast_splitter",
         "category": "Logistics",
@@ -1518,23 +1518,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 10
                 },
                 {
-                    "id": "iron-gear-wheel",
+                    "name": "iron-gear-wheel",
                     "amount": 10
                 },
                 {
-                    "id": "splitter",
+                    "name": "splitter",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "fast-transport-belt",
-        "name": "Fast transport belt",
+        "name": "fast-transport-belt",
+        "name_full": "Fast transport belt",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Fast_transport_belt",
         "category": "Logistics",
@@ -1543,19 +1543,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "iron-gear-wheel",
+                    "name": "iron-gear-wheel",
                     "amount": 5
                 },
                 {
-                    "id": "transport-belt",
+                    "name": "transport-belt",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "fast-underground-belt",
-        "name": "Fast underground belt",
+        "name": "fast-underground-belt",
+        "name_full": "Fast underground belt",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Fast_underground_belt",
         "category": "Logistics",
@@ -1564,19 +1564,19 @@
             "yield": 2,
             "ingredients": [
                 {
-                    "id": "iron-gear-wheel",
+                    "name": "iron-gear-wheel",
                     "amount": 40
                 },
                 {
-                    "id": "underground-belt",
+                    "name": "underground-belt",
                     "amount": 2
                 }
             ]
         }
     },
     {
-        "id": "filter-inserter",
-        "name": "Filter inserter",
+        "name": "filter-inserter",
+        "name_full": "Filter inserter",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Filter_inserter",
         "category": "Logistics",
@@ -1585,19 +1585,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 4
                 },
                 {
-                    "id": "fast-inserter",
+                    "name": "fast-inserter",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "firearm-magazine",
-        "name": "Firearm magazine",
+        "name": "firearm-magazine",
+        "name_full": "Firearm magazine",
         "type": "Combat",
         "wiki_link": "https://wiki.factorio.com/Firearm_magazine",
         "category": "Combat",
@@ -1606,15 +1606,15 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "iron-plate",
+                    "name": "iron-plate",
                     "amount": 4
                 }
             ]
         }
     },
     {
-        "id": "flamethrower",
-        "name": "Flamethrower",
+        "name": "flamethrower",
+        "name_full": "Flamethrower",
         "type": "Combat",
         "wiki_link": "https://wiki.factorio.com/Flamethrower",
         "category": "Combat",
@@ -1623,19 +1623,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "iron-gear-wheel",
+                    "name": "iron-gear-wheel",
                     "amount": 10
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 5
                 }
             ]
         }
     },
     {
-        "id": "flamethrower-ammo",
-        "name": "Flamethrower ammo",
+        "name": "flamethrower-ammo",
+        "name_full": "Flamethrower ammo",
         "type": "Combat",
         "wiki_link": "https://wiki.factorio.com/Flamethrower_ammo",
         "category": "Combat",
@@ -1644,23 +1644,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "heavy-oil",
+                    "name": "heavy-oil",
                     "amount": 50
                 },
                 {
-                    "id": "light-oil",
+                    "name": "light-oil",
                     "amount": 50
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 5
                 }
             ]
         }
     },
     {
-        "id": "flamethrower-turret",
-        "name": "Flamethrower turret",
+        "name": "flamethrower-turret",
+        "name_full": "Flamethrower turret",
         "type": "Combat",
         "wiki_link": "https://wiki.factorio.com/Flamethrower_turret",
         "category": "Combat",
@@ -1669,56 +1669,56 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "engine-unit",
+                    "name": "engine-unit",
                     "amount": 5
                 },
                 {
-                    "id": "iron-gear-wheel",
+                    "name": "iron-gear-wheel",
                     "amount": 15
                 },
                 {
-                    "id": "pipe",
+                    "name": "pipe",
                     "amount": 10
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 30
                 }
             ]
         }
     },
     {
-        "id": "fluid-wagon",
-        "name": "Fluid wagon",
+        "name": "fluname-wagon",
+        "name_full": "Fluname wagon",
         "type": "Machinery",
-        "wiki_link": "https://wiki.factorio.com/Fluid_wagon",
+        "wiki_link": "https://wiki.factorio.com/Fluname_wagon",
         "category": "Logistics",
         "recipe": {
             "time": 1.5,
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "iron-gear-wheel",
+                    "name": "iron-gear-wheel",
                     "amount": 10
                 },
                 {
-                    "id": "pipe",
+                    "name": "pipe",
                     "amount": 8
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 16
                 },
                 {
-                    "id": "storage-tank",
+                    "name": "storage-tank",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "flying-robot-frame",
-        "name": "Flying robot frame",
+        "name": "flying-robot-frame",
+        "name_full": "Flying robot frame",
         "type": "Item",
         "wiki_link": "https://wiki.factorio.com/Flying_robot_frame",
         "category": "Intermediate product",
@@ -1727,27 +1727,27 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "battery",
+                    "name": "battery",
                     "amount": 2
                 },
                 {
-                    "id": "electric-engine-unit",
+                    "name": "electric-engine-unit",
                     "amount": 1
                 },
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 3
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "gate",
-        "name": "Gate",
+        "name": "gate",
+        "name_full": "Gate",
         "type": "Combat",
         "wiki_link": "https://wiki.factorio.com/Gate",
         "category": "Combat",
@@ -1756,23 +1756,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 2
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 2
                 },
                 {
-                    "id": "stone-wall",
+                    "name": "stone-wall",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "green-wire",
-        "name": "Green wire",
+        "name": "green-wire",
+        "name_full": "Green wire",
         "type": "Logic",
         "wiki_link": "https://wiki.factorio.com/Green_wire",
         "category": "Logistics",
@@ -1781,19 +1781,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "copper-cable",
+                    "name": "copper-cable",
                     "amount": 1
                 },
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "grenade",
-        "name": "Grenade",
+        "name": "grenade",
+        "name_full": "Grenade",
         "type": "Combat",
         "wiki_link": "https://wiki.factorio.com/Grenade",
         "category": "Combat",
@@ -1802,19 +1802,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "coal",
+                    "name": "coal",
                     "amount": 10
                 },
                 {
-                    "id": "iron-plate",
+                    "name": "iron-plate",
                     "amount": 5
                 }
             ]
         }
     },
     {
-        "id": "gun-turret",
-        "name": "Gun turret",
+        "name": "gun-turret",
+        "name_full": "Gun turret",
         "type": "Combat",
         "wiki_link": "https://wiki.factorio.com/Gun_turret",
         "category": "Combat",
@@ -1823,23 +1823,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "copper-plate",
+                    "name": "copper-plate",
                     "amount": 10
                 },
                 {
-                    "id": "iron-gear-wheel",
+                    "name": "iron-gear-wheel",
                     "amount": 10
                 },
                 {
-                    "id": "iron-plate",
+                    "name": "iron-plate",
                     "amount": 20
                 }
             ]
         }
     },
     {
-        "id": "hazard-concrete",
-        "name": "Hazard concrete",
+        "name": "hazard-concrete",
+        "name_full": "Hazard concrete",
         "type": "Item",
         "wiki_link": "https://wiki.factorio.com/Hazard_concrete",
         "category": "Logistics",
@@ -1848,15 +1848,15 @@
             "yield": 10,
             "ingredients": [
                 {
-                    "id": "concrete",
+                    "name": "concrete",
                     "amount": 10
                 }
             ]
         }
     },
     {
-        "id": "heat-exchanger",
-        "name": "Heat exchanger",
+        "name": "heat-exchanger",
+        "name_full": "Heat exchanger",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Heat_exchanger",
         "category": "Production",
@@ -1865,23 +1865,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "copper-plate",
+                    "name": "copper-plate",
                     "amount": 100
                 },
                 {
-                    "id": "pipe",
+                    "name": "pipe",
                     "amount": 10
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 10
                 }
             ]
         }
     },
     {
-        "id": "heat-pipe",
-        "name": "Heat pipe",
+        "name": "heat-pipe",
+        "name_full": "Heat pipe",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Heat_pipe",
         "category": "Production",
@@ -1890,19 +1890,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "copper-plate",
+                    "name": "copper-plate",
                     "amount": 20
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 10
                 }
             ]
         }
     },
     {
-        "id": "heavy-armor",
-        "name": "Heavy armor",
+        "name": "heavy-armor",
+        "name_full": "Heavy armor",
         "type": "Combat",
         "wiki_link": "https://wiki.factorio.com/Heavy_armor",
         "category": "Combat",
@@ -1911,20 +1911,20 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "copper-plate",
+                    "name": "copper-plate",
                     "amount": 100
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 50
                 }
             ]
         }
     },
     {
-        "id": "heavy-oil",
-        "name": "Heavy oil",
-        "type": "Liquid",
+        "name": "heavy-oil",
+        "name_full": "Heavy oil",
+        "type": "Liquname",
         "wiki_link": "https://wiki.factorio.com/Heavy_oil",
         "category": "Intermediate product",
         "recipe": {
@@ -1934,8 +1934,8 @@
         }
     },
     {
-        "id": "heavy-oil-barrel",
-        "name": "Heavy oil barrel",
+        "name": "heavy-oil-barrel",
+        "name_full": "Heavy oil barrel",
         "type": "null",
         "wiki_link": "https://wiki.factorio.com/Heavy_oil_barrel",
         "category": "Intermediate product",
@@ -1946,8 +1946,8 @@
         }
     },
     {
-        "id": "utility-science-pack",
-        "name": "High tech science pack",
+        "name": "utility-science-pack",
+        "name_full": "High tech science pack",
         "type": "Science pack",
         "wiki_link": "https://wiki.factorio.com/Utility_science_pack",
         "category": "Intermediate product",
@@ -1956,23 +1956,23 @@
             "yield": 3,
             "ingredients": [
                 {
-                    "id": "flying-robot-frame",
+                    "name": "flying-robot-frame",
                     "amount": 1
                 },
                 {
-                    "id": "low-density-structure",
+                    "name": "low-density-structure",
                     "amount": 3
                 },
                 {
-                    "id": "processing-unit",
+                    "name": "processing-unit",
                     "amount": 2
                 }
             ]
         }
     },
     {
-        "id": "inserter",
-        "name": "Inserter",
+        "name": "inserter",
+        "name_full": "Inserter",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Inserter",
         "category": "Logistics",
@@ -1981,23 +1981,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 1
                 },
                 {
-                    "id": "iron-gear-wheel",
+                    "name": "iron-gear-wheel",
                     "amount": 1
                 },
                 {
-                    "id": "iron-plate",
+                    "name": "iron-plate",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "iron-axe",
-        "name": "Iron axe",
+        "name": "iron-axe",
+        "name_full": "Iron axe",
         "type": "Tool",
         "wiki_link": "https://wiki.factorio.com/Iron_axe",
         "category": "Logistics",
@@ -2006,19 +2006,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "iron-plate",
+                    "name": "iron-plate",
                     "amount": 3
                 },
                 {
-                    "id": "iron-stick",
+                    "name": "iron-stick",
                     "amount": 2
                 }
             ]
         }
     },
     {
-        "id": "iron-chest",
-        "name": "Iron chest",
+        "name": "iron-chest",
+        "name_full": "Iron chest",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Iron_chest",
         "category": "Logistics",
@@ -2027,15 +2027,15 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "iron-plate",
+                    "name": "iron-plate",
                     "amount": 8
                 }
             ]
         }
     },
     {
-        "id": "iron-gear-wheel",
-        "name": "Iron gear wheel",
+        "name": "iron-gear-wheel",
+        "name_full": "Iron gear wheel",
         "type": "Intermediate product",
         "wiki_link": "https://wiki.factorio.com/Iron_gear_wheel",
         "category": "Intermediate product",
@@ -2044,15 +2044,15 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "iron-plate",
+                    "name": "iron-plate",
                     "amount": 2
                 }
             ]
         }
     },
     {
-        "id": "iron-ore",
-        "name": "Iron ore",
+        "name": "iron-ore",
+        "name_full": "Iron ore",
         "type": "Resource",
         "wiki_link": "https://wiki.factorio.com/Iron_ore",
         "category": "Intermediate product",
@@ -2063,8 +2063,8 @@
         }
     },
     {
-        "id": "iron-plate",
-        "name": "Iron plate",
+        "name": "iron-plate",
+        "name_full": "Iron plate",
         "type": "Intermediate product",
         "wiki_link": "https://wiki.factorio.com/Iron_plate",
         "category": "Intermediate product",
@@ -2073,15 +2073,15 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "iron-ore",
+                    "name": "iron-ore",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "iron-stick",
-        "name": "Iron stick",
+        "name": "iron-stick",
+        "name_full": "Iron stick",
         "type": "Intermediate product",
         "wiki_link": "https://wiki.factorio.com/Iron_stick",
         "category": "Intermediate product",
@@ -2090,15 +2090,15 @@
             "yield": 2,
             "ingredients": [
                 {
-                    "id": "iron-plate",
+                    "name": "iron-plate",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "kovarex-enrichment-process",
-        "name": "Kovarex enrichment process",
+        "name": "kovarex-enrichment-process",
+        "name_full": "Kovarex enrichment process",
         "type": "Process",
         "wiki_link": "https://wiki.factorio.com/Kovarex_enrichment_process",
         "category": "Intermediate product",
@@ -2107,19 +2107,19 @@
             "yield": null,
             "ingredients": [
                 {
-                    "id": "uranium-235",
+                    "name": "uranium-235",
                     "amount": 40
                 },
                 {
-                    "id": "uranium-238",
+                    "name": "uranium-238",
                     "amount": 5
                 }
             ]
         }
     },
     {
-        "id": "lab",
-        "name": "Lab",
+        "name": "lab",
+        "name_full": "Lab",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Lab",
         "category": "Production",
@@ -2128,23 +2128,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 10
                 },
                 {
-                    "id": "iron-gear-wheel",
+                    "name": "iron-gear-wheel",
                     "amount": 10
                 },
                 {
-                    "id": "transport-belt",
+                    "name": "transport-belt",
                     "amount": 4
                 }
             ]
         }
     },
     {
-        "id": "lamp",
-        "name": "Lamp",
+        "name": "lamp",
+        "name_full": "Lamp",
         "type": "Logic",
         "wiki_link": "https://wiki.factorio.com/Lamp",
         "category": "Logistics",
@@ -2153,23 +2153,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 1
                 },
                 {
-                    "id": "iron-plate",
+                    "name": "iron-plate",
                     "amount": 1
                 },
                 {
-                    "id": "iron-stick",
+                    "name": "iron-stick",
                     "amount": 3
                 }
             ]
         }
     },
     {
-        "id": "land-mine",
-        "name": "Land mine",
+        "name": "land-mine",
+        "name_full": "Land mine",
         "type": "Combat",
         "wiki_link": "https://wiki.factorio.com/Land_mine",
         "category": "Combat",
@@ -2178,19 +2178,19 @@
             "yield": 4,
             "ingredients": [
                 {
-                    "id": "explosives",
+                    "name": "explosives",
                     "amount": 2
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "landfill",
-        "name": "Landfill",
+        "name": "landfill",
+        "name_full": "Landfill",
         "type": "Item",
         "wiki_link": "https://wiki.factorio.com/Landfill",
         "category": "Logistics",
@@ -2199,15 +2199,15 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "stone",
+                    "name": "stone",
                     "amount": 20
                 }
             ]
         }
     },
     {
-        "id": "laser-turret",
-        "name": "Laser turret",
+        "name": "laser-turret",
+        "name_full": "Laser turret",
         "type": "Combat",
         "wiki_link": "https://wiki.factorio.com/Laser_turret",
         "category": "Combat",
@@ -2216,23 +2216,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "battery",
+                    "name": "battery",
                     "amount": 12
                 },
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 20
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 20
                 }
             ]
         }
     },
     {
-        "id": "light-armor",
-        "name": "Light armor",
+        "name": "light-armor",
+        "name_full": "Light armor",
         "type": "Combat",
         "wiki_link": "https://wiki.factorio.com/Light_armor",
         "category": "Combat",
@@ -2241,16 +2241,16 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "iron-plate",
+                    "name": "iron-plate",
                     "amount": 40
                 }
             ]
         }
     },
     {
-        "id": "light-oil",
-        "name": "Light oil",
-        "type": "Liquid",
+        "name": "light-oil",
+        "name_full": "Light oil",
+        "type": "Liquname",
         "wiki_link": "https://wiki.factorio.com/Light_oil",
         "category": "Intermediate product",
         "recipe": {
@@ -2260,8 +2260,8 @@
         }
     },
     {
-        "id": "light-oil-barrel",
-        "name": "Light oil barrel",
+        "name": "light-oil-barrel",
+        "name_full": "Light oil barrel",
         "type": "null",
         "wiki_link": "https://wiki.factorio.com/Light_oil_barrel",
         "category": "Intermediate product",
@@ -2272,8 +2272,8 @@
         }
     },
     {
-        "id": "locomotive",
-        "name": "Locomotive",
+        "name": "locomotive",
+        "name_full": "Locomotive",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Locomotive",
         "category": "Logistics",
@@ -2282,23 +2282,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 10
                 },
                 {
-                    "id": "engine-unit",
+                    "name": "engine-unit",
                     "amount": 20
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 30
                 }
             ]
         }
     },
     {
-        "id": "logistic-robot",
-        "name": "Logistic robot",
+        "name": "logistic-robot",
+        "name_full": "Logistic robot",
         "type": "Item",
         "wiki_link": "https://wiki.factorio.com/Logistic_robot",
         "category": "Logistics",
@@ -2307,19 +2307,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "advanced-circuit",
+                    "name": "advanced-circuit",
                     "amount": 2
                 },
                 {
-                    "id": "flying-robot-frame",
+                    "name": "flying-robot-frame",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "long-handed-inserter",
-        "name": "Long handed inserter",
+        "name": "long-handed-inserter",
+        "name_full": "Long handed inserter",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Long_handed_inserter",
         "category": "Logistics",
@@ -2328,23 +2328,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "inserter",
+                    "name": "inserter",
                     "amount": 1
                 },
                 {
-                    "id": "iron-gear-wheel",
+                    "name": "iron-gear-wheel",
                     "amount": 1
                 },
                 {
-                    "id": "iron-plate",
+                    "name": "iron-plate",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "low-density-structure",
-        "name": "Low density structure",
+        "name": "low-density-structure",
+        "name_full": "Low density structure",
         "type": "Intermediate product",
         "wiki_link": "https://wiki.factorio.com/Low_density_structure",
         "category": "Intermediate product",
@@ -2353,24 +2353,24 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "copper-plate",
+                    "name": "copper-plate",
                     "amount": 5
                 },
                 {
-                    "id": "plastic-bar",
+                    "name": "plastic-bar",
                     "amount": 5
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 10
                 }
             ]
         }
     },
     {
-        "id": "lubricant",
-        "name": "Lubricant",
-        "type": "Liquid",
+        "name": "lubricant",
+        "name_full": "Lubricant",
+        "type": "Liquname",
         "wiki_link": "https://wiki.factorio.com/Lubricant",
         "category": "Intermediate product",
         "recipe": {
@@ -2378,15 +2378,15 @@
             "yield": 10,
             "ingredients": [
                 {
-                    "id": "heavy-oil",
+                    "name": "heavy-oil",
                     "amount": 10
                 }
             ]
         }
     },
     {
-        "id": "lubricant-barrel",
-        "name": "Lubricant barrel",
+        "name": "lubricant-barrel",
+        "name_full": "Lubricant barrel",
         "type": "null",
         "wiki_link": "https://wiki.factorio.com/Lubricant_barrel",
         "category": "Intermediate product",
@@ -2397,8 +2397,8 @@
         }
     },
     {
-        "id": "medium-electric-pole",
-        "name": "Medium electric pole",
+        "name": "medium-electric-pole",
+        "name_full": "Medium electric pole",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Medium_electric_pole",
         "category": "Logistics",
@@ -2407,19 +2407,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "copper-plate",
+                    "name": "copper-plate",
                     "amount": 2
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 2
                 }
             ]
         }
     },
     {
-        "id": "military-science-pack",
-        "name": "Military science pack",
+        "name": "military-science-pack",
+        "name_full": "Military science pack",
         "type": "Science pack",
         "wiki_link": "https://wiki.factorio.com/Military_science_pack",
         "category": "Intermediate product",
@@ -2428,23 +2428,23 @@
             "yield": 2,
             "ingredients": [
                 {
-                    "id": "grenade",
+                    "name": "grenade",
                     "amount": 1
                 },
                 {
-                    "id": "stone-wall",
+                    "name": "stone-wall",
                     "amount": 2
                 },
                 {
-                    "id": "piercing-rounds-magazine",
+                    "name": "piercing-rounds-magazine",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "modular-armor",
-        "name": "Modular armor",
+        "name": "modular-armor",
+        "name_full": "Modular armor",
         "type": "Combat",
         "wiki_link": "https://wiki.factorio.com/Modular_armor",
         "category": "Combat",
@@ -2453,19 +2453,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "advanced-circuit",
+                    "name": "advanced-circuit",
                     "amount": 30
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 50
                 }
             ]
         }
     },
     {
-        "id": "nightvision",
-        "name": "Nightvision",
+        "name": "nightvision",
+        "name_full": "Nightvision",
         "type": "Item",
         "wiki_link": "https://wiki.factorio.com/Nightvision",
         "category": "Combat",
@@ -2474,19 +2474,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "advanced-circuit",
+                    "name": "advanced-circuit",
                     "amount": 5
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 10
                 }
             ]
         }
     },
     {
-        "id": "nuclear-fuel",
-        "name": "Nuclear fuel",
+        "name": "nuclear-fuel",
+        "name_full": "Nuclear fuel",
         "type": "Item",
         "wiki_link": "https://wiki.factorio.com/Nuclear_fuel",
         "category": "Intermediate product",
@@ -2495,19 +2495,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "rocket-fuel",
+                    "name": "rocket-fuel",
                     "amount": 1
                 },
                 {
-                    "id": "uranium-235",
+                    "name": "uranium-235",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "nuclear-fuel-reprocessing",
-        "name": "Nuclear fuel reprocessing",
+        "name": "nuclear-fuel-reprocessing",
+        "name_full": "Nuclear fuel reprocessing",
         "type": "Process",
         "wiki_link": "https://wiki.factorio.com/Nuclear_fuel_reprocessing",
         "category": "Intermediate product",
@@ -2516,19 +2516,19 @@
             "yield": null,
             "ingredients": [
                 {
-                    "id": "used-up-uranium-fuel-cell",
+                    "name": "used-up-uranium-fuel-cell",
                     "amount": 5
                 },
                 {
-                    "id": "uranium-238",
+                    "name": "uranium-238",
                     "amount": 3
                 }
             ]
         }
     },
     {
-        "id": "nuclear-reactor",
-        "name": "Nuclear reactor",
+        "name": "nuclear-reactor",
+        "name_full": "Nuclear reactor",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Nuclear_reactor",
         "category": "Production",
@@ -2537,27 +2537,27 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "advanced-circuit",
+                    "name": "advanced-circuit",
                     "amount": 500
                 },
                 {
-                    "id": "concrete",
+                    "name": "concrete",
                     "amount": 500
                 },
                 {
-                    "id": "copper-plate",
+                    "name": "copper-plate",
                     "amount": 500
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 500
                 }
             ]
         }
     },
     {
-        "id": "offshore-pump",
-        "name": "Offshore pump",
+        "name": "offshore-pump",
+        "name_full": "Offshore pump",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Offshore_pump",
         "category": "Production",
@@ -2566,23 +2566,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 2
                 },
                 {
-                    "id": "iron-gear-wheel",
+                    "name": "iron-gear-wheel",
                     "amount": 1
                 },
                 {
-                    "id": "pipe",
+                    "name": "pipe",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "oil-refinery",
-        "name": "Oil refinery",
+        "name": "oil-refinery",
+        "name_full": "Oil refinery",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Oil_refinery",
         "category": "Production",
@@ -2591,56 +2591,56 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 10
                 },
                 {
-                    "id": "iron-gear-wheel",
+                    "name": "iron-gear-wheel",
                     "amount": 10
                 },
                 {
-                    "id": "pipe",
+                    "name": "pipe",
                     "amount": 10
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 15
                 },
                 {
-                    "id": "stone-brick",
+                    "name": "stone-brick",
                     "amount": 10
                 }
             ]
         }
     },
     {
-        "id": "logistic-chest-passive-provider",
-        "name": "Passive provider chest",
+        "name": "logistic-chest-passive-provnameer",
+        "name_full": "Passive provnameer chest",
         "type": "Machinery",
-        "wiki_link": "https://wiki.factorio.com/Passive_provider_chest",
+        "wiki_link": "https://wiki.factorio.com/Passive_provnameer_chest",
         "category": "Logistics",
         "recipe": {
             "time": 0.5,
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "advanced-circuit",
+                    "name": "advanced-circuit",
                     "amount": 1
                 },
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 3
                 },
                 {
-                    "id": "steel-chest",
+                    "name": "steel-chest",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "personal-laser-defense",
-        "name": "Personal laser defense",
+        "name": "personal-laser-defense",
+        "name_full": "Personal laser defense",
         "type": "Item",
         "wiki_link": "https://wiki.factorio.com/Personal_laser_defense",
         "category": "Combat",
@@ -2649,23 +2649,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "laser-turret",
+                    "name": "laser-turret",
                     "amount": 5
                 },
                 {
-                    "id": "processing-unit",
+                    "name": "processing-unit",
                     "amount": 1
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 5
                 }
             ]
         }
     },
     {
-        "id": "personal-roboport",
-        "name": "Personal roboport",
+        "name": "personal-roboport",
+        "name_full": "Personal roboport",
         "type": "Item",
         "wiki_link": "https://wiki.factorio.com/Personal_roboport",
         "category": "Combat",
@@ -2674,27 +2674,27 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "advanced-circuit",
+                    "name": "advanced-circuit",
                     "amount": 10
                 },
                 {
-                    "id": "battery",
+                    "name": "battery",
                     "amount": 45
                 },
                 {
-                    "id": "iron-gear-wheel",
+                    "name": "iron-gear-wheel",
                     "amount": 40
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 20
                 }
             ]
         }
     },
     {
-        "id": "personal-roboport-mk2",
-        "name": "Personal roboport MK2",
+        "name": "personal-roboport-mk2",
+        "name_full": "Personal roboport MK2",
         "type": "Item",
         "wiki_link": "https://wiki.factorio.com/Personal_roboport_MK2",
         "category": "Combat",
@@ -2703,20 +2703,20 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "personal-roboport",
+                    "name": "personal-roboport",
                     "amount": 5
                 },
                 {
-                    "id": "processing-unit",
+                    "name": "processing-unit",
                     "amount": 100
                 }
             ]
         }
     },
     {
-        "id": "petroleum-gas",
-        "name": "Petroleum gas",
-        "type": "Liquid",
+        "name": "petroleum-gas",
+        "name_full": "Petroleum gas",
+        "type": "Liquname",
         "wiki_link": "https://wiki.factorio.com/Petroleum_gas",
         "category": "Intermediate product",
         "recipe": {
@@ -2726,8 +2726,8 @@
         }
     },
     {
-        "id": "petroleum-gas-barrel",
-        "name": "Petroleum gas barrel",
+        "name": "petroleum-gas-barrel",
+        "name_full": "Petroleum gas barrel",
         "type": "null",
         "wiki_link": "https://wiki.factorio.com/Petroleum_gas_barrel",
         "category": "Intermediate product",
@@ -2738,8 +2738,8 @@
         }
     },
     {
-        "id": "piercing-rounds-magazine",
-        "name": "Piercing rounds magazine",
+        "name": "piercing-rounds-magazine",
+        "name_full": "Piercing rounds magazine",
         "type": "Combat",
         "wiki_link": "https://wiki.factorio.com/Piercing_rounds_magazine",
         "category": "Combat",
@@ -2748,23 +2748,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "copper-plate",
+                    "name": "copper-plate",
                     "amount": 5
                 },
                 {
-                    "id": "firearm-magazine",
+                    "name": "firearm-magazine",
                     "amount": 1
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "piercing-shotgun-shells",
-        "name": "Piercing shotgun shells",
+        "name": "piercing-shotgun-shells",
+        "name_full": "Piercing shotgun shells",
         "type": "Combat",
         "wiki_link": "https://wiki.factorio.com/Piercing_shotgun_shells",
         "category": "Combat",
@@ -2773,23 +2773,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "copper-plate",
+                    "name": "copper-plate",
                     "amount": 5
                 },
                 {
-                    "id": "shotgun-shells",
+                    "name": "shotgun-shells",
                     "amount": 2
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 2
                 }
             ]
         }
     },
     {
-        "id": "pipe",
-        "name": "Pipe",
+        "name": "pipe",
+        "name_full": "Pipe",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Pipe",
         "category": "Logistics",
@@ -2798,15 +2798,15 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "iron-plate",
+                    "name": "iron-plate",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "pipe-to-ground",
-        "name": "Pipe to ground",
+        "name": "pipe-to-ground",
+        "name_full": "Pipe to ground",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Pipe_to_ground",
         "category": "Logistics",
@@ -2815,19 +2815,19 @@
             "yield": 2,
             "ingredients": [
                 {
-                    "id": "iron-plate",
+                    "name": "iron-plate",
                     "amount": 5
                 },
                 {
-                    "id": "pipe",
+                    "name": "pipe",
                     "amount": 10
                 }
             ]
         }
     },
     {
-        "id": "pistol",
-        "name": "Pistol",
+        "name": "pistol",
+        "name_full": "Pistol",
         "type": "Combat",
         "wiki_link": "https://wiki.factorio.com/Pistol",
         "category": "Combat",
@@ -2836,19 +2836,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "copper-plate",
+                    "name": "copper-plate",
                     "amount": 5
                 },
                 {
-                    "id": "iron-plate",
+                    "name": "iron-plate",
                     "amount": 5
                 }
             ]
         }
     },
     {
-        "id": "plastic-bar",
-        "name": "Plastic bar",
+        "name": "plastic-bar",
+        "name_full": "Plastic bar",
         "type": "Intermediate product",
         "wiki_link": "https://wiki.factorio.com/Plastic_bar",
         "category": "Intermediate product",
@@ -2857,19 +2857,19 @@
             "yield": 2,
             "ingredients": [
                 {
-                    "id": "coal",
+                    "name": "coal",
                     "amount": 1
                 },
                 {
-                    "id": "petroleum-gas",
+                    "name": "petroleum-gas",
                     "amount": 20
                 }
             ]
         }
     },
     {
-        "id": "poison-capsule",
-        "name": "Poison capsule",
+        "name": "poison-capsule",
+        "name_full": "Poison capsule",
         "type": "Combat",
         "wiki_link": "https://wiki.factorio.com/Poison_capsule",
         "category": "Combat",
@@ -2878,23 +2878,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "coal",
+                    "name": "coal",
                     "amount": 10
                 },
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 3
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 3
                 }
             ]
         }
     },
     {
-        "id": "portable-fusion-reactor",
-        "name": "Portable fusion reactor",
+        "name": "portable-fusion-reactor",
+        "name_full": "Portable fusion reactor",
         "type": "Item",
         "wiki_link": "https://wiki.factorio.com/Portable_fusion_reactor",
         "category": "Combat",
@@ -2903,15 +2903,15 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "processing-unit",
+                    "name": "processing-unit",
                     "amount": 250
                 }
             ]
         }
     },
     {
-        "id": "portable-solar-panel",
-        "name": "Portable solar panel",
+        "name": "portable-solar-panel",
+        "name_full": "Portable solar panel",
         "type": "Item",
         "wiki_link": "https://wiki.factorio.com/Portable_solar_panel",
         "category": "Combat",
@@ -2920,23 +2920,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "advanced-circuit",
+                    "name": "advanced-circuit",
                     "amount": 1
                 },
                 {
-                    "id": "solar-panel",
+                    "name": "solar-panel",
                     "amount": 5
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 5
                 }
             ]
         }
     },
     {
-        "id": "power-armor",
-        "name": "Power armor",
+        "name": "power-armor",
+        "name_full": "Power armor",
         "type": "Combat",
         "wiki_link": "https://wiki.factorio.com/Power_armor",
         "category": "Combat",
@@ -2945,23 +2945,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "electric-engine-unit",
+                    "name": "electric-engine-unit",
                     "amount": 20
                 },
                 {
-                    "id": "processing-unit",
+                    "name": "processing-unit",
                     "amount": 40
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 40
                 }
             ]
         }
     },
     {
-        "id": "power-armor-mk2",
-        "name": "Power armor MK2",
+        "name": "power-armor-mk2",
+        "name_full": "Power armor MK2",
         "type": "Combat",
         "wiki_link": "https://wiki.factorio.com/Power_armor_MK2",
         "category": "Combat",
@@ -2970,27 +2970,27 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "effectivity-module-3",
+                    "name": "effectivity-module-3",
                     "amount": 5
                 },
                 {
-                    "id": "processing-unit",
+                    "name": "processing-unit",
                     "amount": 40
                 },
                 {
-                    "id": "speed-module-3",
+                    "name": "speed-module-3",
                     "amount": 5
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 40
                 }
             ]
         }
     },
     {
-        "id": "power-switch",
-        "name": "Power switch",
+        "name": "power-switch",
+        "name_full": "Power switch",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Power_switch",
         "category": "Logistics",
@@ -2999,23 +2999,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "copper-cable",
+                    "name": "copper-cable",
                     "amount": 5
                 },
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 2
                 },
                 {
-                    "id": "iron-plate",
+                    "name": "iron-plate",
                     "amount": 5
                 }
             ]
         }
     },
     {
-        "id": "processing-unit",
-        "name": "Processing unit",
+        "name": "processing-unit",
+        "name_full": "Processing unit",
         "type": "Intermediate product",
         "wiki_link": "https://wiki.factorio.com/Processing_unit",
         "category": "Intermediate product",
@@ -3024,23 +3024,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "advanced-circuit",
+                    "name": "advanced-circuit",
                     "amount": 2
                 },
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 20
                 },
                 {
-                    "id": "sulfuric-acid",
+                    "name": "sulfuric-acname",
                     "amount": 5
                 }
             ]
         }
     },
     {
-        "id": "production-science-pack",
-        "name": "Production science pack",
+        "name": "production-science-pack",
+        "name_full": "Production science pack",
         "type": "Science pack",
         "wiki_link": "https://wiki.factorio.com/Production_science_pack",
         "category": "Intermediate product",
@@ -3049,23 +3049,23 @@
             "yield": 3 ,
             "ingredients": [
                 {
-                    "id": "productivity-module",
+                    "name": "productivity-module",
                     "amount": 1
                 },
                 {
-                    "id": "electric-furnace",
+                    "name": "electric-furnace",
                     "amount": 1
                 },
                 {
-                    "id": "rail",
+                    "name": "rail",
                     "amount": 30
                 }
             ]
         }
     },
     {
-        "id": "productivity-module",
-        "name": "Productivity module",
+        "name": "productivity-module",
+        "name_full": "Productivity module",
         "type": "Item",
         "wiki_link": "https://wiki.factorio.com/Productivity_module",
         "category": "Production",
@@ -3074,19 +3074,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "advanced-circuit",
+                    "name": "advanced-circuit",
                     "amount": 5
                 },
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 5
                 }
             ]
         }
     },
     {
-        "id": "productivity-module-2",
-        "name": "Productivity module 2",
+        "name": "productivity-module-2",
+        "name_full": "Productivity module 2",
         "type": "Item",
         "wiki_link": "https://wiki.factorio.com/Productivity_module_2",
         "category": "Production",
@@ -3095,23 +3095,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "advanced-circuit",
+                    "name": "advanced-circuit",
                     "amount": 5
                 },
                 {
-                    "id": "processing-unit",
+                    "name": "processing-unit",
                     "amount": 5
                 },
                 {
-                    "id": "productivity-module",
+                    "name": "productivity-module",
                     "amount": 4
                 }
             ]
         }
     },
     {
-        "id": "productivity-module-3",
-        "name": "Productivity module 3",
+        "name": "productivity-module-3",
+        "name_full": "Productivity module 3",
         "type": "Item",
         "wiki_link": "https://wiki.factorio.com/Productivity_module_3",
         "category": "Production",
@@ -3120,23 +3120,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "advanced-circuit",
+                    "name": "advanced-circuit",
                     "amount": 5
                 },
                 {
-                    "id": "processing-unit",
+                    "name": "processing-unit",
                     "amount": 5
                 },
                 {
-                    "id": "productivity-module-2",
+                    "name": "productivity-module-2",
                     "amount": 5
                 }
             ]
         }
     },
     {
-        "id": "programmable-speaker",
-        "name": "Programmable speaker",
+        "name": "programmable-speaker",
+        "name_full": "Programmable speaker",
         "type": "Logic",
         "wiki_link": "https://wiki.factorio.com/Programmable_speaker",
         "category": "Logistics",
@@ -3145,23 +3145,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "copper-cable",
+                    "name": "copper-cable",
                     "amount": 5
                 },
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 4
                 },
                 {
-                    "id": "iron-plate",
+                    "name": "iron-plate",
                     "amount": 5
                 }
             ]
         }
     },
     {
-        "id": "pump",
-        "name": "Pump",
+        "name": "pump",
+        "name_full": "Pump",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Pump",
         "category": "Logistics",
@@ -3170,23 +3170,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "engine-unit",
+                    "name": "engine-unit",
                     "amount": 1
                 },
                 {
-                    "id": "pipe",
+                    "name": "pipe",
                     "amount": 1
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "pumpjack",
-        "name": "Pumpjack",
+        "name": "pumpjack",
+        "name_full": "Pumpjack",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Pumpjack",
         "category": "Production",
@@ -3195,27 +3195,27 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 5
                 },
                 {
-                    "id": "iron-gear-wheel",
+                    "name": "iron-gear-wheel",
                     "amount": 10
                 },
                 {
-                    "id": "pipe",
+                    "name": "pipe",
                     "amount": 10
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 5
                 }
             ]
         }
     },
     {
-        "id": "radar",
-        "name": "Radar",
+        "name": "radar",
+        "name_full": "Radar",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Radar",
         "category": "Combat",
@@ -3224,23 +3224,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 5
                 },
                 {
-                    "id": "iron-gear-wheel",
+                    "name": "iron-gear-wheel",
                     "amount": 5
                 },
                 {
-                    "id": "iron-plate",
+                    "name": "iron-plate",
                     "amount": 10
                 }
             ]
         }
     },
     {
-        "id": "rail",
-        "name": "Rail",
+        "name": "rail",
+        "name_full": "Rail",
         "type": "Item",
         "wiki_link": "https://wiki.factorio.com/Rail",
         "category": "Logistics",
@@ -3249,23 +3249,23 @@
             "yield": 2,
             "ingredients": [
                 {
-                    "id": "iron-stick",
+                    "name": "iron-stick",
                     "amount": 1
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 1
                 },
                 {
-                    "id": "stone",
+                    "name": "stone",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "rail-chain-signal",
-        "name": "Rail chain signal",
+        "name": "rail-chain-signal",
+        "name_full": "Rail chain signal",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Rail_chain_signal",
         "category": "Logistics",
@@ -3274,19 +3274,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 1
                 },
                 {
-                    "id": "iron-plate",
+                    "name": "iron-plate",
                     "amount": 5
                 }
             ]
         }
     },
     {
-        "id": "rail-signal",
-        "name": "Rail signal",
+        "name": "rail-signal",
+        "name_full": "Rail signal",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Rail_signal",
         "category": "Logistics",
@@ -3295,19 +3295,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 1
                 },
                 {
-                    "id": "iron-plate",
+                    "name": "iron-plate",
                     "amount": 5
                 }
             ]
         }
     },
     {
-        "id": "raw-fish",
-        "name": "Raw fish",
+        "name": "raw-fish",
+        "name_full": "Raw fish",
         "type": "Item",
         "wiki_link": "https://wiki.factorio.com/Raw_fish",
         "category": "Intermediate product",
@@ -3318,8 +3318,8 @@
         }
     },
     {
-        "id": "raw-wood",
-        "name": "Raw wood",
+        "name": "raw-wood",
+        "name_full": "Raw wood",
         "type": "Resource",
         "wiki_link": "https://wiki.factorio.com/Raw_wood",
         "category": "Intermediate product",
@@ -3330,8 +3330,8 @@
         }
     },
     {
-        "id": "red-wire",
-        "name": "Red wire",
+        "name": "red-wire",
+        "name_full": "Red wire",
         "type": "Logic",
         "wiki_link": "https://wiki.factorio.com/Red_wire",
         "category": "Logistics",
@@ -3340,19 +3340,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "copper-cable",
+                    "name": "copper-cable",
                     "amount": 1
                 },
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "refined-concrete",
-        "name": "Refined concrete",
+        "name": "refined-concrete",
+        "name_full": "Refined concrete",
         "type": "Item",
         "wiki_link": "https://wiki.factorio.com/Refined_concrete",
         "category": "Logistics",
@@ -3361,27 +3361,27 @@
             "yield": 10,
             "ingredients": [
                 {
-                    "id": "concrete",
+                    "name": "concrete",
                     "amount": 20
                 },
                 {
-                    "id": "iron-stick",
+                    "name": "iron-stick",
                     "amount": 8
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 1
                 },
                 {
-                    "id": "water",
+                    "name": "water",
                     "amount": 100
                 }
             ]
         }
     },
     {
-        "id": "refined-hazard-concrete",
-        "name": "Refined hazard concrete",
+        "name": "refined-hazard-concrete",
+        "name_full": "Refined hazard concrete",
         "type": "Item",
         "wiki_link": "https://wiki.factorio.com/Refined_hazard_concrete",
         "category": "Logistics",
@@ -3390,15 +3390,15 @@
             "yield": 10,
             "ingredients": [
                 {
-                    "id": "refined-concrete",
+                    "name": "refined-concrete",
                     "amount": 10
                 }
             ]
         }
     },
     {
-        "id": "repair-pack",
-        "name": "Repair pack",
+        "name": "repair-pack",
+        "name_full": "Repair pack",
         "type": "Tool",
         "wiki_link": "https://wiki.factorio.com/Repair_pack",
         "category": "Production",
@@ -3407,19 +3407,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 2
                 },
                 {
-                    "id": "iron-gear-wheel",
+                    "name": "iron-gear-wheel",
                     "amount": 2
                 }
             ]
         }
     },
     {
-        "id": "logistic-chest-requester",
-        "name": "Requester chest",
+        "name": "logistic-chest-requester",
+        "name_full": "Requester chest",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Requester_chest",
         "category": "Logistics",
@@ -3428,23 +3428,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "advanced-circuit",
+                    "name": "advanced-circuit",
                     "amount": 1
                 },
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 3
                 },
                 {
-                    "id": "steel-chest",
+                    "name": "steel-chest",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "roboport",
-        "name": "Roboport",
+        "name": "roboport",
+        "name_full": "Roboport",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Roboport",
         "category": "Logistics",
@@ -3453,23 +3453,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "advanced-circuit",
+                    "name": "advanced-circuit",
                     "amount": 45
                 },
                 {
-                    "id": "iron-gear-wheel",
+                    "name": "iron-gear-wheel",
                     "amount": 45
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 45
                 }
             ]
         }
     },
     {
-        "id": "rocket",
-        "name": "Rocket",
+        "name": "rocket",
+        "name_full": "Rocket",
         "type": "Combat",
         "wiki_link": "https://wiki.factorio.com/Rocket",
         "category": "Combat",
@@ -3478,23 +3478,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 1
                 },
                 {
-                    "id": "explosives",
+                    "name": "explosives",
                     "amount": 1
                 },
                 {
-                    "id": "iron-plate",
+                    "name": "iron-plate",
                     "amount": 2
                 }
             ]
         }
     },
     {
-        "id": "rocket-control-unit",
-        "name": "Rocket control unit",
+        "name": "rocket-control-unit",
+        "name_full": "Rocket control unit",
         "type": "Intermediate product",
         "wiki_link": "https://wiki.factorio.com/Rocket_control_unit",
         "category": "Intermediate product",
@@ -3503,19 +3503,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "processing-unit",
+                    "name": "processing-unit",
                     "amount": 1
                 },
                 {
-                    "id": "speed-module",
+                    "name": "speed-module",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "rocket-fuel",
-        "name": "Rocket fuel",
+        "name": "rocket-fuel",
+        "name_full": "Rocket fuel",
         "type": "Intermediate product",
         "wiki_link": "https://wiki.factorio.com/Rocket_fuel",
         "category": "Intermediate product",
@@ -3524,19 +3524,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "solid-fuel",
+                    "name": "solname-fuel",
                     "amount": 10
                 },
                 {
-                    "id": "light-oil",
+                    "name": "light-oil",
                     "amount": 10
                 }
             ]
         }
     },
     {
-        "id": "rocket-launcher",
-        "name": "Rocket launcher",
+        "name": "rocket-launcher",
+        "name_full": "Rocket launcher",
         "type": "Combat",
         "wiki_link": "https://wiki.factorio.com/Rocket_launcher",
         "category": "Combat",
@@ -3545,23 +3545,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 5
                 },
                 {
-                    "id": "iron-gear-wheel",
+                    "name": "iron-gear-wheel",
                     "amount": 5
                 },
                 {
-                    "id": "iron-plate",
+                    "name": "iron-plate",
                     "amount": 5
                 }
             ]
         }
     },
     {
-        "id": "rocket-part",
-        "name": "Rocket part",
+        "name": "rocket-part",
+        "name_full": "Rocket part",
         "type": "Item",
         "wiki_link": "https://wiki.factorio.com/Rocket_part",
         "category": "Intermediate product",
@@ -3570,23 +3570,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "low-density-structure",
+                    "name": "low-density-structure",
                     "amount": 10
                 },
                 {
-                    "id": "rocket-control-unit",
+                    "name": "rocket-control-unit",
                     "amount": 10
                 },
                 {
-                    "id": "rocket-fuel",
+                    "name": "rocket-fuel",
                     "amount": 10
                 }
             ]
         }
     },
     {
-        "id": "rocket-silo",
-        "name": "Rocket silo",
+        "name": "rocket-silo",
+        "name_full": "Rocket silo",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Rocket_silo",
         "category": "Combat",
@@ -3595,31 +3595,31 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "concrete",
+                    "name": "concrete",
                     "amount": 1000
                 },
                 {
-                    "id": "electric-engine-unit",
+                    "name": "electric-engine-unit",
                     "amount": 200
                 },
                 {
-                    "id": "pipe",
+                    "name": "pipe",
                     "amount": 100
                 },
                 {
-                    "id": "processing-unit",
+                    "name": "processing-unit",
                     "amount": 200
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 1000
                 }
             ]
         }
     },
     {
-        "id": "satellite",
-        "name": "Satellite",
+        "name": "satellite",
+        "name_full": "Satellite",
         "type": "Item",
         "wiki_link": "https://wiki.factorio.com/Satellite",
         "category": "Intermediate product",
@@ -3628,35 +3628,35 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "accumulator",
+                    "name": "accumulator",
                     "amount": 100
                 },
                 {
-                    "id": "low-density-structure",
+                    "name": "low-density-structure",
                     "amount": 100
                 },
                 {
-                    "id": "processing-unit",
+                    "name": "processing-unit",
                     "amount": 100
                 },
                 {
-                    "id": "radar",
+                    "name": "radar",
                     "amount": 5
                 },
                 {
-                    "id": "rocket-fuel",
+                    "name": "rocket-fuel",
                     "amount": 50
                 },
                 {
-                    "id": "solar-panel",
+                    "name": "solar-panel",
                     "amount": 100
                 }
             ]
         }
     },
     {
-        "id": "science-pack-1",
-        "name": "Science pack 1",
+        "name": "science-pack-1",
+        "name_full": "Science pack 1",
         "type": "Science pack",
         "wiki_link": "https://wiki.factorio.com/Science_pack_1",
         "category": "Intermediate product",
@@ -3665,19 +3665,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "copper-plate",
+                    "name": "copper-plate",
                     "amount": 1
                 },
                 {
-                    "id": "iron-gear-wheel",
+                    "name": "iron-gear-wheel",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "science-pack-2",
-        "name": "Science pack 2",
+        "name": "science-pack-2",
+        "name_full": "Science pack 2",
         "type": "Science pack",
         "wiki_link": "https://wiki.factorio.com/Science_pack_2",
         "category": "Intermediate product",
@@ -3686,19 +3686,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "inserter",
+                    "name": "inserter",
                     "amount": 1
                 },
                 {
-                    "id": "transport-belt",
+                    "name": "transport-belt",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "science-pack-3",
-        "name": "Science pack 3",
+        "name": "science-pack-3",
+        "name_full": "Science pack 3",
         "type": "Science pack",
         "wiki_link": "https://wiki.factorio.com/Science_pack_3",
         "category": "Intermediate product",
@@ -3707,23 +3707,23 @@
             "yield": 2,
             "ingredients": [
                 {
-                    "id": "advanced-circuit",
+                    "name": "advanced-circuit",
                     "amount": 3
                 },
                 {
-                    "id": "sulfur",
+                    "name": "sulfur",
                     "amount": 1
                 },
                 {
-                    "id": "engine-unit",
+                    "name": "engine-unit",
                     "amount": 2
                 }
             ]
         }
     },
     {
-        "id": "shotgun",
-        "name": "Shotgun",
+        "name": "shotgun",
+        "name_full": "Shotgun",
         "type": "Combat",
         "wiki_link": "https://wiki.factorio.com/Shotgun",
         "category": "Combat",
@@ -3732,27 +3732,27 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "copper-plate",
+                    "name": "copper-plate",
                     "amount": 10
                 },
                 {
-                    "id": "iron-gear-wheel",
+                    "name": "iron-gear-wheel",
                     "amount": 5
                 },
                 {
-                    "id": "iron-plate",
+                    "name": "iron-plate",
                     "amount": 15
                 },
                 {
-                    "id": "wood",
+                    "name": "wood",
                     "amount": 5
                 }
             ]
         }
     },
     {
-        "id": "shotgun-shells",
-        "name": "Shotgun shells",
+        "name": "shotgun-shells",
+        "name_full": "Shotgun shells",
         "type": "Combat",
         "wiki_link": "https://wiki.factorio.com/Shotgun_shells",
         "category": "Combat",
@@ -3761,19 +3761,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "copper-plate",
+                    "name": "copper-plate",
                     "amount": 2
                 },
                 {
-                    "id": "iron-plate",
+                    "name": "iron-plate",
                     "amount": 2
                 }
             ]
         }
     },
     {
-        "id": "slowdown-capsule",
-        "name": "Slowdown capsule",
+        "name": "slowdown-capsule",
+        "name_full": "Slowdown capsule",
         "type": "Combat",
         "wiki_link": "https://wiki.factorio.com/Slowdown_capsule",
         "category": "Combat",
@@ -3782,23 +3782,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "coal",
+                    "name": "coal",
                     "amount": 5
                 },
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 2
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 2
                 }
             ]
         }
     },
     {
-        "id": "small-electric-pole",
-        "name": "Small electric pole",
+        "name": "small-electric-pole",
+        "name_full": "Small electric pole",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Small_electric_pole",
         "category": "Logistics",
@@ -3807,19 +3807,19 @@
             "yield": 2,
             "ingredients": [
                 {
-                    "id": "copper-cable",
+                    "name": "copper-cable",
                     "amount": 2
                 },
                 {
-                    "id": "wood",
+                    "name": "wood",
                     "amount": 2
                 }
             ]
         }
     },
     {
-        "id": "solar-panel",
-        "name": "Solar panel",
+        "name": "solar-panel",
+        "name_full": "Solar panel",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Solar_panel",
         "category": "Production",
@@ -3828,40 +3828,40 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "copper-plate",
+                    "name": "copper-plate",
                     "amount": 5
                 },
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 15
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 5
                 }
             ]
         }
     },
     {
-        "id": "solid-fuel",
-        "name": "Solid fuel",
+        "name": "solname-fuel",
+        "name_full": "Solname fuel",
         "type": "Resource",
-        "wiki_link": "https://wiki.factorio.com/Solid_fuel",
+        "wiki_link": "https://wiki.factorio.com/Solname_fuel",
         "category": "Intermediate product",
         "recipe": {
             "time": 2,
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "light-oil",
+                    "name": "light-oil",
                     "amount": 10
                 }
             ]
         }
     },
     {
-        "id": "space-science-pack",
-        "name": "Space science pack",
+        "name": "space-science-pack",
+        "name_full": "Space science pack",
         "type": "Science pack",
         "wiki_link": "https://wiki.factorio.com/Space_science_pack",
         "category": "Intermediate product",
@@ -3870,19 +3870,19 @@
             "yield": 1000,
             "ingredients": [
                 {
-                    "id": "rocket-part",
+                    "name": "rocket-part",
                     "amount": 100
                 },
                 {
-                    "id": "satellite",
+                    "name": "satellite",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "speed-module",
-        "name": "Speed module",
+        "name": "speed-module",
+        "name_full": "Speed module",
         "type": "Item",
         "wiki_link": "https://wiki.factorio.com/Speed_module",
         "category": "Production",
@@ -3891,19 +3891,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "advanced-circuit",
+                    "name": "advanced-circuit",
                     "amount": 5
                 },
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 5
                 }
             ]
         }
     },
     {
-        "id": "speed-module-2",
-        "name": "Speed module 2",
+        "name": "speed-module-2",
+        "name_full": "Speed module 2",
         "type": "Item",
         "wiki_link": "https://wiki.factorio.com/Speed_module_2",
         "category": "Production",
@@ -3912,23 +3912,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "advanced-circuit",
+                    "name": "advanced-circuit",
                     "amount": 5
                 },
                 {
-                    "id": "processing-unit",
+                    "name": "processing-unit",
                     "amount": 5
                 },
                 {
-                    "id": "speed-module",
+                    "name": "speed-module",
                     "amount": 4
                 }
             ]
         }
     },
     {
-        "id": "speed-module-3",
-        "name": "Speed module 3",
+        "name": "speed-module-3",
+        "name_full": "Speed module 3",
         "type": "Item",
         "wiki_link": "https://wiki.factorio.com/Speed_module_3",
         "category": "Production",
@@ -3937,23 +3937,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "advanced-circuit",
+                    "name": "advanced-circuit",
                     "amount": 5
                 },
                 {
-                    "id": "processing-unit",
+                    "name": "processing-unit",
                     "amount": 5
                 },
                 {
-                    "id": "speed-module-2",
+                    "name": "speed-module-2",
                     "amount": 5
                 }
             ]
         }
     },
     {
-        "id": "splitter",
-        "name": "Splitter",
+        "name": "splitter",
+        "name_full": "Splitter",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Splitter",
         "category": "Logistics",
@@ -3962,23 +3962,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 5
                 },
                 {
-                    "id": "iron-plate",
+                    "name": "iron-plate",
                     "amount": 5
                 },
                 {
-                    "id": "transport-belt",
+                    "name": "transport-belt",
                     "amount": 4
                 }
             ]
         }
     },
     {
-        "id": "stack-filter-inserter",
-        "name": "Stack filter inserter",
+        "name": "stack-filter-inserter",
+        "name_full": "Stack filter inserter",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Stack_filter_inserter",
         "category": "Logistics",
@@ -3987,19 +3987,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 5
                 },
                 {
-                    "id": "stack-inserter",
+                    "name": "stack-inserter",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "stack-inserter",
-        "name": "Stack inserter",
+        "name": "stack-inserter",
+        "name_full": "Stack inserter",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Stack_inserter",
         "category": "Logistics",
@@ -4008,28 +4008,28 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "advanced-circuit",
+                    "name": "advanced-circuit",
                     "amount": 1
                 },
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 15
                 },
                 {
-                    "id": "fast-inserter",
+                    "name": "fast-inserter",
                     "amount": 1
                 },
                 {
-                    "id": "iron-gear-wheel",
+                    "name": "iron-gear-wheel",
                     "amount": 15
                 }
             ]
         }
     },
     {
-        "id": "steam",
-        "name": "Steam",
-        "type": "Liquid",
+        "name": "steam",
+        "name_full": "Steam",
+        "type": "Liquname",
         "wiki_link": "https://wiki.factorio.com/Steam",
         "category": "Intermediate product",
         "recipe": {
@@ -4039,8 +4039,8 @@
         }
     },
     {
-        "id": "steam-engine",
-        "name": "Steam engine",
+        "name": "steam-engine",
+        "name_full": "Steam engine",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Steam_engine",
         "category": "Production",
@@ -4049,23 +4049,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "iron-gear-wheel",
+                    "name": "iron-gear-wheel",
                     "amount": 8
                 },
                 {
-                    "id": "iron-plate",
+                    "name": "iron-plate",
                     "amount": 10
                 },
                 {
-                    "id": "pipe",
+                    "name": "pipe",
                     "amount": 5
                 }
             ]
         }
     },
     {
-        "id": "steam-turbine",
-        "name": "Steam turbine",
+        "name": "steam-turbine",
+        "name_full": "Steam turbine",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Steam_turbine",
         "category": "Production",
@@ -4074,23 +4074,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "copper-plate",
+                    "name": "copper-plate",
                     "amount": 50
                 },
                 {
-                    "id": "iron-gear-wheel",
+                    "name": "iron-gear-wheel",
                     "amount": 50
                 },
                 {
-                    "id": "pipe",
+                    "name": "pipe",
                     "amount": 20
                 }
             ]
         }
     },
     {
-        "id": "steel-axe",
-        "name": "Steel axe",
+        "name": "steel-axe",
+        "name_full": "Steel axe",
         "type": "Tool",
         "wiki_link": "https://wiki.factorio.com/Steel_axe",
         "category": "Production",
@@ -4099,19 +4099,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "iron-stick",
+                    "name": "iron-stick",
                     "amount": 2
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 5
                 }
             ]
         }
     },
     {
-        "id": "steel-chest",
-        "name": "Steel chest",
+        "name": "steel-chest",
+        "name_full": "Steel chest",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Steel_chest",
         "category": "Logistics",
@@ -4120,15 +4120,15 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 8
                 }
             ]
         }
     },
     {
-        "id": "steel-furnace",
-        "name": "Steel furnace",
+        "name": "steel-furnace",
+        "name_full": "Steel furnace",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Steel_furnace",
         "category": "Production",
@@ -4137,19 +4137,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 6
                 },
                 {
-                    "id": "stone-brick",
+                    "name": "stone-brick",
                     "amount": 10
                 }
             ]
         }
     },
     {
-        "id": "steel-plate",
-        "name": "Steel plate",
+        "name": "steel-plate",
+        "name_full": "Steel plate",
         "type": "Intermediate product",
         "wiki_link": "https://wiki.factorio.com/Steel_plate",
         "category": "Intermediate product",
@@ -4158,15 +4158,15 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "iron-plate",
+                    "name": "iron-plate",
                     "amount": 5
                 }
             ]
         }
     },
     {
-        "id": "stone",
-        "name": "Stone",
+        "name": "stone",
+        "name_full": "Stone",
         "type": "Resource",
         "wiki_link": "https://wiki.factorio.com/Stone",
         "category": "Intermediate product",
@@ -4177,8 +4177,8 @@
         }
     },
     {
-        "id": "stone-brick",
-        "name": "Stone brick",
+        "name": "stone-brick",
+        "name_full": "Stone brick",
         "type": "Intermediate product",
         "wiki_link": "https://wiki.factorio.com/Stone_brick",
         "category": "Logistics",
@@ -4187,15 +4187,15 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "stone",
+                    "name": "stone",
                     "amount": 2
                 }
             ]
         }
     },
     {
-        "id": "stone-furnace",
-        "name": "Stone furnace",
+        "name": "stone-furnace",
+        "name_full": "Stone furnace",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Stone_furnace",
         "category": "Production",
@@ -4204,15 +4204,15 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "stone",
+                    "name": "stone",
                     "amount": 5
                 }
             ]
         }
     },
     {
-        "id": "stone-wall",
-        "name": "Stone wall",
+        "name": "stone-wall",
+        "name_full": "Stone wall",
         "type": "Combat",
         "wiki_link": "https://wiki.factorio.com/Stone_wall",
         "category": "Combat",
@@ -4221,15 +4221,15 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "stone-brick",
+                    "name": "stone-brick",
                     "amount": 5
                 }
             ]
         }
     },
     {
-        "id": "logistic-chest-storage",
-        "name": "Storage chest",
+        "name": "logistic-chest-storage",
+        "name_full": "Storage chest",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Storage_chest",
         "category": "Logistics",
@@ -4238,23 +4238,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "advanced-circuit",
+                    "name": "advanced-circuit",
                     "amount": 1
                 },
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 3
                 },
                 {
-                    "id": "steel-chest",
+                    "name": "steel-chest",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "storage-tank",
-        "name": "Storage tank",
+        "name": "storage-tank",
+        "name_full": "Storage tank",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Storage_tank",
         "category": "Logistics",
@@ -4263,19 +4263,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "iron-plate",
+                    "name": "iron-plate",
                     "amount": 20
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 5
                 }
             ]
         }
     },
     {
-        "id": "submachine-gun",
-        "name": "Submachine gun",
+        "name": "submachine-gun",
+        "name_full": "Submachine gun",
         "type": "Combat",
         "wiki_link": "https://wiki.factorio.com/Submachine_gun",
         "category": "Combat",
@@ -4284,23 +4284,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "copper-plate",
+                    "name": "copper-plate",
                     "amount": 5
                 },
                 {
-                    "id": "iron-gear-wheel",
+                    "name": "iron-gear-wheel",
                     "amount": 10
                 },
                 {
-                    "id": "iron-plate",
+                    "name": "iron-plate",
                     "amount": 10
                 }
             ]
         }
     },
     {
-        "id": "substation",
-        "name": "Substation",
+        "name": "substation",
+        "name_full": "Substation",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Substation",
         "category": "Logistics",
@@ -4309,23 +4309,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "advanced-circuit",
+                    "name": "advanced-circuit",
                     "amount": 5
                 },
                 {
-                    "id": "copper-plate",
+                    "name": "copper-plate",
                     "amount": 5
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 10
                 }
             ]
         }
     },
     {
-        "id": "sulfur",
-        "name": "Sulfur",
+        "name": "sulfur",
+        "name_full": "Sulfur",
         "type": "Intermediate product",
         "wiki_link": "https://wiki.factorio.com/Sulfur",
         "category": "Intermediate product",
@@ -4334,46 +4334,46 @@
             "yield": 2,
             "ingredients": [
                 {
-                    "id": "petroleum-gas",
+                    "name": "petroleum-gas",
                     "amount": 30
                 },
                 {
-                    "id": "water",
+                    "name": "water",
                     "amount": 30
                 }
             ]
         }
     },
     {
-        "id": "sulfuric-acid",
-        "name": "Sulfuric acid",
-        "type": "Liquid",
-        "wiki_link": "https://wiki.factorio.com/Sulfuric_acid",
+        "name": "sulfuric-acname",
+        "name_full": "Sulfuric acname",
+        "type": "Liquname",
+        "wiki_link": "https://wiki.factorio.com/Sulfuric_acname",
         "category": "Intermediate product",
         "recipe": {
             "time": 1,
             "yield": 50,
             "ingredients": [
                 {
-                    "id": "iron-plate",
+                    "name": "iron-plate",
                     "amount": 1
                 },
                 {
-                    "id": "sulfur",
+                    "name": "sulfur",
                     "amount": 5
                 },
                 {
-                    "id": "water",
+                    "name": "water",
                     "amount": 100
                 }
             ]
         }
     },
     {
-        "id": "sulfuric-acid-barrel",
-        "name": "Sulfuric acid barrel",
+        "name": "sulfuric-acname-barrel",
+        "name_full": "Sulfuric acname barrel",
         "type": "null",
-        "wiki_link": "https://wiki.factorio.com/Sulfuric_acid_barrel",
+        "wiki_link": "https://wiki.factorio.com/Sulfuric_acname_barrel",
         "category": "Intermediate product",
         "recipe": {
             "time": null,
@@ -4382,8 +4382,8 @@
         }
     },
     {
-        "id": "tank",
-        "name": "Tank",
+        "name": "tank",
+        "name_full": "Tank",
         "type": "Combat",
         "wiki_link": "https://wiki.factorio.com/Tank",
         "category": "Logistics",
@@ -4392,27 +4392,27 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "advanced-circuit",
+                    "name": "advanced-circuit",
                     "amount": 10
                 },
                 {
-                    "id": "engine-unit",
+                    "name": "engine-unit",
                     "amount": 32
                 },
                 {
-                    "id": "iron-gear-wheel",
+                    "name": "iron-gear-wheel",
                     "amount": 15
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 50
                 }
             ]
         }
     },
     {
-        "id": "train-stop",
-        "name": "Train stop",
+        "name": "train-stop",
+        "name_full": "Train stop",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Train_stop",
         "category": "Logistics",
@@ -4421,23 +4421,23 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "electronic-circuit",
+                    "name": "electronic-circuit",
                     "amount": 5
                 },
                 {
-                    "id": "iron-plate",
+                    "name": "iron-plate",
                     "amount": 10
                 },
                 {
-                    "id": "steel-plate",
+                    "name": "steel-plate",
                     "amount": 3
                 }
             ]
         }
     },
     {
-        "id": "transport-belt",
-        "name": "Transport belt",
+        "name": "transport-belt",
+        "name_full": "Transport belt",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Transport_belt",
         "category": "Logistics",
@@ -4446,19 +4446,19 @@
             "yield": 2,
             "ingredients": [
                 {
-                    "id": "iron-gear-wheel",
+                    "name": "iron-gear-wheel",
                     "amount": 1
                 },
                 {
-                    "id": "iron-plate",
+                    "name": "iron-plate",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "underground-belt",
-        "name": "Underground belt",
+        "name": "underground-belt",
+        "name_full": "Underground belt",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Underground_belt",
         "category": "Logistics",
@@ -4467,19 +4467,19 @@
             "yield": 2,
             "ingredients": [
                 {
-                    "id": "iron-plate",
+                    "name": "iron-plate",
                     "amount": 10
                 },
                 {
-                    "id": "transport-belt",
+                    "name": "transport-belt",
                     "amount": 5
                 }
             ]
         }
     },
     {
-        "id": "uranium-cannon-shell",
-        "name": "Uranium cannon shell",
+        "name": "uranium-cannon-shell",
+        "name_full": "Uranium cannon shell",
         "type": "Combat",
         "wiki_link": "https://wiki.factorio.com/Uranium_cannon_shell",
         "category": "Combat",
@@ -4488,19 +4488,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "cannon-shell",
+                    "name": "cannon-shell",
                     "amount": 1
                 },
                 {
-                    "id": "uranium-238",
+                    "name": "uranium-238",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "uranium-fuel-cell",
-        "name": "Uranium fuel cell",
+        "name": "uranium-fuel-cell",
+        "name_full": "Uranium fuel cell",
         "type": "Item",
         "wiki_link": "https://wiki.factorio.com/Uranium_fuel_cell",
         "category": "Intermediate product",
@@ -4509,23 +4509,23 @@
             "yield": 10,
             "ingredients": [
                 {
-                    "id": "iron-plate",
+                    "name": "iron-plate",
                     "amount": 10
                 },
                 {
-                    "id": "uranium-235",
+                    "name": "uranium-235",
                     "amount": 1
                 },
                 {
-                    "id": "uranium-238",
+                    "name": "uranium-238",
                     "amount": 19
                 }
             ]
         }
     },
     {
-        "id": "uranium-ore",
-        "name": "Uranium ore",
+        "name": "uranium-ore",
+        "name_full": "Uranium ore",
         "type": "Resource",
         "wiki_link": "https://wiki.factorio.com/Uranium_ore",
         "category": "Intermediate product",
@@ -4536,8 +4536,8 @@
         }
     },
     {
-        "id": "uranium-processing",
-        "name": "Uranium processing",
+        "name": "uranium-processing",
+        "name_full": "Uranium processing",
         "type": "Process",
         "wiki_link": "https://wiki.factorio.com/Uranium_processing",
         "category": "Intermediate product",
@@ -4546,23 +4546,23 @@
             "yield": null,
             "ingredients": [
                 {
-                    "id": "uranium-ore",
+                    "name": "uranium-ore",
                     "amount": 10
                 },
                 {
-                    "id": "uranium-235",
+                    "name": "uranium-235",
                     "amount": 0.007
                 },
                 {
-                    "id": "uranium-238",
+                    "name": "uranium-238",
                     "amount": 0.993
                 }
             ]
         }
     },
     {
-        "id": "uranium-rounds-magazine",
-        "name": "Uranium rounds magazine",
+        "name": "uranium-rounds-magazine",
+        "name_full": "Uranium rounds magazine",
         "type": "Combat",
         "wiki_link": "https://wiki.factorio.com/Uranium_rounds_magazine",
         "category": "Combat",
@@ -4571,19 +4571,19 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "piercing-rounds-magazine",
+                    "name": "piercing-rounds-magazine",
                     "amount": 1
                 },
                 {
-                    "id": "uranium-238",
+                    "name": "uranium-238",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "uranium-235",
-        "name": "Uranium-235",
+        "name": "uranium-235",
+        "name_full": "Uranium-235",
         "type": "Resource",
         "wiki_link": "https://wiki.factorio.com/Uranium-235",
         "category": "Intermediate product",
@@ -4594,8 +4594,8 @@
         }
     },
     {
-        "id": "uranium-238",
-        "name": "Uranium-238",
+        "name": "uranium-238",
+        "name_full": "Uranium-238",
         "type": "Resource",
         "wiki_link": "https://wiki.factorio.com/Uranium-238",
         "category": "Intermediate product",
@@ -4606,8 +4606,8 @@
         }
     },
     {
-        "id": "used-up-uranium-fuel-cell",
-        "name": "Used up uranium fuel cell",
+        "name": "used-up-uranium-fuel-cell",
+        "name_full": "Used up uranium fuel cell",
         "type": "Item",
         "wiki_link": "https://wiki.factorio.com/Used_up_uranium_fuel_cell",
         "category": "Intermediate product",
@@ -4616,16 +4616,16 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "uranium-fuel-cell",
+                    "name": "uranium-fuel-cell",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "water",
-        "name": "Water",
-        "type": "Liquid",
+        "name": "water",
+        "name_full": "Water",
+        "type": "Liquname",
         "wiki_link": "https://wiki.factorio.com/Water",
         "category": "Intermediate product",
         "recipe": {
@@ -4635,8 +4635,8 @@
         }
     },
     {
-        "id": "water-barrel",
-        "name": "Water barrel",
+        "name": "water-barrel",
+        "name_full": "Water barrel",
         "type": "null",
         "wiki_link": "https://wiki.factorio.com/Water_barrel",
         "category": "Intermediate product",
@@ -4647,8 +4647,8 @@
         }
     },
     {
-        "id": "wood",
-        "name": "Wood",
+        "name": "wood",
+        "name_full": "Wood",
         "type": "Intermediate product",
         "wiki_link": "https://wiki.factorio.com/Wood",
         "category": "Intermediate product",
@@ -4657,15 +4657,15 @@
             "yield": 2,
             "ingredients": [
                 {
-                    "id": "raw-wood",
+                    "name": "raw-wood",
                     "amount": 1
                 }
             ]
         }
     },
     {
-        "id": "wooden-chest",
-        "name": "Wooden chest",
+        "name": "wooden-chest",
+        "name_full": "Wooden chest",
         "type": "Machinery",
         "wiki_link": "https://wiki.factorio.com/Wooden_chest",
         "category": "Logistics",
@@ -4674,7 +4674,7 @@
             "yield": 1,
             "ingredients": [
                 {
-                    "id": "wood",
+                    "name": "wood",
                     "amount": 4
                 }
             ]

@@ -52,7 +52,7 @@ class CraftingEnvironment:
 
     def add_final_recipe_name(self, recipe_name: str):
         recipe = self.recipes_collection.get_recipe(recipe_name)
-        self.final_recipe_ids.add(recipe.id)
+        self.final_recipe_ids.add(recipe.get_id())
 
     def remove_final_recipe(self, recipe_name: str):
         self.final_recipe_ids.remove(self.recipes_collection.get_recipe_id(recipe_name))
@@ -60,7 +60,7 @@ class CraftingEnvironment:
     def add_constraint_config(self, config: ProductionConfig):
         """constrain amount of recipe crafts that can be produced by system"""
         config.constrained = True
-        self.constraints[config.get_recipe().id] = config
+        self.constraints[config.get_recipe().get_id()] = config
 
     def add_constraint_material_rate(self, material: Material):
         assert issubclass(material.__class__, Material)
@@ -85,8 +85,8 @@ class CraftingEnvironment:
         WARNING! if the same config is requested multiple times, the same object will be returned
         """
 
-        if recipe.id in self.constraints:
-            return deepcopy(self.constraints[recipe.id])
+        if recipe.get_id() in self.constraints:
+            return deepcopy(self.constraints[recipe.get_id()])
 
         if self.is_final_recipe(recipe):
             if get_material_type(recipe.results.first()) == MaterialType.BASIC_FLUID:
@@ -96,7 +96,7 @@ class CraftingEnvironment:
         return self.get_recipe_config_unconstrained(recipe)
 
     def is_final_recipe(self, recipe: Recipe):
-        if recipe.id in self.final_recipe_ids:
+        if recipe.get_id() in self.final_recipe_ids:
             return True
 
         # if not found in ready components, check if object is the simplest component    

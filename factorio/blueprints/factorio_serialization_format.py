@@ -9,8 +9,14 @@ def deserialize_factorio_format(b):
     return json.loads(decompressed)
 
 
+def serialize_factorio_format(json_obj):
+    decompressed = json.dumps(json_obj, separators=(',', ':')).encode('ascii')
+    compressed = zlib.compress(decompressed, level=9)
+    return (b'0' + base64.b64encode(compressed)).decode("ascii")
+
+
 if __name__ == '__main__':
-    sample_str = "0eNqtXFtuGzkQvMt8S8HwTfoqgbGQ5VlnEFkSJDlYI/DddyQnkhWzzOp2/uIgLlY3m+xHcfKzu1s9DdvduD50Nz+7cblZ77ubrz" \
+    _sample_str = "0eNqtXFtuGzkQvMt8S8HwTfoqgbGQ5VlnEFkSJDlYI/DddyQnkhWzzOp2/uIgLlY3m+xHcfKzu1s9DdvduD50Nz+7cblZ77ubrz" \
                  "+7/fiwXqyOf3d43g7dTTcehsdu1q0Xj8efNuNqvhv+HdfD7rl7mXXj+n74r7sxL7Pmry6/DY/jcrGab1eLadXLL9uX21k3rA" \
                  "/jYRxeSZx+eP5n/fR4N+wm9DPG/rDZLR6G+WGx/j4hbzf76Zc26+OaRxa+fAmz7nmCjF/CtMD9uBuWr//AHhn+gWsRt4+Qy5" \
                  "/IftZNfx5PFq+e7nYTzsm8d8s51ozgfy3mesYMf8bdHllU8PrfeGbCqyCEJoJpIMQmgm0gpDPC43A/Pj3Oh9Vk9OTN+Xaz" \
@@ -32,7 +38,18 @@ if __name__ == '__main__':
                  "VOxZPh4wPStbQ8jTEc36tBDM/3TxAj0CI3xoh6WaMApSFhtYHQ5X2TcqZVdYxR+JYIYRDSfGpiGL71gRiWVtYxhqDtgBie1tY" \
                  "xhqC9gBiRVtcxRtILcNVjgbW+LOgiIF1eyocYRdUtUO+7TBF0C5Cf1VTI1MspU5x8Ll0QT6+YFoeeSt2Ff1YYkJD9Rt9nRdlg" \
                  "/4ooW5KiqMF2ZLr+Dz3C0Dw8PDFq7pV982CAjamKn6vIho8Chz6s1OglwXKWO7q7w/xUp8giNF4vwRhRUTYHx3ksaeIQ+i7TX" \
-                 "S22tmjiA32R2f66/eJ/iGF4qyCGps8O6FNV4tP1cMXodvb6/2DcvPkfN2bdj2G3fz3s2fhUbPIu+mLzy8v/fXRhuA== "
+                 "S22tmjiA32R2f66/eJ/iGF4qyCGps8O6FNV4tP1cMXodvb6/2DcvPkfN2bdj2G3fz3s2fhUbPIu+mLzy8v/fXRhuA=="
 
-    result = deserialize_factorio_format(sample_str)
+    _compressed1 = base64.b64decode(_sample_str[1:])
+    _decompressed1 = zlib.decompress(_compressed1)
+    _json_object = json.loads(_decompressed1)
+    _decompressed2 = json.dumps(_json_object, separators=(',', ':')).encode('ascii')
+    assert _decompressed1 == _decompressed2
+    _compressed2 = zlib.compress(_decompressed2, level=9)
+    assert _compressed1 == _compressed2
+    _result_str = (b'0' + base64.b64encode(_compressed2)).decode("ascii")
+    assert _sample_str == _result_str
+
+    assert _sample_str == serialize_factorio_format(deserialize_factorio_format(_sample_str))
+
     pass

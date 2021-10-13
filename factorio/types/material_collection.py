@@ -1,13 +1,14 @@
-from typing import Dict, Union
-from collections.abc import MutableMapping
 from copy import deepcopy
+from typing import Dict, Union
 
-from .a_json_savable import AJsonSavable
+from serialization.a_container_json_serializable import AContainerJsonSerializable
 from .material import Material
 
 
-class MaterialCollection(MutableMapping, AJsonSavable):
+class MaterialCollection(AContainerJsonSerializable):
     """represents a collection of materials and operations with them"""
+
+    __element_type__ = Material
 
     def __init__(self, initial_elements: list = None) -> None:
         initial_elements = initial_elements if initial_elements is not None else []
@@ -38,21 +39,14 @@ class MaterialCollection(MutableMapping, AJsonSavable):
     def __contains__(self, item):
         return self._keytransform(item) in self.items
 
-    @staticmethod
-    def _keytransform(key: Union[str, Material]):
-        if issubclass(key.__class__, Material):
-            return key.name
-        if isinstance(key, str):
-            return key
-        raise ValueError("invalid key type")
+    def __eq__(self, other):
+        return self.items == other.items
 
     def __repr__(self) -> str:
         if len(self.items) > 0:
             return 'Materials ' + ("; ".join(f"{key}: {val.amount}" for key, val in self.items.items()))
         else:
             return 'Empty'
-
-    # custom Material operations
 
     def __add__(self, other):
         assert isinstance(other, self.__class__)
@@ -64,15 +58,25 @@ class MaterialCollection(MutableMapping, AJsonSavable):
 
         return new_collection
 
+    # custom Material operations
+
     def __mul__(self, multiplier):
         assert isinstance(multiplier, float) or isinstance(multiplier, int)
 
         new_collection = MaterialCollection()
 
         for item in self:
-            new_collection.add(item * multiplier) 
+            new_collection.add(item * multiplier)
 
         return new_collection
+
+    @staticmethod
+    def _keytransform(key: Union[str, Material]):
+        if issubclass(key.__class__, Material):
+            return key.name
+        if isinstance(key, str):
+            return key
+        raise ValueError("invalid key type")
 
     def first(self):
         """returns first element from material dictionary as defined by .values()"""
@@ -92,11 +96,8 @@ class MaterialCollection(MutableMapping, AJsonSavable):
     def total(self):
         return sum(m.amount for m in self)
 
-    def to_json(self):
-        return [material.to_json() for material in self.items.values()]
+    def append(self, element: Material):
+        if not isinstance(element, Material):
+            raise ValueError("not a material")
 
-    @staticmethod
-    def from_json(json_object):
-        if not isinstance(json_object, list):
-            raise ValueError("incorrect json for material collection")
-        return MaterialCollection([Material.from_json(json_material) for json_material in json_object])
+        self.items[element.name] = element

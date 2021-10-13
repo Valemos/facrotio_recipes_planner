@@ -13,7 +13,7 @@ from gui.entry_validator_with_label import EntryExistingPath
 from gui.menu_object_selector_widget import MenuObjectSelectorWidget
 from gui.name_amount_widget import NameAmountWidget
 from gui.widget_list import WidgetList
-from recipe_json_creator.a_recipe_json_saver import ARecipeJsonEditor
+from app_misc.a_recipe_json_editor import ARecipeJsonEditor
 
 
 class RecipeTreeApp(tk.Frame, ARecipeJsonEditor):

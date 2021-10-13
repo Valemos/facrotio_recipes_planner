@@ -1,12 +1,13 @@
 from dataclasses import dataclass, field
 from enum import Enum
 
-from .a_json_savable import AJsonSavable
+from serialization.a_composite_json_serializable import ACompositeJsonSerializable
+from serialization.enum_json import EnumJson
 from .material_collection import MaterialCollection
 from .material import Material
 
 
-class CraftStationType(Enum):
+class CraftStationType(EnumJson):
     ASSEMBLING = 0
     FURNACE = 1
     CHEMICAL_PLANT = 2
@@ -14,7 +15,7 @@ class CraftStationType(Enum):
 
 
 @dataclass
-class Recipe(AJsonSavable):
+class Recipe(ACompositeJsonSerializable):
 
     name: str = ""
     time: float = 0  # in seconds per craft
@@ -30,8 +31,7 @@ class Recipe(AJsonSavable):
     def __hash__(self):
         return hash(self.name)
 
-    @property
-    def id(self):
+    def get_id(self):
         return hash(self)
 
     def get_time_material(self):
@@ -54,20 +54,3 @@ class Recipe(AJsonSavable):
 
     def get_results(self) -> MaterialCollection:
         return self.results
-
-    def to_json(self):
-        return {
-            "id": self.name,
-            "craft_type": self.producer_type.name,
-            "time": self.time,
-            "ingredients": self.ingredients.to_json(),
-            "products": self.results.to_json(),
-        }
-
-    @staticmethod
-    def from_json(json_object):
-        return Recipe(name=json_object["id"],
-                      time=json_object["time"],
-                      producer_type=CraftStationType[json_object["craft_type"]],
-                      ingredients=MaterialCollection.from_json(json_object["ingredients"]),
-                      results=MaterialCollection.from_json(json_object["products"]))

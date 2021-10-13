@@ -1,13 +1,12 @@
-from itertools import count
 from typing import Union
 
-from factorio.types.a_json_savable import AJsonSavable
 from factorio.types.material import Material
 from factorio.types.material_collection import MaterialCollection
 from factorio.types.recipe import Recipe
+from serialization.i_json_serializable import IJsonSerializable
 
 
-class RecipesCollection(AJsonSavable):
+class RecipesCollection(IJsonSerializable):
 
     EMPTY_RECIPE = Recipe()
 
@@ -18,6 +17,10 @@ class RecipesCollection(AJsonSavable):
 
     def __getitem__(self, key):
         return self.get_material_recipe(key)
+
+    def __eq__(self, other):
+        return self._recipes == other._recipes and \
+               self._basic_materials == other._basic_materials
 
     @property
     def recipes(self):
@@ -49,7 +52,7 @@ class RecipesCollection(AJsonSavable):
         self._basic_materials.add(Material.name_from(material))
 
     def add_material_recipe(self, material: Material, recipe: Recipe):
-        recipe_id = recipe.id
+        recipe_id = recipe.get_id()
 
         if not self.is_recipe_exists(material):
             self._material_recipe_mapping[material.name] = []
@@ -70,7 +73,7 @@ class RecipesCollection(AJsonSavable):
 
     def get_recipe_by_id(self, id_):
         for recipe in self._recipes:
-            if recipe.id == id_:
+            if recipe.get_id() == id_:
                 return recipe
         raise ValueError(f'no recipe with id "{id_}"')
 
@@ -87,8 +90,8 @@ class RecipesCollection(AJsonSavable):
             "composite": [recipe.to_json() for recipe in self._recipes]
         }
 
-    @staticmethod
-    def from_json(json_object: dict):
+    @classmethod
+    def from_json(cls, json_object: dict):
         collection = RecipesCollection()
         for basic in json_object["basic"]:
             collection.add_unique_basic_material(basic)
@@ -118,10 +121,10 @@ class RecipesCollection(AJsonSavable):
         self._recipes.remove(recipe)
 
     def remove_recipe_by_name(self, name):
-        self.remove_recipe(self.get_recipe_by_id(Recipe(name=name).id))
+        self.remove_recipe(self.get_recipe_by_id(Recipe(name=name).get_id()))
 
     def remove_material_recipe_mapping(self, material: Material, recipe: Recipe):
-        self._material_recipe_mapping[material.name].remove(recipe.id)
+        self._material_recipe_mapping[material.name].remove(recipe.get_id())
 
     def _remove_recipe_mappings(self, recipe):
         for material in recipe.get_results():

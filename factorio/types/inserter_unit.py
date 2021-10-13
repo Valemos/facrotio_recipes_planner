@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from .material import Material
 
 
-@dataclass(frozen=True, eq=True)
+@dataclass(eq=True, unsafe_hash=True)
 class InserterUnit(Material):
     cycle_speed: float = 0
     capacity: float = 1

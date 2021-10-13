@@ -10,24 +10,24 @@ from ..types.recipes_collection import RecipesCollection
 def _read_recipe_vanilla(recipe_json):
     from configurations.vanilla_collections import fluid_types, furnace_recipe_types, chemical_recipe_types
 
-    if recipe_json['recipe']['time'] is None:
-        recipe_json['recipe']['time'] = 0
-    if recipe_json['recipe']['yield'] is None:
-        recipe_json['recipe']['yield'] = 1
-    if recipe_json['type'] == 'Liquid':
-        fluid_types.add(recipe_json['id'])
-    if recipe_json["id"] in furnace_recipe_types:
+    if recipe_json["recipe"]["time"] is None:
+        recipe_json["recipe"]["time"] = 0
+    if recipe_json["recipe"]["yield"] is None:
+        recipe_json["recipe"]["yield"] = 1
+    if recipe_json["type"] == "Liquid":
+        fluid_types.add(recipe_json["name"])
+    if recipe_json["name"] in furnace_recipe_types:
         _producer_type = CraftStationType.FURNACE
-    elif recipe_json["id"] in chemical_recipe_types:
+    elif recipe_json["name"] in chemical_recipe_types:
         _producer_type = CraftStationType.CHEMICAL_PLANT
     else:
         _producer_type = CraftStationType.ASSEMBLING
-    recipe = Recipe(time=recipe_json['recipe']['time'],
+    recipe = Recipe(time=recipe_json["recipe"]["time"],
                     producer_type=_producer_type,
-                    name=recipe_json['id'],
-                    ingredients=MaterialCollection.from_json(recipe_json['recipe']['ingredients']))
+                    name=recipe_json["name"],
+                    ingredients=MaterialCollection.from_json(recipe_json["recipe"]["ingredients"]))
 
-    recipe.add_result(Material(recipe_json['id'], recipe_json['recipe']['yield']))
+    recipe.add_result(Material(recipe_json["name"], recipe_json["recipe"]["yield"]))
 
     return recipe
 
