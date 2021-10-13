@@ -10,7 +10,7 @@ class ProductionUnit:
     recipe: Recipe = None
 
     def __str__(self):
-        return f"Speed: {self.crafting_multiplier}"
+        return f"Rate: {self.crafting_multiplier}"
 
     def get_id(self):
         return hash(self.recipe.name)

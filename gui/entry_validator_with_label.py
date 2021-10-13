@@ -80,7 +80,7 @@ class EntryExistingPath(EntryValidatorWithLabel):
     def convert_function(self):
         return Path
 
-    def get(self):
+    def get(self) -> Path:
         try:
             path = self.convert_function(super().get())
             if path.is_dir(): raise ValueError
