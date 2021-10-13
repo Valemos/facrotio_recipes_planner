@@ -1,21 +1,33 @@
-from dataclasses import dataclass
 import math
-from typing import Dict, List, Set, Union
 from copy import deepcopy
+from dataclasses import dataclass
+from typing import Dict, List, Set
+from typing import Union
 
-from .recipes_collection import RecipesCollection
-from .transport_belt import TransportBelt
+from configurations.belt import compressed_belt_config, config_infinite_input_output
+from configurations.vanilla_collections import fluid_types, basic_ore_types, oil_recipe_types
 from configurations.vanilla_devices import assembling_machine_1, assembling_machine_3, furnace_1, furnace_3, \
     chemical_plant, transport_belt_1, transport_belt_3, inserter, inserter_stack
+from factorio.types.material import Material
+from factorio.types.material_type import MaterialType
+from .inserter_unit import InserterUnit
 from .item_bus import ItemBus
 from .production_config import ProductionConfig
-from .recipe import CraftStationType, Recipe
-from .material import Material
 from .production_unit import ProductionUnit
-from .inserter_unit import InserterUnit
-from configurations.belt import compressed_belt_config, config_infinite_input_output
-from factorio.recipe_util.misc import get_material_type
-from .material_type import MaterialType
+from .recipe import CraftStationType, Recipe
+from .recipes_collection import RecipesCollection
+from .transport_belt import TransportBelt
+
+
+def get_material_type(material: Union[str, Material]):
+    # todo refactor this functionality
+    if Material.name_from(material) in oil_recipe_types:
+        return MaterialType.OIL_DERIVED
+    elif Material.name_from(material) in fluid_types:
+        return MaterialType.BASIC_FLUID
+    elif Material.name_from(material) in basic_ore_types:
+        return MaterialType.ORE
+    return MaterialType.ITEM
 
 
 @dataclass(init=False)

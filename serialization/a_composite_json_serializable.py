@@ -1,5 +1,3 @@
-from abc import ABC
-
 from serialization.i_json_serializable import IJsonSerializable
 from serialization.metaclasses import CompositeJsonScheme
 
@@ -20,7 +18,7 @@ class ACompositeJsonSerializable(IJsonSerializable, metaclass=CompositeJsonSchem
 
     @classmethod
     def from_json(cls, json_object: dict):
-        obj: ACompositeJsonSerializable = cls()
+        obj = cls()
         for attr in cls.__serialized__:
             json_child = json_object[attr]
             if attr in cls.__serializable_children__:

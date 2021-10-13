@@ -1,6 +1,8 @@
-import zlib
 import base64
 import json
+import zlib
+
+from factorio.blueprint.objects.blueprint import Blueprint
 
 
 def deserialize_factorio_format(b):
@@ -40,16 +42,10 @@ if __name__ == '__main__':
                  "/4ooW5KiqMF2ZLr+Dz3C0Dw8PDFq7pV982CAjamKn6vIho8Chz6s1OglwXKWO7q7w/xUp8giNF4vwRhRUTYHx3ksaeIQ+i7TX" \
                  "S22tmjiA32R2f66/eJ/iGF4qyCGps8O6FNV4tP1cMXodvb6/2DcvPkfN2bdj2G3fz3s2fhUbPIu+mLzy8v/fXRhuA=="
 
-    _compressed1 = base64.b64decode(_sample_str[1:])
-    _decompressed1 = zlib.decompress(_compressed1)
-    _json_object = json.loads(_decompressed1)
-    _decompressed2 = json.dumps(_json_object, separators=(',', ':')).encode('ascii')
-    assert _decompressed1 == _decompressed2
-    _compressed2 = zlib.compress(_decompressed2, level=9)
-    assert _compressed1 == _compressed2
-    _result_str = (b'0' + base64.b64encode(_compressed2)).decode("ascii")
-    assert _sample_str == _result_str
-
     assert _sample_str == serialize_factorio_format(deserialize_factorio_format(_sample_str))
 
+    b = Blueprint.from_json(deserialize_factorio_format(_sample_str))
+
+    import pyperclip
+    pyperclip.copy(serialize_factorio_format(b.to_json()))
     pass

@@ -4,11 +4,16 @@ import unittest
 from serialization.a_composite_json_serializable import ACompositeJsonSerializable
 from serialization.a_container_json_serializable import AContainerJsonSerializable
 from serialization.dict_json import RawJson
-from serialization.enum_json import EnumJson
+from serialization.enum_json import EnumByNameJson, EnumByValueJson
 from serialization.i_json_serializable import IJsonSerializable
 
 
-class EnumTest(EnumJson):
+class EnumTest(EnumByNameJson):
+    VALUE1 = "4"
+    VALUE2 = "10"
+
+
+class EnumValueTest(EnumByValueJson):
     VALUE1 = "4"
     VALUE2 = "10"
 
@@ -17,6 +22,21 @@ class EnumTest(EnumJson):
 class ContainerTest(AContainerJsonSerializable):
     __element_type__ = EnumTest
     elems: list[EnumTest] = dataclasses.field(default_factory=list)
+
+    def __iter__(self):
+        return iter(self.elems)
+
+    def __eq__(self, other):
+        return self.elems == other.elems
+
+    def append(self, element):
+        self.elems.append(element)
+
+
+@dataclasses.dataclass
+class ContainerValueTest(AContainerJsonSerializable):
+    __element_type__ = EnumValueTest
+    elems: list[EnumValueTest] = dataclasses.field(default_factory=list)
 
     def __iter__(self):
         return iter(self.elems)
@@ -54,6 +74,9 @@ class TestSerializationDeserialization(unittest.TestCase):
 
     def test_arbitrary(self):
         self.obj_test(self.arbitrary_json)
+
+    def test_value_enum(self):
+        self.obj_test(ContainerValueTest([EnumValueTest.VALUE1, EnumValueTest.VALUE1, EnumValueTest.VALUE2]))
 
     def obj_test(self, obj: IJsonSerializable):
         j = obj.to_json()

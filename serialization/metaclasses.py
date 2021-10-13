@@ -1,8 +1,6 @@
 import inspect
-from abc import abstractmethod
-from typing import Any, Type
+from typing import Any, Type, Optional
 
-from serialization.dict_json import RawJson
 from serialization.i_json_serializable import IJsonSerializable
 
 
@@ -18,6 +16,8 @@ class SingleTypeScheme(type):
         if not cls._is_scheme_initialized():
             cls._initialize_scheme(obj)
 
+        cls._validate_object(obj)
+
         return obj
 
     def _is_scheme_initialized(cls):
@@ -29,14 +29,16 @@ class SingleTypeScheme(type):
     def _initialize_scheme(cls, obj):
         if not hasattr(cls, "__element_type__"):
             raise ValueError('"__element_type__" was not defined')
-        elem_type = cls.__element_type__
+
         if not issubclass(cls.__element_type__, IJsonSerializable):
             raise ValueError(f'cannot serialize "{repr(cls.__element_type__)}"')
-        for elem in obj:
-            if not isinstance(elem, cls.__element_type__):
-                raise ValueError(f'incorrect type of elements, must be "{repr(elem_type)}"')
 
         cls.__scheme_initialized[cls.__qualname__] = True
+
+    def _validate_object(cls, obj):
+        for elem in obj:
+            if not isinstance(elem, cls.__element_type__):
+                raise ValueError(f'incorrect type of elements, must be "{repr(cls.__element_type__)}"')
 
 
 class CompositeJsonScheme(type):
@@ -67,9 +69,12 @@ class CompositeJsonScheme(type):
         cls.__serialized__ = tuple(cls._get_fields_iter(obj))
         cls.__serializable_children__ = {}
         for attr in cls.__serialized__:
-            attr_value = getattr(obj, attr)
-            if isinstance(attr_value, IJsonSerializable):
-                cls.__serializable_children__[attr] = attr_value.__class__
+            attr_type = cls._get_annotation_type(attr)
+            if attr_type is None:
+                attr_type = getattr(obj, attr).__class__
+
+            if issubclass(attr_type, IJsonSerializable):
+                cls.__serializable_children__[attr] = attr_type
 
         cls.__scheme_initialized[cls.__qualname__] = True
 
@@ -78,3 +83,9 @@ class CompositeJsonScheme(type):
         for member_name, _ in inspect.getmembers(obj, lambda x: not (inspect.isroutine(x))):
             if not member_name.startswith("__") and member_name not in obj.__class__.__ignored_fields__:
                 yield member_name
+
+    def _get_annotation_type(cls, attribute) -> Optional[Type]:
+        # try to use annotations
+        if attribute in cls.__annotations__:
+            return cls.__annotations__[attribute]
+        return None

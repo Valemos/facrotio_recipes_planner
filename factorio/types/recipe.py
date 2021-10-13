@@ -2,12 +2,12 @@ from dataclasses import dataclass, field
 from enum import Enum
 
 from serialization.a_composite_json_serializable import ACompositeJsonSerializable
-from serialization.enum_json import EnumJson
+from serialization.enum_json import EnumByNameJson
 from .material_collection import MaterialCollection
 from .material import Material
 
 
-class CraftStationType(EnumJson):
+class CraftStationType(EnumByNameJson):
     ASSEMBLING = 0
     FURNACE = 1
     CHEMICAL_PLANT = 2
