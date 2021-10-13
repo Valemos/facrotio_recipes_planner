@@ -31,7 +31,7 @@ class MenuWithHandlerWidget(tk.OptionMenu):
         for name in new_choices:
             self['menu'].add_command(
                 label=name,
-                command=lambda n=name: self.choose_name(name))
+                command=lambda n=name: self.choose_name(n))
 
         self.choice_list = new_choices
 
