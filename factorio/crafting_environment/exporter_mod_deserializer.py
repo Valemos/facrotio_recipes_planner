@@ -40,3 +40,4 @@ item_stats = read_stats_dict(read(folder / "item.json").values(), ItemStats)
 inserter_stats = read_stats_dict(read(folder / "inserter.json").values(), InserterStats)
 transport_belt_stats = read_stats_dict(read(folder / "transport-belt.json").values(), TransportBeltStats)
 mining_stats = read_stats_dict(read(folder / "mining-drill.json").values(), MiningDrillStats)
+

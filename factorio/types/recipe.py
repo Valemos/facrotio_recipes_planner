@@ -1,11 +1,8 @@
 from dataclasses import dataclass, field
-from typing import Optional
 
 from serialization.a_composite_json_serializable import ACompositeJsonSerializable
-from .material_collection import MaterialCollection
 from .material import Material
-from ..crafting_environment import RecipeStats
-from ..crafting_environment.objects.craft_stations.craft_station_type import CraftStationType
+from .material_collection import MaterialCollection
 from ..crafting_environment.stats.category import Category
 
 

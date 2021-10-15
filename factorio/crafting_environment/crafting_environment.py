@@ -4,10 +4,6 @@ from dataclasses import dataclass
 from typing import Dict, List, Set
 from typing import Union
 
-from configurations.belt import compressed_belt_config, config_infinite_input_output
-from configurations.vanilla_collections import fluid_types, basic_ore_types, oil_recipe_types
-from configurations.vanilla_devices import assembling_machine_1, assembling_machine_3, furnace_1, furnace_3, \
-    chemical_plant, transport_belt_1, transport_belt_3, inserter, inserter_stack
 from factorio.types.material import Material
 from factorio.types.material_type import MaterialType
 from factorio.types.inserter_unit import InserterUnit
@@ -20,15 +16,8 @@ from factorio.types.recipes_collection import RecipesCollection
 from factorio.types.transport_belt_unit import TransportBeltUnit
 
 
-def get_material_type(material: Union[str, Material]):
-    # todo refactor this functionality
-    if Material.name_from(material) in oil_recipe_types:
-        return MaterialType.OIL_DERIVED
-    elif Material.name_from(material) in fluid_types:
-        return MaterialType.BASIC_FLUID
-    elif Material.name_from(material) in basic_ore_types:
-        return MaterialType.ORE
-    return MaterialType.ITEM
+# todo add env builder
+
 
 
 @dataclass(init=False)
@@ -70,23 +59,23 @@ class CraftingEnvironment:
     def remove_final_recipe(self, recipe_name: str):
         self.final_recipe_ids.remove(self.recipes_collection.get_recipe_id(recipe_name))
 
-    def add_constraint_config(self, config: ProductionConfig):
+    def add_constrain_config(self, config: ProductionConfig):
         """constrain amount of recipe crafts that can be produced by system"""
         config.constrained = True
         self.constraints[config.get_recipe().get_id()] = config
 
-    def add_constraint_material_rate(self, material: Material):
+    def constrain_material_rate(self, material: Material):
         assert issubclass(material.__class__, Material)
         recipe = self.recipes_collection[material.name]
         config = self.get_recipe_config_unconstrained(recipe)
         config.set_material_rate(material)
-        self.add_constraint_config(config)
+        self.add_constrain_config(config)
 
-    def add_constraint_producers_amount(self, recipe_name: str, amount: float):
+    def constrain_producers_amount(self, recipe_name: str, amount: float):
         recipe = self.recipes_collection.get_material_recipe(recipe_name)
         config = self.get_recipe_config_unconstrained(recipe)
         config.producers_amount = amount
-        self.add_constraint_config(config)
+        self.add_constrain_config(config)
 
     def clear_constraints(self):
         self.constraints = {}
@@ -102,9 +91,8 @@ class CraftingEnvironment:
             return deepcopy(self.constraints[recipe.get_id()])
 
         if self.is_final_recipe(recipe):
-            if get_material_type(recipe.results.first()) == MaterialType.BASIC_FLUID:
-                return config_infinite_input_output.copy_with_recipe(recipe)
-            return compressed_belt_config(recipe, self.transport_belt_type, is_constrained=True)
+            # todo add source config object according to item type
+            pass
 
         return self.get_recipe_config_unconstrained(recipe)
 
@@ -116,6 +104,7 @@ class CraftingEnvironment:
         return len(recipe.get_required()) == 0
 
     def get_recipe_config_unconstrained(self, recipe: Recipe):
+        # todo create mapping of crafting stations to recipe categories
         if recipe.category == CraftStationType.ASSEMBLING:
             return self._get_production_config_unconstrained(recipe)
 
