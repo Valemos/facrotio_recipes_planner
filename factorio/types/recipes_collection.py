@@ -12,7 +12,7 @@ class RecipesCollection(IJsonSerializable):
 
     def __init__(self) -> None:
         self._basic_materials: set[str] = set()
-        self._recipes: list[Recipe] = []
+        self._recipes: dict[str, Recipe] = {}
         self._material_recipe_mapping: dict[str, list[int]] = {}
 
     def __getitem__(self, key):
@@ -77,12 +77,12 @@ class RecipesCollection(IJsonSerializable):
                 return recipe
         raise ValueError(f'no recipe with id "{id_}"')
 
-    def is_recipe_exists(self, material: Material):
+    def is_recipe_exists(self, material: Union[str, Material]):
         return Material.name_from(material) in self._material_recipe_mapping
 
-    def is_material_known(self, material: Material):
+    def is_material_known(self, material: Union[str, Material]):
         return Material.name_from(material) in self._basic_materials or \
-               material.name in self._material_recipe_mapping
+               self.is_recipe_exists(material)
 
     def to_json(self) -> dict:
         return {
@@ -137,3 +137,11 @@ class RecipesCollection(IJsonSerializable):
     @staticmethod
     def _get_basic_recipe(material):
         return Recipe(name=material, results=MaterialCollection([material]))
+
+    def get_unresolved_names(self):
+        names = set()
+        for recipe in self._recipes:
+            for ingredient in recipe.get_required():
+                if not self.is_material_known(ingredient):
+                    names.add(ingredient.name)
+        return names

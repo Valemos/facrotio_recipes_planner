@@ -1,17 +1,12 @@
 from dataclasses import dataclass, field
-from enum import Enum
+from typing import Optional
 
 from serialization.a_composite_json_serializable import ACompositeJsonSerializable
-from serialization.enum_json import EnumByNameJson
 from .material_collection import MaterialCollection
 from .material import Material
-
-
-class CraftStationType(EnumByNameJson):
-    ASSEMBLING = 0
-    FURNACE = 1
-    CHEMICAL_PLANT = 2
-    OIL_REFINERY = 3
+from ..crafting_environment import RecipeStats
+from ..crafting_environment.objects.craft_stations.craft_station_type import CraftStationType
+from ..crafting_environment.stats.category import Category
 
 
 @dataclass
@@ -19,14 +14,14 @@ class Recipe(ACompositeJsonSerializable):
 
     name: str = ""
     time: float = 0  # in seconds per craft
-    producer_type: CraftStationType = CraftStationType.ASSEMBLING
+    category: Category = Category.NO_CATEGORY
     ingredients: MaterialCollection = field(default_factory=MaterialCollection)
     results: MaterialCollection = field(default_factory=MaterialCollection)
 
     def __eq__(self, other):
         return other.name == self.name and \
                other.time == self.time and \
-               other.producer_type == self.producer_type
+               other.category == self.category
 
     def __hash__(self):
         return hash(self.name)

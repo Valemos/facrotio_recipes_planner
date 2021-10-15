@@ -108,12 +108,8 @@ class RecipeEditorApp(tk.Frame, ARecipeJsonEditor):
             messagebox.showerror("Invalid recipe", str(err))
 
     def handle_resolve_dependencies(self):
-        unresolved_names = set()
         recipes: RecipesCollection = read_default(self.entry_path.get())
-        for recipe in recipes.recipes:
-            for ingredient in recipe.get_required():
-                if not recipes.is_material_known(ingredient):
-                    unresolved_names.add(ingredient.name)
+        unresolved_names = recipes.get_unresolved_names()
 
         if len(unresolved_names) == 0:
             messagebox.showinfo("Info", "no ingredient recipes need to be provided")

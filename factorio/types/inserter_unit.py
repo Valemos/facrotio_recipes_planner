@@ -4,7 +4,7 @@ from .material import Material
 
 @dataclass(eq=True, unsafe_hash=True)
 class InserterUnit(Material):
-    cycle_speed: float = 0
+    cycle_speed: float = 1
     capacity: float = 1
 
     def __str__(self):

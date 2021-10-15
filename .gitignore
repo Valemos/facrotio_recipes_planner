@@ -1,6 +1,6 @@
-**/__pycache__/*
+**/__pycache__/
 /test/
 /recipes/
-/.ipynb_checkpoints/
+**/.ipynb_checkpoints/
 /.vscode/
 /graph/

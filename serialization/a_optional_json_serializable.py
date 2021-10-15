@@ -15,14 +15,6 @@ class AOptionalJsonSerializable(IJsonSerializable, metaclass=CompositeJsonScheme
             result[attr] = self._try_serialize(value, attr)
         return result
 
-    def _try_serialize(self, value, attribute_name):
-        if attribute_name in self.__serializable_children__:
-            return value.to_json()
-        elif IJsonSerializable.is_basic_serializable(value):
-            return value
-        else:
-            raise ValueError(f'cannot serialize "{attribute_name}"')
-
     @classmethod
     def from_json(cls, json_object: dict):
         obj = cls()
@@ -31,6 +23,14 @@ class AOptionalJsonSerializable(IJsonSerializable, metaclass=CompositeJsonScheme
             json_child = json_object[attr]
             setattr(obj, attr, cls.deserialize(attr, json_child))
         return obj
+
+    def _try_serialize(self, value, attribute_name):
+        if attribute_name in self.__serializable_children__:
+            return value.to_json()
+        elif IJsonSerializable.is_basic_type(type(value)):
+            return value
+        else:
+            raise ValueError(f'cannot serialize "{attribute_name}"')
 
     @classmethod
     def deserialize(cls, attribute_name, json_child):

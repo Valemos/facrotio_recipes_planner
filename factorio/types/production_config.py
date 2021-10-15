@@ -3,18 +3,18 @@ from dataclasses import dataclass
 import math
 from .recipe import Recipe
 from .material_collection import MaterialCollection
-from .item_bus import FixedItemBus, ItemBus
+from factorio.crafting_environment.objects.transporters.item_bus import FixedMaterialBus, MaterialBus
 from .material import Material
-from .production_unit import ProductionUnit
+from ..crafting_environment.objects.craft_stations.craft_station import CraftStation
 
 
 @dataclass
 class ProductionConfig:
     """represents production unit combined with input and output inserters"""
 
-    producer: ProductionUnit
-    input: ItemBus
-    output: ItemBus
+    producer: CraftStation
+    input: MaterialBus
+    output: MaterialBus
 
     # not fixed config will be updated later during execution
     producers_amount: float = float('inf')
@@ -26,19 +26,19 @@ class ProductionConfig:
         return new_config
 
     def get_required(self):
-        return self.producer.get_required_scaled(self.producers_amount)
+        return self.producer.get_required(self.producers_amount)
 
     def get_required_rates(self):
         return self.producer.get_required_rates(self.producers_amount)
 
     def get_results(self):
-        return self.producer.get_results_scaled(self.producers_amount)
+        return self.producer.get_results(self.producers_amount)
 
     def get_results_rates(self):
         return self.producer.get_results_rates(self.producers_amount)
 
     def get_recipe(self) -> Recipe:
-        return self.producer.recipe
+        return self.producer.get_recipe()
 
     def set_recipe(self, recipe: Recipe):
         self.producer = self.producer.setup(recipe)
@@ -64,7 +64,7 @@ class ProductionConfig:
         e.g. minimal craft requirements for all materials
         """
 
-        if not all(material in self.producer.recipe.get_required() for material in input_material_rates):
+        if not all(material in self.producer.get_required() for material in input_material_rates):
             raise ValueError(f"collections don't match: \n"
                              f"{str(self.producer.recipe.get_required())}\n"
                              f"{str(input_material_rates)}")
@@ -143,9 +143,9 @@ class ProductionConfig:
 
 class SourceProductionConfig(ProductionConfig):
 
-    def __init__(self, recipe: Recipe, item_bus: FixedItemBus, is_constrained=False):
+    def __init__(self, recipe: Recipe, item_bus: FixedMaterialBus, is_constrained=False):
         self.material = recipe.get_results().first() if len(recipe.get_results()) > 0 else Material("Placeholder", 0)
-        super().__init__(ProductionUnit(1, recipe), item_bus, item_bus, item_bus.max_rate, is_constrained)
+        super().__init__(CraftStation(1, recipe), item_bus, item_bus, item_bus.max_rate, is_constrained)
 
     def get_id(self):
         return self.material

@@ -2,7 +2,8 @@ import tkinter as tk
 
 from factorio.types.material import Material
 from factorio.types.material_collection import MaterialCollection
-from factorio.types.recipe import CraftStationType, Recipe
+from factorio.types.recipe import Recipe
+from factorio.crafting_environment.objects.craft_stations.craft_station_type import CraftStationType
 from factorio.types.recipes_collection import RecipesCollection
 from gui.entry_validator_with_label import EntryFloatWithLabel
 from gui.entry_with_label import EntryWithLabel
@@ -72,7 +73,7 @@ class RecipeFormWidget(tk.Frame):
     def set_recipe(self, recipe: Recipe):
         self.entry_recipe_name.set(recipe.name)
         self.entry_craft_time.set(recipe.time)
-        self.menu_recipe_type.set_string(recipe.producer_type.name)
+        self.menu_recipe_type.set_string(recipe.category.name)
 
         self.widget_ingredients.reset()
         for ingredient in recipe.get_required():

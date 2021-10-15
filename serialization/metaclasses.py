@@ -14,7 +14,7 @@ class SingleTypeScheme(type):
         obj = type.__call__(cls, *args, **kwds)
 
         if not cls._is_scheme_initialized():
-            cls._initialize_scheme(obj)
+            cls._initialize_scheme()
 
         cls._validate_object(obj)
 
@@ -26,14 +26,14 @@ class SingleTypeScheme(type):
         else:
             return cls.__scheme_initialized[cls.__qualname__]
 
-    def _initialize_scheme(cls, obj):
+    def _initialize_scheme(cls):
         if not hasattr(cls, "__element_type__"):
             raise ValueError('"__element_type__" was not defined')
 
-        if not issubclass(cls.__element_type__, IJsonSerializable):
+        if IJsonSerializable.is_serializable_type(cls.__element_type__):
+            cls.__scheme_initialized[cls.__qualname__] = True
+        else:
             raise ValueError(f'cannot serialize "{repr(cls.__element_type__)}"')
-
-        cls.__scheme_initialized[cls.__qualname__] = True
 
     def _validate_object(cls, obj):
         for elem in obj:
@@ -43,14 +43,14 @@ class SingleTypeScheme(type):
 
 class CompositeJsonScheme(type):
     __serialized__: tuple
-    __ignored_fields__: tuple
+    __ignored__: tuple
     __serializable_children__: dict
 
     __scheme_initialized = {}
 
     def __call__(cls, *args, **kwargs):
-        if not hasattr(cls, "__ignored_fields__"):
-            cls.__ignored_fields__ = tuple()
+        if not hasattr(cls, "__ignored__"):
+            cls.__ignored__ = tuple()
 
         obj = type.__call__(cls, *args, **kwargs)
 
@@ -69,6 +69,7 @@ class CompositeJsonScheme(type):
         cls.__serialized__ = tuple(cls._get_fields_iter(obj))
         cls.__serializable_children__ = {}
         for attr in cls.__serialized__:
+            if attr in cls.__ignored__: continue
             attr_type = cls._get_annotation_type(attr)
             if attr_type is None:
                 attr_type = getattr(obj, attr).__class__
@@ -81,7 +82,7 @@ class CompositeJsonScheme(type):
     @staticmethod
     def _get_fields_iter(obj):
         for member_name, _ in inspect.getmembers(obj, lambda x: not (inspect.isroutine(x))):
-            if not member_name.startswith("__") and member_name not in obj.__class__.__ignored_fields__:
+            if not member_name.startswith("__") and member_name not in obj.__class__.__ignored__:
                 yield member_name
 
     def _get_annotation_type(cls, attribute) -> Optional[Type]:

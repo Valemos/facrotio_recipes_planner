@@ -10,7 +10,7 @@ class ACompositeJsonSerializable(IJsonSerializable, metaclass=CompositeJsonSchem
             value = getattr(self, attr)
             if attr in self.__serializable_children__:
                 result[attr] = value.to_json()
-            elif IJsonSerializable.is_basic_serializable(value):
+            elif IJsonSerializable.is_basic_type(type(value)):
                 result[attr] = value
             else:
                 raise ValueError(f'cannot serialize "{attr}"')

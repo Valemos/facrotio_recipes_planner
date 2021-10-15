@@ -4,7 +4,7 @@ from tkinter import messagebox
 
 from PIL import Image
 
-from factorio.recipe_util.recipe_graph import build_recipe_graph
+from factorio.recipe_graph.graph import build_recipe_graph
 from factorio.types.material import Material
 from gui.crafring_environment_form_widget import CraftingEnvironmentFormWidget
 from gui.name_amount_widget import NameAmountWidget

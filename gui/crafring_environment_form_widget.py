@@ -1,9 +1,8 @@
 import tkinter as tk
 from pathlib import Path
-from tkinter import messagebox
 
 from app_misc.a_recipe_json_editor import ARecipeJsonEditor
-from factorio.types.crafting_environment import CraftingEnvironment
+from factorio.crafting_environment.crafting_environment import CraftingEnvironment
 from factorio.types.named_item import NamedItem
 import configurations.vanilla_devices as devices
 from gui.entry_validator_with_label import EntryExistingPath

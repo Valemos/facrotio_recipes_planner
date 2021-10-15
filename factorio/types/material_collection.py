@@ -63,8 +63,10 @@ class MaterialCollection(AContainerJsonSerializable):
     def __mul__(self, multiplier):
         assert isinstance(multiplier, float) or isinstance(multiplier, int)
 
-        new_collection = MaterialCollection()
+        if multiplier == 1:
+            return self
 
+        new_collection = MaterialCollection()
         for item in self:
             new_collection.add(item * multiplier)
 
