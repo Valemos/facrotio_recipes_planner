@@ -25,13 +25,11 @@ class CraftingEnvironmentFormWidget(tk.Frame, ARecipeJsonEditor):
             return tk.Entry(_root, width=15)
         self.list_ready_materials = WidgetList(self, "Add ready material", create_material_name_entry)
 
-        # todo create popup window for each unresolved choice in ProductionConfigBuilder
-        self.menu_assembler_type = MenuObjectSelectorWidget(self, 20, self.assembler_types)
+        # todo add selection sequence for all crafting benches
 
         self.list_constrains = WidgetList(self, "Add constrain", NameAmountWidget)
 
         self.entry_path.pack(side=tk.TOP, anchor=tk.CENTER)
-        self.menu_assembler_type.pack(side=tk.TOP, anchor=tk.CENTER)
         self.list_ready_materials.pack(side=tk.TOP, anchor=tk.CENTER)
         self.list_constrains.pack(side=tk.TOP, anchor=tk.CENTER)
 
@@ -40,9 +38,6 @@ class CraftingEnvironmentFormWidget(tk.Frame, ARecipeJsonEditor):
         return self.entry_path.get()
 
     def reset(self):
-        self.menu_assembler_type.set(self.assembler_types[0])
-        self.menu_furnace_type.set(self.furnace_types[0])
-        self.menu_belt_type.set(self.belt_types[-1])
         self.list_ready_materials.reset()
         self.list_constrains.reset()
 
