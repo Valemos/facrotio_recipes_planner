@@ -12,41 +12,53 @@ from factorio.game_environment.object_stats.material_type import MaterialType
 from factorio.game_environment.object_stats.mining_drill_stats import MiningDrillStats
 from factorio.game_environment.object_stats.recipe_stats import RecipeStats
 from factorio.game_environment.object_stats.transport_belt_stats import TransportBeltStats
-from factorio.game_environment.stats_reading import read_stats_dict
+from factorio.game_environment.stats_reading import read_stats_file
 from factorio.types.material import Material
 from factorio.types.recipes_collection import RecipesCollection
 
 
 class GameEnvironment:
 
-    def __init__(self, load_folder: Path):
-        self.recipe_stats = read_stats_dict(load_folder / "recipe.json", RecipeStats)
-        self.assembling_stats = read_stats_dict(load_folder / "assembling-machine.json", AssemblingMachineStats)
-        self.furnace_stats = read_stats_dict(load_folder / "furnace.json", AssemblingMachineStats)
-        self.fluid_stats = read_stats_dict(load_folder / "fluid.json", FluidStats)
-        self.item_stats = read_stats_dict(load_folder / "item.json", ItemStats)
-        self.inserter_stats = read_stats_dict(load_folder / "inserter.json", InserterStats)
-        self.transport_belt_stats = read_stats_dict(load_folder / "transport-belt.json", TransportBeltStats)
-        self.mining_stats = read_stats_dict(load_folder / "mining-drill.json", MiningDrillStats)
+    def __init__(self,
+                 recipe_stats: dict[str, RecipeStats],
+                 item_stats: dict[str, ItemStats],
+                 fluid_stats: dict[str, FluidStats],
+                 assemblers_stats: dict[str, AStats],
+                 *other_stats_dicts: dict[str, AStats]):
+
+        self.assemblers_stats = assemblers_stats
+        self.item_stats = item_stats
+        self.fluid_stats = fluid_stats
+        self._stats_map: dict[str, AStats] = dict(**assemblers_stats, **item_stats, **fluid_stats)
+
+        for stats in other_stats_dicts:
+            self._stats_map = dict(self._stats_map, **stats)
 
         self._category_map: dict[CraftingCategory, list[str]] = {}
         self._init_categories()
-        self._stats_map: dict[str, AStats] = {}
 
-        for stats in [self.assembling_stats,
-                      self.furnace_stats,
-                      self.mining_stats,
-                      self.fluid_stats,
-                      self.item_stats,
-                      self.inserter_stats,
-                      self.transport_belt_stats]:
-            self._stats_map = dict(self._stats_map, **stats)
+        self.recipe_collection: RecipesCollection = self.create_recipes_collection(recipe_stats)
 
-        self.recipe_collection: RecipesCollection = self.create_recipes_collection()
+    @staticmethod
+    def from_folder(load_folder: Path):
+        recipe_stats = read_stats_file(load_folder / "recipe.json", RecipeStats)
+        fluid_stats = read_stats_file(load_folder / "fluid.json", FluidStats)
+        item_stats = read_stats_file(load_folder / "item.json", ItemStats)
+        inserter_stats = read_stats_file(load_folder / "inserter.json", InserterStats)
+        transport_belt_stats = read_stats_file(load_folder / "transport-belt.json", TransportBeltStats)
+        assembling_stats = read_stats_file(load_folder / "assembling-machine.json", AssemblingMachineStats)
+        furnace_stats = read_stats_file(load_folder / "furnace.json", AssemblingMachineStats)
+        mining_stats = read_stats_file(load_folder / "mining-drill.json", MiningDrillStats)
+        return GameEnvironment(recipe_stats,
+                               item_stats,
+                               fluid_stats,
+                               dict(**assembling_stats, **furnace_stats, **mining_stats),
+                               inserter_stats,
+                               transport_belt_stats)
 
     def get_stats(self, item_name: str):
-        if not isinstance(item_name, str):
-            raise ValueError("provide name string")
+        if not isinstance(item_name, str) or not item_name in self._stats_map:
+            raise ValueError("provide existing name string")
         return self._stats_map[item_name]
 
     def category_to_assemblers(self, category: CraftingCategory):
@@ -62,16 +74,16 @@ class GameEnvironment:
 
     def _init_categories(self):
         assembler: AssemblingMachineStats
-        assemblers = chain(self.assembling_stats.values(), self.furnace_stats.values(), self.mining_stats.values())
-        for assembler in assemblers:
+        for assembler in self.assemblers_stats.values():
             for _category in assembler.crafting_categories.keys():
                 if _category not in self._category_map:
                     self._category_map[_category] = []
                 self._category_map[_category].append(assembler.name)
 
-    def create_recipes_collection(self):
+    @staticmethod
+    def create_recipes_collection(recipe_stats):
         recipes_collection = RecipesCollection()
-        for _stats in self.recipe_stats:
+        for _stats in recipe_stats:
             _recipe = _stats.to_object()
             if _recipe is not None:
                 recipes_collection.add_unique_recipe(_recipe)
@@ -81,10 +93,3 @@ class GameEnvironment:
 
         return recipes_collection
 
-
-if __name__ == '__main__':
-    game_environment = GameEnvironment(Path('/home/anton/.factorio/script-output/recipe-lister/'))
-
-    import pyperclip
-
-    pyperclip.copy(','.join(i.inserter_rotation_speed for i in game_environment.inserter_stats.values()))

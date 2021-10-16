@@ -3,8 +3,8 @@ from pathlib import Path
 
 from app_misc.a_recipe_json_editor import ARecipeJsonEditor
 from factorio.crafting_environment import CraftingEnvironment
+from factorio.production_config_builder import ProductionConfigBuilder
 from factorio.types.named_item import NamedItem
-import configurations.vanilla_devices as devices
 from gui.entry_validator_with_label import EntryExistingPath
 from gui.menu_object_selector_widget import MenuObjectSelectorWidget
 from gui.name_amount_widget import NameAmountWidget
@@ -14,19 +14,6 @@ from gui.widget_list import WidgetList
 class CraftingEnvironmentFormWidget(tk.Frame, ARecipeJsonEditor):
 
     default_recipes_path = Path("./recipes/recipes.json")
-
-    assembler_types = [NamedItem("basic", devices.assembling_machine_1),
-                       NamedItem("blue", devices.assembling_machine_2),
-                       NamedItem("green", devices.assembling_machine_3)]
-
-    belt_types = [NamedItem("yellow", devices.transport_belt_1),
-                  NamedItem("red", devices.transport_belt_2),
-                  NamedItem("blue", devices.transport_belt_3),
-                  NamedItem("belt inf", devices.transport_belt_inf)]
-
-    furnace_types = [NamedItem("stone", devices.furnace_1),
-                     NamedItem("steel", devices.furnace_2),
-                     NamedItem("electric", devices.furnace_3)]
 
     def __init__(self, root, **kw):
         tk.Frame.__init__(self, root, **kw)
@@ -38,16 +25,13 @@ class CraftingEnvironmentFormWidget(tk.Frame, ARecipeJsonEditor):
             return tk.Entry(_root, width=15)
         self.list_ready_materials = WidgetList(self, "Add ready material", create_material_name_entry)
 
+        # todo create popup window for each unresolved choice in ProductionConfigBuilder
         self.menu_assembler_type = MenuObjectSelectorWidget(self, 20, self.assembler_types)
-        self.menu_furnace_type = MenuObjectSelectorWidget(self, 20, self.furnace_types)
-        self.menu_belt_type = MenuObjectSelectorWidget(self, 20, self.belt_types)
 
         self.list_constrains = WidgetList(self, "Add constrain", NameAmountWidget)
 
         self.entry_path.pack(side=tk.TOP, anchor=tk.CENTER)
         self.menu_assembler_type.pack(side=tk.TOP, anchor=tk.CENTER)
-        self.menu_belt_type.pack(side=tk.TOP, anchor=tk.CENTER)
-        self.menu_furnace_type.pack(side=tk.TOP, anchor=tk.CENTER)
         self.list_ready_materials.pack(side=tk.TOP, anchor=tk.CENTER)
         self.list_constrains.pack(side=tk.TOP, anchor=tk.CENTER)
 
@@ -69,9 +53,6 @@ class CraftingEnvironmentFormWidget(tk.Frame, ARecipeJsonEditor):
                            w.getvar().get() != ""]
 
         return CraftingEnvironment(
-            final_materials=final_materials,
-            assembler_type=self.menu_assembler_type.get().item,
-            furnace_type=self.menu_furnace_type.get().item,
-            transport_belt_type=self.menu_belt_type.get().item,
-            game_env=self.read_recipes_from_json()
+            final_materials,
+            ProductionConfigBuilder()
         )

@@ -9,7 +9,6 @@ from factorio.types.production_config import ProductionConfig
 @dataclass(repr=False)
 class CraftingStep:
     config: ProductionConfig
-    environment: CraftingEnvironment
 
     # reference to steps of type CraftingStep
     next_step = None
@@ -33,23 +32,23 @@ class CraftingStep:
 
     def set_next_step(self, next_step):
         assert isinstance(next_step, self.__class__)
+        if self.next_step is not None:
+            self.next_step.previous_steps.remove(self)
+
         self.next_step = next_step
         next_step.previous_steps.append(self)
 
-    def get_id(self):
-        return self.config.get_recipe().get_id()
-
-    def get_results(self):
-        return self.config.get_results_rates()
-
-    def get_required(self):
-        return self.config.get_required_rates()
-
-    def iterate_all_steps(self):
+    def iterate_up_to_bottom(self):
         yield self
 
         for prev_step in self.previous_steps:
-            yield from prev_step.iterate_all_steps()
+            yield from prev_step.iterate_up_to_bottom()
+
+    def iterate_bottom_to_up(self):
+        for prev_step in self.previous_steps:
+            yield from prev_step.iterate_bottom_to_up()
+
+        yield self
 
     def find_root_step(self):
         root_step = self
@@ -59,7 +58,7 @@ class CraftingStep:
 
     def get_source_materials(self):
         basic_materials = MaterialCollection()
-        for step in self.iterate_all_steps():
+        for step in self.iterate_up_to_bottom():
             if step.is_source_step():
                 basic_materials += step.config.get_results()
 
@@ -107,3 +106,16 @@ class CraftingStep:
                 ingredient_step.config.set_material_rate(requested_material)
 
             ingredient_step.deduce_infinite_materials()
+
+    def create_ingredient_steps(self, environment: CraftingEnvironment):
+        if not self.is_constrained():
+            self.config.producers_amount = float('inf')
+
+        if environment.is_final_recipe(self.config.get_recipe()):
+            return
+
+        for ingredient in self.config.get_required():
+            # get subtree for ingredient
+            ingredient_step = CraftingStep(environment.get_material_config(ingredient))
+            ingredient_step.set_next_step(self)
+            ingredient_step.create_ingredient_steps(environment)

@@ -28,14 +28,14 @@ class RecipesCollection(IJsonSerializable):
 
     @property
     def recipe_names_iter(self):
-        return (r.name for r in self._recipes)
+        return (name for name in self._recipes.keys())
 
     def add_unique_recipe(self, recipe: Recipe):
         if recipe in self._recipes:
             print(f'recipe "{recipe.name}" already exists')
             return
 
-        self._recipes.append(recipe)
+        self._recipes[recipe.name] = recipe
 
         # recipe results are not basic materials anymore
         for result in recipe.get_results():
@@ -59,9 +59,8 @@ class RecipesCollection(IJsonSerializable):
         self._material_recipe_mapping[material.name].append(recipe_id)
 
     def get_recipe(self, recipe_name: str) -> Recipe:
-        for recipe in self._recipes:
-            if recipe.name == recipe_name:
-                return recipe
+        if recipe_name in self._recipes:
+            return self._recipes[recipe_name]
         raise ValueError(f'no recipe with name "{recipe_name}"')
 
     def get_material_recipe(self, material: Union[str, Material]):
@@ -72,7 +71,7 @@ class RecipesCollection(IJsonSerializable):
         return self.get_recipe_by_id(recipe_ids[0])
 
     def get_recipe_by_id(self, id_):
-        for recipe in self._recipes:
+        for recipe in self._recipes.values():
             if recipe.get_id() == id_:
                 return recipe
         raise ValueError(f'no recipe with id "{id_}"')
@@ -87,7 +86,7 @@ class RecipesCollection(IJsonSerializable):
     def to_json(self) -> dict:
         return {
             "basic": list(self._basic_materials),
-            "composite": [recipe.to_json() for recipe in self._recipes]
+            "composite": [recipe.to_json() for recipe in self._recipes.values()]
         }
 
     @classmethod
@@ -104,21 +103,13 @@ class RecipesCollection(IJsonSerializable):
     def update_recipe(self, new_recipe: Recipe):
         """if recipe with equal name exists, updates it at the same position and updates new material mappings"""
 
-        recipe_index = None
-        for i, recipe in enumerate(self._recipes):
-            if recipe.name == new_recipe.name:
-                recipe_index = i
-                break
-        if recipe_index is None:
-            raise ValueError(f'cannot find recipe "{new_recipe.name}"')
-
-        self._remove_recipe_mappings(self._recipes[recipe_index])
-        self._recipes[recipe_index] = new_recipe
+        self._remove_recipe_mappings(self._recipes[new_recipe.name])
+        self._recipes[new_recipe.name] = new_recipe
         self._create_recipe_mappings(new_recipe)
 
     def remove_recipe(self, recipe: Recipe):
         self._remove_recipe_mappings(recipe)
-        self._recipes.remove(recipe)
+        del self._recipes[recipe.name]
 
     def remove_recipe_by_name(self, name):
         self.remove_recipe(self.get_recipe_by_id(Recipe(name=name).get_id()))
@@ -140,7 +131,7 @@ class RecipesCollection(IJsonSerializable):
 
     def get_unresolved_names(self):
         names = set()
-        for recipe in self._recipes:
+        for recipe in self._recipes.values():
             for ingredient in recipe.get_required():
                 if not self.is_material_known(ingredient):
                     names.add(ingredient.name)

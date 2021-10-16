@@ -1,4 +1,4 @@
-from copy import deepcopy
+from copy import deepcopy, copy
 from functools import cached_property
 from pathlib import Path
 from typing import Dict, List, Set
@@ -12,23 +12,37 @@ from factorio.types.recipe import Recipe
 
 
 class CraftingEnvironment:
-    _final_recipe_ids: Set[int]
 
     def __init__(self,
                  final_materials: List[Union[str, Material]] = None,
-                 game_env: GameEnvironment = None) -> None:
+                 builder: ProductionConfigBuilder = None,
+                 game_env: GameEnvironment = None,) -> None:
 
-        self.game_env = game_env if game_env is not None else self.game_env_default
-        self.constrains: Dict[str, ProductionConfig] = {}
-        self.production_config_builder = ProductionConfigBuilder(self.game_env)
+        self.final_material = None
+        self.game_env = game_env if game_env is not None else self.load_default_game_env()
+        self._constrains: Dict[str, ProductionConfig] = {}
+
+        self.production_config_builder = builder
 
         self._final_recipe_ids = set()
         if final_materials is not None:
             for material in final_materials:
                 self.add_final_recipe_name(Material.name_from(material))
 
-    @cached_property
-    def game_env_default(self):
+    def __deepcopy__(self, memodict={}):
+        c = object.__new__(CraftingEnvironment)
+        c.game_env = self.game_env
+        c._constrains = deepcopy(self._constrains)
+        c.production_config_builder = deepcopy(self.production_config_builder)
+        return c
+
+    def copy(self):
+        shallow = copy(self)
+        shallow.game_env = copy(self.production_config_builder)
+        return shallow
+
+    @staticmethod
+    def load_default_game_env():
         return GameEnvironment(Path('/home/anton/.factorio/script-output/recipe-lister/'))
 
     def add_final_recipe_name(self, recipe_name: str):
@@ -42,22 +56,21 @@ class CraftingEnvironment:
     def add_constrain_config(self, config: ProductionConfig):
         """constrain amount of recipe crafts that can be produced by system"""
         config.constrained = True
-        self.constrains[config.get_recipe().get_id()] = config
+        self._constrains[config.get_recipe().get_id()] = config
 
     def constrain_material_rate(self, material: Union[str, Material]):
-        recipe = self.game_env.recipe_collection[material]
-        config = self.get_config_unconstrained(recipe)
+        config = self.get_material_config(material)
         config.set_material_rate(material)
         self.add_constrain_config(config)
 
     def constrain_producers_amount(self, recipe_name: str, amount: float):
-        recipe = self.game_env.recipe_collection.get_material_recipe(recipe_name)
+        recipe = self.game_env.recipe_collection.get_recipe(recipe_name)
         config = self.get_config_unconstrained(recipe)
         config.producers_amount = amount
         self.add_constrain_config(config)
 
     def clear_constraints(self):
-        self.constrains = {}
+        self._constrains = {}
 
     def get_production_config(self, recipe: Recipe) -> ProductionConfig:
         """
@@ -66,8 +79,8 @@ class CraftingEnvironment:
         WARNING! if the same config is requested multiple times, the same object will be returned
         """
 
-        if recipe.get_id() in self.constrains:
-            return deepcopy(self.constrains[recipe.get_id()])
+        if recipe.get_id() in self._constrains:
+            return deepcopy(self._constrains[recipe.get_id()])
 
         if self.is_final_recipe(recipe):
             result_material = recipe.get_results().first()
@@ -84,3 +97,10 @@ class CraftingEnvironment:
 
     def get_config_unconstrained(self, recipe: Recipe):
         return self.production_config_builder.build(recipe)
+
+    def get_material_recipe(self, material: Material):
+        return self.game_env.recipe_collection.get_material_recipe(material)
+
+    def get_material_config(self, material):
+        recipe = self.get_material_recipe(material)
+        return self.get_production_config(recipe)

@@ -1,3 +1,5 @@
+from copy import deepcopy
+
 from factorio.crafting_tree_builder.objects.material_transport import ItemTransport, FluidTransport
 from factorio.game_environment.game_environment import GameEnvironment
 from factorio.game_environment.object_stats.crafting_category import CraftingCategory
@@ -11,6 +13,13 @@ class ProductionConfigBuilder:
 
     def __init__(self, game_environment: GameEnvironment) -> None:
         self._game_env = game_environment
+        self._choices = {}
+
+    def __deepcopy__(self, memodict={}):
+        c = object.__new__(ProductionConfigBuilder)
+        c._game_env = self._game_env
+        c._choices = deepcopy(self._choices)
+        return c
 
     def build(self, recipe: Recipe) -> ProductionConfig:
         material_type = self._game_env.get_material_type(recipe.get_results().first())

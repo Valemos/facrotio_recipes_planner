@@ -4,7 +4,8 @@ from tkinter import messagebox
 
 from PIL import Image
 
-from factorio.recipe_graph.graph import build_recipe_graph
+from factorio.crafting_tree_builder.crafting_tree_builder import CraftingTreeBuilder
+from factorio.recipe_graph.graph import build_recipe_graph, build_crafting_tree_graph
 from factorio.types.material import Material
 from gui.crafring_environment_form_widget import CraftingEnvironmentFormWidget
 from gui.name_amount_widget import NameAmountWidget
@@ -44,8 +45,11 @@ class RecipeTreeApp(tk.Frame):
             return
 
         environment = self.form_environment.get_environment()
+        builder = CraftingTreeBuilder(environment)
+        builder.constrain_material_rate(desired_material)
+        tree_root = builder.build_tree()
 
-        graph = build_recipe_graph(desired_material, environment)
+        graph = build_crafting_tree_graph(tree_root)
         graph.render(self.default_graph_image_path.with_suffix(""), format="png")
         image: Image.Image = Image.open(self.default_graph_image_path)
         image.show()
