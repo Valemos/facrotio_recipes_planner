@@ -3,9 +3,8 @@ import json
 import zlib
 
 
-
-def deserialize_factorio_format(b):
-    decoded = base64.b64decode(b[1:])
+def deserialize_factorio_format(string):
+    decoded = base64.b64decode(string[1:])
     decompressed = zlib.decompress(decoded)
     return json.loads(decompressed)
 
@@ -29,7 +28,7 @@ if __name__ == '__main__':
 
     b: Blueprint = Blueprint.from_json(deserialize_factorio_format(_sample_str))
     e: BlueprintEntity
-    for e in b.objects:
+    for e in b.entities:
         print(e.name)
 
     # import pyperclip

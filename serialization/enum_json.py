@@ -20,7 +20,4 @@ class EnumByValueJson(IJsonSerializable, Enum):
 
     @classmethod
     def from_json(cls, json_object):
-        try:
-            return cls(json_object)
-        except Exception:
-            print(json_object)
+        return cls(json_object)

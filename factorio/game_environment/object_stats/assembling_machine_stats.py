@@ -25,6 +25,5 @@ class AssemblingMachineStats(AStats):
     energy_source: dict = None
     pollution: int = None
 
-    @lru_cache
     def to_object(self) -> AssemblingMachine:
         return AssemblingMachine(self.crafting_speed)

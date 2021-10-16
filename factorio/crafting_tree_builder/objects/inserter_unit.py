@@ -1,10 +1,8 @@
 from dataclasses import dataclass
 
-from factorio.types.material import Material
-
 
 @dataclass(eq=True, unsafe_hash=True)
-class InserterUnit(Material):
+class InserterUnit:
     cycle_speed: float = 1
     capacity: float = 1
 

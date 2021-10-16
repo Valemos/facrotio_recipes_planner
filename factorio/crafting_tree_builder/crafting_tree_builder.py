@@ -2,7 +2,7 @@ from copy import deepcopy
 from typing import Union
 
 from factorio.crafting_environment import CraftingEnvironment
-from factorio.blueprint_analysis.coordinate_grid import CoordinateGrid
+from factorio.blueprint_analysis.object_coordinate_grid import ObjectCoordinateGrid
 from factorio.recipe_graph.crafting_step import CraftingStep
 from factorio.types.material import Material
 
@@ -14,7 +14,7 @@ class CraftingTreeBuilder:
         self._crafting_env = deepcopy(crafting_env)
 
     @classmethod
-    def from_object_grid(cls, object_grid: CoordinateGrid):
+    def from_object_grid(cls, object_grid: ObjectCoordinateGrid):
         # todo finish this
         pass
 

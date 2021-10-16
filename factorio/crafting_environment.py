@@ -43,7 +43,7 @@ class CraftingEnvironment:
 
     @staticmethod
     def load_default_game_env():
-        return GameEnvironment(Path('/home/anton/.factorio/script-output/recipe-lister/'))
+        return GameEnvironment.from_folder(Path('/home/anton/.factorio/script-output/recipe-lister/'))
 
     def add_final_recipe_name(self, recipe_name: str):
         recipe = self.game_env.recipe_collection.get_recipe(recipe_name)

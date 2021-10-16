@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from factorio.crafting_tree_builder.objects import Position
+from factorio.game_environment.parsing.types.position import Position
 from serialization.a_composite_json_serializable import ACompositeJsonSerializable
 from serialization.a_container_json_serializable import AContainerJsonSerializable
 

@@ -1,21 +1,25 @@
+from typing import Generator
+
+from factorio.blueprint_analysis.grid_object import GridObject
 from factorio.game_environment.parsing.types.position import Position
 
 
-class CoordinateGrid:
+class ObjectCoordinateGrid:
 
     def __init__(self):
-        self._objects: list[list[object]] = []
+        self._grid: list[list[object]] = []
+        self._all_objects: list[object] = []
         self._array_start_shift = Position(0, 0)
 
     @property
     def size_x(self):
-        return len(self._objects)
+        return len(self._grid)
 
     @property
     def size_y(self):
-        if len(self._objects) == 0:
+        if len(self._grid) == 0:
             return 0
-        return len(self._objects[0])
+        return len(self._grid[0])
 
     @property
     def min_x(self):
@@ -35,7 +39,7 @@ class CoordinateGrid:
 
     def place_object(self, obj, position: Position):
         if self.size_x == 0 and self.size_y == 0:
-            self._objects = [[None]]
+            self._grid = [[None]]
             self._array_start_shift = Position(-position.x, -position.y)
         self._extend_grid_for_position(position)
         self._set_at_position(obj, position)
@@ -44,7 +48,7 @@ class CoordinateGrid:
         self._set_at_position(None, position)
 
     def get(self, position: Position):
-        return self._objects[self._get_x(position.x)][self._get_y(position.y)]
+        return self._grid[self._get_x(position.x)][self._get_y(position.y)]
 
     def _get_x(self, x):
         return x + self._array_start_shift.x
@@ -58,7 +62,9 @@ class CoordinateGrid:
         self._extend_to_fit_y(position.y)
 
     def _set_at_position(self, obj, position):
-        self._objects[self._get_x(position.x)][self._get_y(position.y)] = obj
+        self._grid[self._get_x(position.x)][self._get_y(position.y)] = obj
+        if obj not in self._all_objects:
+            self._all_objects.append(obj)
 
     def _extend_to_fit_x(self, x):
         min_x = self.min_x
@@ -82,10 +88,13 @@ class CoordinateGrid:
 
     def _extend_x(self, amount, index):
         for _ in range(amount):
-            self._objects.insert(index, [None for _ in range(self.size_y)])
+            self._grid.insert(index, [None for _ in range(self.size_y)])
 
     def _extend_y(self, amount, index):
         x_list: list
-        for x_list in self._objects:
+        for x_list in self._grid:
             for _ in range(amount):
                 x_list.insert(index, None)
+
+    def iterate_objects(self):
+        yield from iter(self._all_objects)

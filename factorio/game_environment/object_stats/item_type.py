@@ -20,6 +20,7 @@ class ItemType(EnumByValueJson):
     RAIL_PLANNER = "rail-planner"
     MINING_TOOL = "mining-tool"
     ITEM = "item"
+    FLUID = "fluid"
     SELECTION_TOOL = "selection-tool"
     GUN = "gun"
     ITEM_WITH_ENTITY_DATA = "item-with-entity-data"

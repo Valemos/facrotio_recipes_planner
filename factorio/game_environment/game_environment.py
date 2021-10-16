@@ -23,21 +23,21 @@ class GameEnvironment:
                  recipe_stats: dict[str, RecipeStats],
                  item_stats: dict[str, ItemStats],
                  fluid_stats: dict[str, FluidStats],
-                 assemblers_stats: dict[str, AStats],
+                 assemblers_stats: dict[str, AssemblingMachineStats],
                  *other_stats_dicts: dict[str, AStats]):
 
         self.assemblers_stats = assemblers_stats
         self.item_stats = item_stats
         self.fluid_stats = fluid_stats
-        self._stats_map: dict[str, AStats] = dict(**assemblers_stats, **item_stats, **fluid_stats)
 
+        self._other_stats_map = {}
         for stats in other_stats_dicts:
-            self._stats_map = dict(self._stats_map, **stats)
+            self._other_stats_map = dict(self._other_stats_map, **stats)
 
         self._category_map: dict[CraftingCategory, list[str]] = {}
         self._init_categories()
 
-        self.recipe_collection: RecipesCollection = self.create_recipes_collection(recipe_stats)
+        self.recipe_collection: RecipesCollection = self.create_recipes_collection(recipe_stats.values())
 
     @staticmethod
     def from_folder(load_folder: Path):
@@ -52,17 +52,31 @@ class GameEnvironment:
         return GameEnvironment(recipe_stats,
                                item_stats,
                                fluid_stats,
-                               dict(**assembling_stats, **furnace_stats, **mining_stats),
+                               dict(**assembling_stats, **furnace_stats),
                                inserter_stats,
-                               transport_belt_stats)
+                               transport_belt_stats,
+                               mining_stats,)
 
-    def get_stats(self, item_name: str):
-        if not isinstance(item_name, str) or not item_name in self._stats_map:
-            raise ValueError("provide existing name string")
-        return self._stats_map[item_name]
+    def get_placeable_stats(self, item_name: str) -> AStats:
+        if isinstance(item_name, str):
+            if item_name in self.assemblers_stats:
+                return self.assemblers_stats[item_name]
+            elif item_name in self._other_stats_map:
+                return self._other_stats_map[item_name]
+
+        raise ValueError(f'provide existing name string, not "{repr(item_name)}"')
+
+    def get_material_stats(self, material):
+        name = Material.name_from(material)
+        if name in self.item_stats:
+            return self.item_stats[name]
+        elif name in self.fluid_stats:
+            return self.fluid_stats[name]
+        else:
+            raise ValueError(f'provide existing name string, not "{repr(name)}"')
 
     def category_to_assemblers(self, category: CraftingCategory):
-        return [self.get_stats(name).to_object() for name in self._category_map[category]]
+        return [self.get_placeable_stats(name).to_object() for name in self._category_map[category]]
 
     def get_material_type(self, material: Union[str, Material]):
         name = Material.name_from(material)
@@ -92,4 +106,3 @@ class GameEnvironment:
             recipes_collection.add_unique_basic_material(_unresolved_material)
 
         return recipes_collection
-
