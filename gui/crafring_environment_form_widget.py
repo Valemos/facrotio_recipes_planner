@@ -2,7 +2,7 @@ import tkinter as tk
 from pathlib import Path
 
 from app_misc.a_recipe_json_editor import ARecipeJsonEditor
-from factorio.crafting_environment.crafting_environment import CraftingEnvironment
+from factorio.crafting_environment import CraftingEnvironment
 from factorio.types.named_item import NamedItem
 import configurations.vanilla_devices as devices
 from gui.entry_validator_with_label import EntryExistingPath
@@ -73,5 +73,5 @@ class CraftingEnvironmentFormWidget(tk.Frame, ARecipeJsonEditor):
             assembler_type=self.menu_assembler_type.get().item,
             furnace_type=self.menu_furnace_type.get().item,
             transport_belt_type=self.menu_belt_type.get().item,
-            recipes_collection=self.read_recipes_from_json()
+            game_env=self.read_recipes_from_json()
         )

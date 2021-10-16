@@ -1,8 +1,8 @@
 from dataclasses import dataclass, field
 
+from factorio.crafting_environment import CraftingEnvironment
 from factorio.types.material import Material
 from factorio.types.material_collection import MaterialCollection
-from factorio.crafting_environment.crafting_environment import CraftingEnvironment
 from factorio.types.production_config import ProductionConfig
 
 

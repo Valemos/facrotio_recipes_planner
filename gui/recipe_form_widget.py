@@ -3,12 +3,11 @@ import tkinter as tk
 from factorio.types.material import Material
 from factorio.types.material_collection import MaterialCollection
 from factorio.types.recipe import Recipe
-from factorio.crafting_environment.objects.craft_stations.craft_station_type import CraftStationType
+from factorio.crafting_tree_builder.objects import CraftStationType
 from factorio.types.recipes_collection import RecipesCollection
 from gui.entry_validator_with_label import EntryFloatWithLabel
 from gui.entry_with_label import EntryWithLabel
 from gui.menu_object_selector_widget import MenuObjectSelectorWidget
-from gui.menu_with_handler_widget import MenuWithHandlerWidget
 from gui.widget_list import WidgetList
 from gui.name_amount_widget import NameAmountWidget
 

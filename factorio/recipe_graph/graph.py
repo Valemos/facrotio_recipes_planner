@@ -1,9 +1,11 @@
 from typing import Dict, List, Union
+
 from graphviz.dot import Digraph
-from factorio.crafting_environment.crafting_environment import CraftingEnvironment, DEFAULT_ENVIRONMENT
+
+from factorio.crafting_environment import CraftingEnvironment, DEFAULT_ENVIRONMENT
 from factorio.recipe_graph.crafting_step import CraftingStep
-from factorio.types.material import Material
 from factorio.recipe_graph.crafting_tree import get_crafting_tree
+from factorio.types.material import Material
 
 
 def _get_next_node_id(group_id, group_ids, increment=1000):

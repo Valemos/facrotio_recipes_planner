@@ -11,7 +11,7 @@ local = CraftingEnvironment(
     furnace_2,
     inserter_fast,
     transport_belt_2,
-    recipes_collection=space_recipes
+    game_env=space_recipes
 )
 
 build_recipe_graph("circuit", local)

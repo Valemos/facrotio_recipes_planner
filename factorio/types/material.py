@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field
+
 from serialization.a_composite_json_serializable import ACompositeJsonSerializable
 
 

@@ -1,42 +1,42 @@
-from copy import deepcopy
-from dataclasses import dataclass
 import math
-from .recipe import Recipe
-from .material_collection import MaterialCollection
-from factorio.entity_network.material_transport import MaterialTransport
+from dataclasses import dataclass
+
+from factorio.crafting_tree_builder.objects import AMaterialTransport
+from factorio.crafting_tree_builder.objects.assembling_machine import AssemblingMachine
 from .material import Material
-from factorio.entity_network.assembling_machine import AssemblingMachine
+from .material_collection import MaterialCollection
+from .recipe import Recipe
 
 
 @dataclass
 class ProductionConfig:
     """represents production unit combined with input and output inserters"""
 
-    producer: AssemblingMachine
-    input: MaterialTransport
-    output: MaterialTransport
+    assembling_machine: AssemblingMachine
+    input: AMaterialTransport
+    output: AMaterialTransport
 
     # not fixed config will be updated later during execution
     producers_amount: float = float('inf')
     constrained: bool = False
 
     def get_required(self):
-        return self.producer.get_required(self.producers_amount)
+        return self.assembling_machine.get_required(self.producers_amount)
 
     def get_required_rates(self):
-        return self.producer.get_required_rates(self.producers_amount)
+        return self.assembling_machine.get_required_rates(self.producers_amount)
 
     def get_results(self):
-        return self.producer.get_results(self.producers_amount)
+        return self.assembling_machine.get_results(self.producers_amount)
 
     def get_results_rates(self):
-        return self.producer.get_results_rates(self.producers_amount)
+        return self.assembling_machine.get_results_rates(self.producers_amount)
 
     def get_recipe(self) -> Recipe:
-        return self.producer.get_recipe()
+        return self.assembling_machine.get_recipe()
 
     def set_recipe(self, recipe: Recipe):
-        self.producer = self.producer.setup(recipe)
+        self.assembling_machine = self.assembling_machine.copy_with_recipe(recipe)
 
     def get_production_rate(self):
         return self._get_config_production_rate(self.producers_amount)
@@ -59,9 +59,9 @@ class ProductionConfig:
         e.g. minimal craft requirements for all materials
         """
 
-        if not all(material in self.producer.get_required() for material in input_material_rates):
+        if not all(material in self.assembling_machine.get_required() for material in input_material_rates):
             raise ValueError(f"collections don't match: \n"
-                             f"{str(self.producer.recipe.get_required())}\n"
+                             f"{str(self.assembling_machine.recipe.get_required())}\n"
                              f"{str(input_material_rates)}")
 
         # use current producers_amount as max possible at this point
@@ -84,9 +84,9 @@ class ProductionConfig:
             return float('inf')
         
         # to get exactly ingredient_rate.amount items in input collection and scale everything else with it
-        craft_input_rates = self.producer.get_required_rates(1)
+        craft_input_rates = self.assembling_machine.get_required_rates(1)
         rate_scaling = ingredient_rate.amount / craft_input_rates[ingredient_rate].amount
-        craft_rate_by_ingredient = self.producer.get_craft_rate() * rate_scaling
+        craft_rate_by_ingredient = self.assembling_machine.craft_rate() * rate_scaling
 
         return self._get_machine_amount_for_craft_rate(craft_rate_by_ingredient)
 
@@ -101,12 +101,12 @@ class ProductionConfig:
         if machine_amount == float('inf'): return float('inf')
 
         machine_amount = math.ceil(machine_amount)
-        input_required_rate = self.producer.get_required_rates(machine_amount).total()
-        production_rate = self.producer.get_results_rates(machine_amount).total()
+        input_required_rate = self.assembling_machine.get_required_rates(machine_amount).total()
+        production_rate = self.assembling_machine.get_results_rates(machine_amount).total()
 
         # get inserter rates for total production scaling
-        input_rate_max = self.input.get_max_rate(machine_amount) 
-        output_rate_max = self.output.get_max_rate(machine_amount)
+        input_rate_max = self.input.get_max_rate() * machine_amount
+        output_rate_max = self.output.get_max_rate() * machine_amount
         
         if input_rate_max < input_required_rate:
             production_rate = input_rate_max

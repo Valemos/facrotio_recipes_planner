@@ -1,5 +1,5 @@
-from factorio.entity_network.assembling_machine import AssemblingMachine
-from factorio.entity_network.material_transport import FixedMaterialTransport
+from factorio.crafting_tree_builder.objects.assembling_machine import AssemblingMachine
+from factorio.crafting_tree_builder.objects.material_transport import AMaterialTransport
 from factorio.types.material import Material
 from factorio.types.material_collection import MaterialCollection
 from factorio.types.production_config import ProductionConfig
@@ -8,9 +8,9 @@ from factorio.types.recipe import Recipe
 
 class SourceProductionConfig(ProductionConfig):
 
-    def __init__(self, material: Material, item_bus: FixedMaterialTransport, is_constrained=False):
+    def __init__(self, material: Material, item_bus: AMaterialTransport, is_constrained=False):
         self.material = material
-        super().__init__(AssemblingMachine(1, recipe), item_bus, item_bus, item_bus.max_rate, is_constrained)
+        super().__init__(AssemblingMachine(1, recipe), item_bus, item_bus, item_bus.get_max_rate(), is_constrained)
 
     def get_id(self):
         return self.material
@@ -26,7 +26,7 @@ class SourceProductionConfig(ProductionConfig):
     def set_recipe(self, recipe: Recipe):
         """Must only be valid recipe on input. NOT empty recipe or else cannot assign valid material for this source"""
         self.material = recipe.results.first()
-        self.producer = self.producer.setup(recipe)
+        self.producer = self.assembling_machine.copy_with_recipe(recipe)
 
     def set_material_rate(self, material_rate: Material):
         assert self.material.name == material_rate.name
