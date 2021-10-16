@@ -1,19 +1,19 @@
 from dataclasses import dataclass
 
-from factorio.crafting_environment.objects.misc.side_priority import SidePriority
-from factorio.crafting_environment.objects.misc.color import Color
-from factorio.crafting_environment.objects.misc.filter_mode import FilterMode
-from factorio.crafting_environment.objects.misc.inventory import Inventory
-from factorio.crafting_environment.objects.misc.item_filter import ItemFilterList
-from factorio.crafting_environment.objects.misc.loader_type import LoaderType
-from factorio.crafting_environment.objects.misc.logistic_filter import LogisticFilter
-from factorio.crafting_environment.objects.misc.position import Position
+from factorio.crafting_environment.parsing.types.color import Color
+from factorio.crafting_environment.parsing.types.filter_mode import FilterMode
+from factorio.crafting_environment.parsing.types.inventory import Inventory
+from factorio.crafting_environment.parsing.types.item_filter import ItemFilterList
+from factorio.crafting_environment.parsing.types.loader_type import LoaderType
+from factorio.crafting_environment.parsing.types.logistic_filter import LogisticFilter
+from factorio.crafting_environment.parsing.types.position import Position
+from factorio.crafting_environment.parsing.types.side_priority import SidePriority
 from serialization.a_container_json_serializable import AContainerJsonSerializable
 from serialization.a_optional_json_serializable import AOptionalJsonSerializable
 
 
 @dataclass(eq=True)
-class Entity(AOptionalJsonSerializable):
+class BlueprintObject(AOptionalJsonSerializable):
     entity_number: int = None
     name: str = None
     position: Position = None
@@ -45,5 +45,5 @@ class Entity(AOptionalJsonSerializable):
     station: str = None
 
 
-class EntityList(list, AContainerJsonSerializable):
-    __element_type__ = Entity
+class BlueprintObjectList(list, AContainerJsonSerializable):
+    __element_type__ = BlueprintObject

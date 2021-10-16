@@ -1,11 +1,11 @@
 from dataclasses import dataclass, field
 from typing import List
-from factorio.types.transport_belt_unit import TransportBeltUnit
-from factorio.types.inserter_unit import InserterUnit
+from factorio.entity_network.transport_belt_unit import TransportBeltUnit
+from factorio.entity_network.inserter_unit import InserterUnit
 
 
 @dataclass
-class MaterialBus:
+class MaterialTransport:
     """represents conveyor belt <-> inserter or inserter alone"""
     inserters: List[InserterUnit] = field(default_factory=list)
     transport_belt: TransportBeltUnit = None
@@ -20,9 +20,11 @@ class MaterialBus:
         return min(belt_rate, inserters_rate)
 
 
-@dataclass
-class FixedMaterialBus(MaterialBus):
-    max_rate: float = 0
+class FixedMaterialTransport(MaterialTransport):
+
+    def __init__(self, max_rate: float = 0) -> None:
+        super().__init__()
+        self.max_rate = max_rate
 
     def get_max_rate(self, amount_units: int = 1):
         return self.max_rate

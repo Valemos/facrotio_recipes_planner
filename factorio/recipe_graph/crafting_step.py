@@ -1,5 +1,6 @@
 from dataclasses import dataclass, field
 
+from factorio.types.material import Material
 from factorio.types.material_collection import MaterialCollection
 from factorio.crafting_environment.crafting_environment import CraftingEnvironment
 from factorio.types.production_config import ProductionConfig
@@ -69,7 +70,7 @@ class CraftingStep:
         for prev_step in self.previous_steps:
             input_materials += prev_step.get_results()
 
-        self.config.set_maximum_consumers(input_materials)
+        self.config.set_max_consumers(input_materials)
 
     def propagate_output_constraints(self):
         current_step: CraftingStep = self.next_step
@@ -86,10 +87,12 @@ class CraftingStep:
         if len(required_inputs) == 0:
             return
 
+        step: CraftingStep
+        material: Material
         material_source_steps = {}
         for material in required_inputs:
             for step in self.previous_steps:
-                if material in step.config.get_recipe().get_results():
+                if material in step.config.get_results():
                     material_source_steps[material] = step
 
         for requested_material, ingredient_step in material_source_steps.items():

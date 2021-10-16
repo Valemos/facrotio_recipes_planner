@@ -3,27 +3,22 @@ from dataclasses import dataclass
 import math
 from .recipe import Recipe
 from .material_collection import MaterialCollection
-from factorio.crafting_environment.objects.transporters.item_bus import FixedMaterialBus, MaterialBus
+from factorio.entity_network.material_transport import MaterialTransport
 from .material import Material
-from ..crafting_environment.objects.craft_stations.craft_station import CraftStation
+from factorio.entity_network.assembling_machine import AssemblingMachine
 
 
 @dataclass
 class ProductionConfig:
     """represents production unit combined with input and output inserters"""
 
-    producer: CraftStation
-    input: MaterialBus
-    output: MaterialBus
+    producer: AssemblingMachine
+    input: MaterialTransport
+    output: MaterialTransport
 
     # not fixed config will be updated later during execution
     producers_amount: float = float('inf')
     constrained: bool = False
-
-    def copy_with_recipe(self, new_recipe: Recipe):
-        new_config = deepcopy(self)
-        new_config.set_recipe(new_recipe)
-        return new_config
 
     def get_required(self):
         return self.producer.get_required(self.producers_amount)
@@ -49,7 +44,7 @@ class ProductionConfig:
     def set_material_rate(self, material_rate: Material):
         """sets desired material rate if possible"""
         # for recipes with more than one result correcting factor is added to match recipe craft results 
-        recipe_results = self.get_recipe().get_results()
+        recipe_results = self.get_results()
         craft_rate = recipe_results.total() * material_rate.amount / recipe_results[material_rate].amount
 
         self.producers_amount = self._get_machine_amount_for_craft_rate(craft_rate)
@@ -58,7 +53,7 @@ class ProductionConfig:
         max_possible_rate = self.output.get_max_rate()
         self.producers_amount = min(material_rate.amount, max_possible_rate)
 
-    def set_maximum_consumers(self, input_material_rates: MaterialCollection):
+    def set_max_consumers(self, input_material_rates: MaterialCollection):
         """
         producers amount will be calculated from the input of the most scarce resource 
         e.g. minimal craft requirements for all materials
@@ -72,7 +67,7 @@ class ProductionConfig:
         # use current producers_amount as max possible at this point
         consumers_amount = self.producers_amount
         for ingredient in input_material_rates:
-            max_consumers = self.get_maximum_ingredient_consumers(ingredient)
+            max_consumers = self.get_max_consumers(ingredient)
             if consumers_amount > max_consumers:
                 consumers_amount = max_consumers
         
@@ -82,7 +77,7 @@ class ProductionConfig:
         # if all input resources are infinite, producers amount also infinite
         self.producers_amount = consumers_amount
 
-    def get_maximum_ingredient_consumers(self, ingredient_rate: Material):
+    def get_max_consumers(self, ingredient_rate: Material):
         """uses certain recipe ingredient rate to calculate minimum amount to producers to consume them all"""
 
         if ingredient_rate.amount == float('inf'):
@@ -140,35 +135,3 @@ class ProductionConfig:
         else:
             return theoretical_machine_amount
 
-
-class SourceProductionConfig(ProductionConfig):
-
-    def __init__(self, recipe: Recipe, item_bus: FixedMaterialBus, is_constrained=False):
-        self.material = recipe.get_results().first() if len(recipe.get_results()) > 0 else Material("Placeholder", 0)
-        super().__init__(CraftStation(1, recipe), item_bus, item_bus, item_bus.max_rate, is_constrained)
-
-    def get_id(self):
-        return self.material
-
-    def get_results_rates(self):
-        collection = MaterialCollection()
-        collection.add(Material(self.material.name, self.output.get_max_rate()))
-        return collection
-
-    def get_production_rate(self):
-        return self.producers_amount
-
-    def set_recipe(self, recipe: Recipe):
-        """Must only be valid recipe on input. NOT empty recipe or else cannot assign valid material for this source"""
-        self.material = recipe.results.first()
-        self.producer = self.producer.setup(recipe)
-
-    def set_material_rate(self, material_rate: Material):
-        assert self.material.name == material_rate.name
-        self.producers_amount = material_rate.amount
-    
-    def set_basic_material_rate(self, material_rate: Material):
-        self.set_material_rate(material_rate)
-
-    def set_maximum_consumers(self, input_material_rates: MaterialCollection):
-        print("WARN! trying to deduce producers amount for source material")

@@ -1,6 +1,6 @@
-from factorio.crafting_environment.objects.misc.color import Color
-from factorio.crafting_environment.stats.a_stats import AStats
-from factorio.types.transport_belt_unit import TransportBeltUnit
+from ..parsing.types.color import Color
+from .a_stats import AStats
+from factorio.entity_network.transport_belt_unit import TransportBeltUnit
 from serialization.string_list_json import StringListJson
 
 

@@ -1,9 +1,7 @@
-from typing import Optional
-
-from factorio.types.inserter_unit import InserterUnit
+from factorio.entity_network.inserter_unit import InserterUnit
 from serialization.string_list_json import StringListJson
 from .a_stats import AStats
-from ..objects.misc.color import Color
+from ..parsing.types.color import Color
 
 
 class InserterStats(AStats):

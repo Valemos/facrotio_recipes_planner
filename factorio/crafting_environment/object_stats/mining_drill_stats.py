@@ -4,8 +4,8 @@ from serialization.string_list_json import StringListJson
 from .a_stats import AStats
 from .effects_dict import EffectsDict
 from .resource_category import ResourceCategoryMapping
-from ..objects.craft_stations.craft_station import CraftStation
-from ..objects.misc.color import Color
+from factorio.entity_network.assembling_machine import AssemblingMachine
+from ..parsing.types.color import Color
 
 
 class MiningDrillStats(AStats):
@@ -21,4 +21,4 @@ class MiningDrillStats(AStats):
     pollution: int = None
 
     def to_object(self) -> Optional[object]:
-        return CraftStation(self.mining_speed)
+        return AssemblingMachine(self.mining_speed)

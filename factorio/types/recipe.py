@@ -3,7 +3,7 @@ from dataclasses import dataclass, field
 from serialization.a_composite_json_serializable import ACompositeJsonSerializable
 from .material import Material
 from .material_collection import MaterialCollection
-from ..crafting_environment.stats.category import Category
+from ..crafting_environment.object_stats.crafting_category import CraftingCategory
 
 
 @dataclass
@@ -11,7 +11,7 @@ class Recipe(ACompositeJsonSerializable):
 
     name: str = ""
     time: float = 0  # in seconds per craft
-    category: Category = Category.NO_CATEGORY
+    category: CraftingCategory = CraftingCategory.NO_CATEGORY
     ingredients: MaterialCollection = field(default_factory=MaterialCollection)
     results: MaterialCollection = field(default_factory=MaterialCollection)
 

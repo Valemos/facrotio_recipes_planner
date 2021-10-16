@@ -2,7 +2,7 @@ from serialization.enum_json import EnumByValueJson
 from serialization.enum_mapping_json import EnumMappingJson
 
 
-class Category(EnumByValueJson):
+class CraftingCategory(EnumByValueJson):
     NO_CATEGORY = "no-category"
     SPACE_GROWTH = "space-growth"
     SPACE_SUPERCOMPUTING_2 = "space-supercomputing-2"
@@ -57,7 +57,13 @@ class Category(EnumByValueJson):
     SPACE_ELECTROMAGNETICS = "space-electromagnetics"
     SPACE_ACCELERATOR = "space-accelerator"
     SPACE_RADIATOR = "space-radiator"
+    ROCKET_BUILDING = "rocket-building"
+    BIG_TURBINE = "big-turbine"
+    SPACESHIP_ANTIMATTER_ENGINE = "spaceship-antimatter-engine"
+    SPACESHIP_ROCKET_ENGINE = "spaceship-rocket-engine"
+    SPACESHIP_ION_ENGINE = "spaceship-ion-engine"
+    CONDENSER_TURBINE = "condenser-turbine"
 
 
 class CategoriesMapping(EnumMappingJson):
-    __element_type__ = Category
+    __element_type__ = CraftingCategory

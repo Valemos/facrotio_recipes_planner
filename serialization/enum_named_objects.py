@@ -4,7 +4,7 @@ from typing import Union
 from factorio.types.named_item import NamedItem
 
 
-class EntitySpecialtyEnum(Enum):
+class EnumNamedObjects(Enum):
 
     _value_: Union[NamedItem, str]
 
@@ -20,7 +20,7 @@ class EntitySpecialtyEnum(Enum):
 
 
 if __name__ == '__main__':
-    class Tester(EntitySpecialtyEnum):
+    class Tester(EnumNamedObjects):
         S1 = NamedItem("item", 1000)
 
     print(Tester.has_name("boi"))

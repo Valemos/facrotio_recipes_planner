@@ -25,11 +25,11 @@ if __name__ == '__main__':
                   "/W7HuN9Kxv0WnfpL9v2ZkYn4rZKrr5fUx6/vIxGHyi7bdLZKFIr1EqRByIRCzLNzakDkc= "
 
     from factorio.crafting_environment.objects.blueprint import Blueprint
-    from factorio.crafting_environment.objects.entity import Entity
+    from factorio.crafting_environment.objects.blueprint_entity import BlueprintEntity
 
     b: Blueprint = Blueprint.from_json(deserialize_factorio_format(_sample_str))
-    e: Entity
-    for e in b.entities:
+    e: BlueprintEntity
+    for e in b.objects:
         print(e.name)
 
     # import pyperclip

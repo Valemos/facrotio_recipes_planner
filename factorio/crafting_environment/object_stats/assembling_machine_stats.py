@@ -1,10 +1,11 @@
-from typing import Optional
+from functools import lru_cache
 
 from serialization.string_list_json import StringListJson
 from .a_stats import AStats
-from .category import CategoriesMapping
+from .crafting_category import CategoriesMapping
 from .effects_dict import EffectsDict
-from ..objects.misc.color import Color
+from factorio.entity_network.assembling_machine import AssemblingMachine
+from ..parsing.types.color import Color
 
 
 class AssemblingMachineStats(AStats):
@@ -22,5 +23,6 @@ class AssemblingMachineStats(AStats):
     energy_source: dict = None
     pollution: int = None
 
-    def to_object(self):
-        return None
+    @lru_cache
+    def to_object(self) -> AssemblingMachine:
+        return AssemblingMachine(self.crafting_speed)

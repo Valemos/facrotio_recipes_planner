@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from .material import Material
+from factorio.types.material import Material
 
 
 @dataclass(eq=True, unsafe_hash=True)

@@ -9,8 +9,6 @@ class Material(ACompositeJsonSerializable):
     name: str = field(default="", hash=True)
     amount: float = field(default=1, hash=False)  # inf value indicates is considered an unconstrained amount
 
-    __ignored_fields__ = "id"
-
     def __mul__(self, multiplier):
         assert isinstance(multiplier, float) or isinstance(multiplier, int)
         return Material(self.name, self.amount * multiplier)
