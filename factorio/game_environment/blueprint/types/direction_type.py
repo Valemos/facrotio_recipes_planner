@@ -11,3 +11,9 @@ class DirectionType(EnumByValueJson):
     LEFT = 6
     UP_LEFT = 7
     NO_DIRECTION = None
+
+    def is_horizontal(self):
+        return self == DirectionType.LEFT or self == DirectionType.RIGHT
+
+    def is_vertical(self):
+        return self == DirectionType.UP or self == DirectionType.DOWN

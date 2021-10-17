@@ -14,6 +14,6 @@ class UndergroundBeltUnit(AItemTransport):
     def max_rate(self):
         return self.item_rate
 
-    def iterate_connection_spots(self, start_position: Position):
+    def iterate_connection_cells(self, start_position: Position):
         for distance in range(1, self.range + 1):
             yield from self.iterate_direction_forward(start_position)

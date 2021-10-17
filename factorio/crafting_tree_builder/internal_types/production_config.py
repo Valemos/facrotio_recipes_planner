@@ -2,7 +2,7 @@ import math
 from dataclasses import dataclass
 
 from factorio.crafting_tree_builder.placeable_types import AMaterialTransport
-from factorio.crafting_tree_builder.placeable_types.assembling_machine import AssemblingMachine
+from factorio.crafting_tree_builder.placeable_types.assembling_machine import AssemblingMachineUnit
 from .material import Material
 from .material_collection import MaterialCollection
 from .recipe import Recipe
@@ -12,7 +12,7 @@ from .recipe import Recipe
 class ProductionConfig:
     """represents production unit combined with input and output inserters"""
 
-    assembling_machine: AssemblingMachine
+    assembling_machine: AssemblingMachineUnit
     input: AMaterialTransport
     output: AMaterialTransport
 

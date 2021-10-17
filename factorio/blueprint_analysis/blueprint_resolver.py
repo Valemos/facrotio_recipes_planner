@@ -1,12 +1,9 @@
-from pathlib import Path
-
-from factorio.blueprint_analysis.a_grid_object import AGridObject
+from factorio.blueprint_analysis.a_sized_grid_object import ASizedGridObject
 from factorio.blueprint_analysis.object_coordinate_grid import ObjectCoordinateGrid
 from factorio.crafting_tree_builder.placeable_types.a_material_transport import AMaterialTransport
-from factorio.crafting_tree_builder.placeable_types.assembling_machine import AssemblingMachine
+from factorio.crafting_tree_builder.placeable_types.assembling_machine import AssemblingMachineUnit
 from factorio.game_environment.blueprint.blueprint import Blueprint
 from factorio.game_environment.blueprint.blueprint_object import BlueprintObject
-from factorio.game_environment.blueprint.types.position import Position
 from factorio.game_environment.game_environment import GameEnvironment
 
 
@@ -16,9 +13,9 @@ class BlueprintResolver:
         self._game_env = game_env
         self._blueprint = blueprint
         self._grid = ObjectCoordinateGrid()
-        self._unresolved_objects: list[AGridObject] = []
-        self._assemblers: list[AssemblingMachine] = []
-        self._material_transports: list[AMaterialTransport] = []
+        self._assemblers: list[AssemblingMachineUnit] = []
+        self._grid_objects: list = []
+        self._unresolved_objects: list = []
 
         for obj in blueprint.entities:
             self.add_blueprint_object(obj)
@@ -29,25 +26,27 @@ class BlueprintResolver:
 
     def add_blueprint_object(self, obj_info: BlueprintObject):
         game_object = obj_info.to_game_object(self._game_env)
-        self.add_grid_object(game_object, obj_info.position)
 
-    def add_grid_object(self, game_object, position: Position):
-        if isinstance(game_object, AssemblingMachine):
-            self._assemblers.append(game_object)
-        elif isinstance(game_object, AMaterialTransport):
-            self._add_material_transport(game_object, position)
+        if isinstance(game_object, ASizedGridObject):
+            self.add_sized_grid_object(game_object)
         else:
+            print(f'unresolved "{repr(game_object)}"')
             self._unresolved_objects.append(game_object)
 
-        # todo add size of objects if possible
-        self._grid.place_object(game_object, position)
+    def add_sized_grid_object(self, obj: ASizedGridObject):
+        if isinstance(obj, AssemblingMachineUnit):
+            self._assemblers.append(obj)
 
-    def _add_material_transport(self, obj: AMaterialTransport, position: Position):
-        self._material_transports.append(obj)
-        for possible_connection in obj.iterate_connection_spots(position):
-            other_obj = self._grid.get(possible_connection)
-            if isinstance(other_obj, AMaterialTransport):
-                obj.try_connect(other_obj)
+        self._grid_objects.append(obj)
+
+        if isinstance(obj, AMaterialTransport):
+            for connection_cell in obj.iterate_connection_cells():
+                other_obj = self._grid.get(connection_cell)
+                if isinstance(other_obj, AMaterialTransport):
+                    obj.try_connect(other_obj)
+
+        for object_cell in obj.iterate_object_cells():
+            self._grid.place_object_at_position(obj, object_cell)
 
 
 if __name__ == '__main__':
@@ -71,6 +70,6 @@ if __name__ == '__main__':
                "/3FdlUxdhq5nBZoajcO1Da+FJFMJjuBHmaj0tG+cUvX6V4FsSDVKlJ/wGT3TeofZLqKzP5tmf0g9SryONsyRvkO3Mz+R" \
                "+BBrZuyOEi9P6q91ulWZzqEF/Qrk9s= "
 
-    _resolver = BlueprintResolver(_game_environment, Blueprint.from_factorio_string(_string2))
+    _resolver = BlueprintResolver(_game_environment, Blueprint.from_factorio_string(_string))
     # _resolver.grid.show_debug_grid()
     pass

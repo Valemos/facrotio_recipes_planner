@@ -1,10 +1,8 @@
-from typing import Generator
-
-from factorio.blueprint_analysis.a_grid_object import AGridObject
+from factorio.blueprint_analysis.a_sized_grid_object import ASizedGridObject
 from factorio.game_environment.blueprint.types.position import Position
 
 
-def show_labels_grid(colors, labels, x_numbers, y_numbers, **kw):
+def _show_labels_grid(colors, labels, x_numbers, y_numbers, **kw):
     import numpy as np
     import matplotlib.pyplot as plt
 
@@ -59,12 +57,15 @@ class ObjectCoordinateGrid:
     def max_y(self):
         return int(self.size_y - 1 - self._array_start_shift.y)
 
-    def place_object(self, obj, position: Position):
+    def place_object_at_position(self, obj, position: Position):
         if self.size_x == 0 and self.size_y == 0:
             self._grid = [[None]]
             self._array_start_shift = Position(-position.x, -position.y)
         self._extend_grid_for_position(position)
         self._set_at_position(obj, position)
+
+    def place_grid_object(self, obj: ASizedGridObject):
+        self.place_object_at_position(obj, obj.position.round())
 
     def remove_object_from_position(self, position: Position):
         self._set_at_position(None, position)
@@ -82,13 +83,11 @@ class ObjectCoordinateGrid:
         from copy import deepcopy
         import numpy
 
-        labels = deepcopy(self._grid)
-
         colors = numpy.full((self.size_y, self.size_x), 0, dtype=numpy.float)
-
         if highlight is not None:
             colors[self._get_grid_x(highlight.y), self._get_grid_x(highlight.x)] = 1
 
+        labels = deepcopy(self._grid)
         for x in range(self.size_x):
             for y, obj in enumerate(labels[x]):
                 if obj is not None:
@@ -97,7 +96,7 @@ class ObjectCoordinateGrid:
 
         x_numbers = numpy.round(numpy.linspace(self.min_x, self.max_x + 1, self.size_x + 1), 2)
         y_numbers = numpy.round(numpy.linspace(self.min_y, self.max_y + 1, self.size_y), 2)
-        show_labels_grid(colors, labels, x_numbers, y_numbers)
+        _show_labels_grid(colors, labels, x_numbers, y_numbers)
 
     def _get_grid_x(self, x):
         return int(x + self._array_start_shift.x)

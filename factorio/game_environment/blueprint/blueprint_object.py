@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 
+from factorio.blueprint_analysis.a_grid_object import AGridObject
+from factorio.blueprint_analysis.a_sized_grid_object import ASizedGridObject
 from factorio.game_environment.manual_stats_mapping import ManualStatsMapping
 from factorio.game_environment.blueprint.types.color import Color
 from factorio.game_environment.blueprint.types.direction_type import DirectionType
@@ -47,16 +49,17 @@ class BlueprintObject(AOptionalJsonSerializable):
     color: Color = None
     station: str = None
 
-    def to_game_object(self, game_environment: GameEnvironment):
+    def to_game_object(self, game_environment: GameEnvironment) -> AGridObject:
         try:
             obj = game_environment.get_placeable_stats(self.name).to_game_object()
         except ValueError:
             obj = ManualStatsMapping(self.name).get_object()
 
-        if self.direction is not None:
-            if not hasattr(obj, "direction"):
-                raise ValueError(f'object {repr(obj)} has no attribute "direction"')
-            obj.direction = self.direction
+        if isinstance(obj, AGridObject):
+            if self.position is not None:
+                obj.position = self.position
+            if self.direction is not None:
+                obj.direction = self.direction
 
         return obj
 

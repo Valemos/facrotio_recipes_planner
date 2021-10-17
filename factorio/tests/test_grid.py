@@ -13,15 +13,15 @@ class TestGrid(unittest.TestCase):
 
     def test_grid_resized_first_object_to_1x1(self):
         grid = ObjectCoordinateGrid()
-        grid.place_object(1, Position(4, 6))
+        grid.place_object_at_position(1, Position(4, 6))
         self.assertEqual(grid.size_x, 1)
         self.assertEqual(grid.size_y, 1)
         self.assertEqual(grid.get(Position(4, 6)), 1)
 
     def test_grid_place_multiple_negative_coordinates(self):
         grid = ObjectCoordinateGrid()
-        grid.place_object(10, Position(-1, -2))
-        grid.place_object(100, Position(-1, -3))
+        grid.place_object_at_position(10, Position(-1, -2))
+        grid.place_object_at_position(100, Position(-1, -3))
         self.assertEqual(grid.size_x, 1)
         self.assertEqual(grid.size_y, 2)
         self.assertEqual(grid.get(Position(-1, -3)), 100)
@@ -37,11 +37,11 @@ class TestGrid(unittest.TestCase):
           -2-1 0 1 2
         """
         grid = ObjectCoordinateGrid()
-        grid.place_object(1, Position(-1, -2))
-        grid.place_object(2, Position(-2, -2))
-        grid.place_object(3, Position(-1, -3))
-        grid.place_object(4, Position(2, -2))
-        grid.place_object(5, Position(-1, 2))
+        grid.place_object_at_position(1, Position(-1, -2))
+        grid.place_object_at_position(2, Position(-2, -2))
+        grid.place_object_at_position(3, Position(-1, -3))
+        grid.place_object_at_position(4, Position(2, -2))
+        grid.place_object_at_position(5, Position(-1, 2))
         self.assertEqual(grid.get(Position(-1, -2)), 1)
         self.assertEqual(grid.get(Position(-2, -2)), 2)
         self.assertEqual(grid.get(Position(-1, -3)), 3)
@@ -50,11 +50,11 @@ class TestGrid(unittest.TestCase):
 
     def test_different_extension_modes_positive(self):
         grid = ObjectCoordinateGrid()
-        grid.place_object(1, Position(1, 2))
-        grid.place_object(2, Position(2, 2))
-        grid.place_object(3, Position(1, 3))
-        grid.place_object(4, Position(-2, 2))
-        grid.place_object(5, Position(1, -2))
+        grid.place_object_at_position(1, Position(1, 2))
+        grid.place_object_at_position(2, Position(2, 2))
+        grid.place_object_at_position(3, Position(1, 3))
+        grid.place_object_at_position(4, Position(-2, 2))
+        grid.place_object_at_position(5, Position(1, -2))
         self.assertEqual(grid.get(Position(1, 2)), 1)
         self.assertEqual(grid.get(Position(2, 2)), 2)
         self.assertEqual(grid.get(Position(1, 3)), 3)

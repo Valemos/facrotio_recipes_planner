@@ -18,7 +18,7 @@ class InserterUnit(AItemTransport):
     def max_rate(self):
         return self.cycle_speed * self.capacity
 
-    def iterate_connection_spots(self, start_position: Position):
+    def iterate_connection_cells(self, start_position: Position):
         if self.direction == DirectionType.UP or self.direction == DirectionType.DOWN:
             yield start_position.add_y(1)
             yield start_position.add_y(-1)

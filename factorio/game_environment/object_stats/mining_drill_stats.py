@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Optional
 
-from factorio.crafting_tree_builder.placeable_types.assembling_machine import AssemblingMachine
+from factorio.crafting_tree_builder.placeable_types.assembling_machine import AssemblingMachineUnit
 from serialization.string_list_json import StringListJson
 from .a_stats import AStats
 from .effects_dict import EffectsDict
@@ -23,4 +23,4 @@ class MiningDrillStats(AStats):
     pollution: int = None
 
     def to_game_object(self) -> Optional[object]:
-        return AssemblingMachine(self.mining_speed)
+        return AssemblingMachineUnit(self.mining_speed)

@@ -28,7 +28,7 @@ class InfiniteMaterialTransport(AMaterialTransport):
     def material_type(self) -> MaterialType:
         return self._material_type
 
-    def iterate_connection_spots(self, start_position):
+    def iterate_connection_cells(self, start_position):
         return
 
     def create_new_bus(self) -> AMaterialBus:

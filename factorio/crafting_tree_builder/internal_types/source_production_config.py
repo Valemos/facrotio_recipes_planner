@@ -1,4 +1,4 @@
-from factorio.crafting_tree_builder.placeable_types.assembling_machine import AssemblingMachine
+from factorio.crafting_tree_builder.placeable_types.assembling_machine import AssemblingMachineUnit
 from factorio.crafting_tree_builder.placeable_types.a_material_transport import AMaterialTransport
 from factorio.crafting_tree_builder.internal_types.material import Material
 from factorio.crafting_tree_builder.internal_types.material_collection import MaterialCollection
@@ -10,7 +10,7 @@ class SourceProductionConfig(ProductionConfig):
 
     def __init__(self, material: Material, item_bus: AMaterialTransport, is_constrained=False):
         self.material = material
-        super().__init__(AssemblingMachine(1, recipe), item_bus, item_bus, item_bus.max_rate(), is_constrained)
+        super().__init__(None, item_bus, item_bus, item_bus.max_rate(), is_constrained)
 
     def get_id(self):
         return self.material
@@ -22,11 +22,6 @@ class SourceProductionConfig(ProductionConfig):
 
     def get_production_rate(self):
         return self.producers_amount
-
-    def set_recipe(self, recipe: Recipe):
-        """Must only be valid recipe on input. NOT empty recipe or else cannot assign valid material for this source"""
-        self.material = recipe.results.first()
-        self.producer = self.assembling_machine.copy_with_recipe(recipe)
 
     def set_material_rate(self, material_rate: Material):
         assert self.material.name == material_rate.name

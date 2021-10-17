@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from functools import lru_cache
 
-from factorio.crafting_tree_builder.placeable_types.assembling_machine import AssemblingMachine
+from factorio.crafting_tree_builder.placeable_types.assembling_machine import AssemblingMachineUnit
 from serialization.string_list_json import StringListJson
 from .a_stats import AStats
 from .crafting_category import CategoriesMapping
@@ -25,5 +25,5 @@ class AssemblingMachineStats(AStats):
     energy_source: dict = None
     pollution: int = None
 
-    def to_game_object(self) -> AssemblingMachine:
-        return AssemblingMachine(self.crafting_speed)
+    def to_game_object(self) -> AssemblingMachineUnit:
+        return AssemblingMachineUnit(crafting_speed=self.crafting_speed)

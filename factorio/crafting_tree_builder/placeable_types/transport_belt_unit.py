@@ -2,7 +2,6 @@ from dataclasses import dataclass, field
 
 from factorio.crafting_tree_builder.placeable_types.material_transport import AItemTransport
 from factorio.game_environment.blueprint.types.direction_type import DirectionType
-from factorio.game_environment.blueprint.types.position import Position
 
 
 @dataclass
@@ -17,6 +16,10 @@ class TransportBeltUnit(AItemTransport):
     def max_rate(self):
         return self.item_rate
 
-    def iterate_connection_spots(self, start_position: Position):
-        yield from self.iterate_direction_forward(start_position)
-        yield from self.iterate_direction_backward(start_position)
+    def iterate_object_cells(self):
+        yield self.position.round()
+
+    def iterate_connection_cells(self):
+        rounded_position = self.position.round()
+        yield from self.iterate_direction_forward(rounded_position)
+        yield from self.iterate_cell_backward(rounded_position)

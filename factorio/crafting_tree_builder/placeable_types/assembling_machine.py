@@ -1,14 +1,16 @@
+from copy import deepcopy
 from dataclasses import dataclass
 from functools import cached_property
 
+from factorio.blueprint_analysis.a_grid_object import AGridObject
 from factorio.crafting_tree_builder.internal_types.recipe import Recipe
 
 
 @dataclass
-class AssemblingMachine:
+class AssemblingMachineUnit(AGridObject):
     """represents one unit of crafting machinery"""
 
-    crafting_speed: float  # amount of work / time unit
+    crafting_speed: float = 0  # amount of work / time unit
     recipe: Recipe = None
 
     def __str__(self):
@@ -24,7 +26,9 @@ class AssemblingMachine:
             raise ValueError("no recipe was provided to craft station")
 
     def copy_with_recipe(self, recipe):
-        return AssemblingMachine(self.crafting_speed, recipe)
+        copied = deepcopy(self)
+        copied.recipe = recipe
+        return copied
 
     @cached_property
     def craft_rate(self):

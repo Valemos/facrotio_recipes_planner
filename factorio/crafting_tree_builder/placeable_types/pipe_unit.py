@@ -4,5 +4,5 @@ from factorio.game_environment.blueprint.types.position import Position
 
 class PipeUnit(AFluidTransport):
 
-    def iterate_connection_spots(self, start_position: Position):
+    def iterate_connection_cells(self, start_position: Position):
         yield from self.iterate_all_sides(start_position, 1)
