@@ -1,16 +1,17 @@
+from copy import deepcopy
 from enum import Enum
 from typing import Union
 
-from factorio.types.named_item import NamedItem
+from factorio.crafting_tree_builder.internal_types.named_item import NamedObject
 
 
 class EnumNamedObjects(Enum):
 
-    _value_: Union[NamedItem, str]
+    _value_: Union[NamedObject, str]
 
-    def get_specialized(self):
+    def get_object(self):
         if hasattr(self.value, "item"):
-            return self.value.item
+            return deepcopy(self.value.item)
         else:
             return self.value
 
@@ -21,10 +22,10 @@ class EnumNamedObjects(Enum):
 
 if __name__ == '__main__':
     class Tester(EnumNamedObjects):
-        S1 = NamedItem("item", 1000)
+        S1 = NamedObject("item", 1000)
 
     print(Tester.has_name("boi"))
     print(Tester.has_name("item"))
-    print(Tester.S1.get_specialized())
-    print(Tester("item").get_specialized())
+    print(Tester.S1.get_object())
+    print(Tester("item").get_object())
     pass

@@ -1,6 +1,6 @@
 from dataclasses import field, dataclass
 
-from factorio.game_environment.parsing.types.item_filter import ItemFilterList
+from factorio.game_environment.blueprint.types.item_filter import ItemFilterList
 
 
 @dataclass

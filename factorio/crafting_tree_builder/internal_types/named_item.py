@@ -3,7 +3,7 @@ from typing import Any
 
 
 @dataclass
-class NamedItem:
+class NamedObject:
     name: str = ""
     item: Any = None
 
@@ -13,7 +13,7 @@ class NamedItem:
     def __eq__(self, other):
         if isinstance(other, str):
             return self.name == other
-        elif isinstance(other, NamedItem):
+        elif isinstance(other, NamedObject):
             return self.name == other.name
         else:
             raise ValueError(f"incorrect type {repr(other.__class__)}")

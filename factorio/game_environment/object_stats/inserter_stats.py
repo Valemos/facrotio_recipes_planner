@@ -2,8 +2,8 @@ from dataclasses import dataclass
 
 from serialization.string_list_json import StringListJson
 from .a_stats import AStats
-from ..parsing.types.color import Color
-from ...crafting_tree_builder.objects.inserter_unit import InserterUnit
+from ..blueprint.types.color import Color
+from ...crafting_tree_builder.placeable_types.inserter_unit import InserterUnit
 
 
 @dataclass
@@ -18,6 +18,6 @@ class InserterStats(AStats):
     energy_source: dict = None
     pollution: int = None
 
-    def to_object(self) -> InserterUnit:
+    def to_game_object(self) -> InserterUnit:
         empirical_cycle_speed = self.inserter_rotation_speed * -65.97 + 2.04
         return InserterUnit(empirical_cycle_speed)

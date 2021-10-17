@@ -23,8 +23,8 @@ if __name__ == '__main__':
                   "/VY9SErxKDCqyWG4JkccVu2vIIB86Xttu1JVPjp9y8FNOPLLc5fKOLZWq4aZRrq8eOXvK4V/k5B81J7" \
                   "/W7HuN9Kxv0WnfpL9v2ZkYn4rZKrr5fUx6/vIxGHyi7bdLZKFIr1EqRByIRCzLNzakDkc= "
 
-    from factorio.crafting_tree_builder.objects import Blueprint
-    from factorio.crafting_tree_builder.objects import BlueprintEntity
+    from factorio.crafting_tree_builder.placeable_types import Blueprint
+    from factorio.crafting_tree_builder.placeable_types import BlueprintEntity
 
     b: Blueprint = Blueprint.from_json(deserialize_factorio_format(_sample_str))
     e: BlueprintEntity

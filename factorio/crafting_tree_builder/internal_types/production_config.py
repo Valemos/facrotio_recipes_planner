@@ -1,8 +1,8 @@
 import math
 from dataclasses import dataclass
 
-from factorio.crafting_tree_builder.objects import AMaterialTransport
-from factorio.crafting_tree_builder.objects.assembling_machine import AssemblingMachine
+from factorio.crafting_tree_builder.placeable_types import AMaterialTransport
+from factorio.crafting_tree_builder.placeable_types.assembling_machine import AssemblingMachine
 from .material import Material
 from .material_collection import MaterialCollection
 from .recipe import Recipe
@@ -50,7 +50,7 @@ class ProductionConfig:
         self.producers_amount = self._get_machine_amount_for_craft_rate(craft_rate)
     
     def set_basic_material_rate(self, material_rate: Material):
-        max_possible_rate = self.output.get_max_rate()
+        max_possible_rate = self.output.max_rate()
         self.producers_amount = min(material_rate.amount, max_possible_rate)
 
     def set_max_consumers(self, input_material_rates: MaterialCollection):
@@ -105,8 +105,8 @@ class ProductionConfig:
         production_rate = self.assembling_machine.get_results_rates(machine_amount).total()
 
         # get inserter rates for total production scaling
-        input_rate_max = self.input.get_max_rate() * machine_amount
-        output_rate_max = self.output.get_max_rate() * machine_amount
+        input_rate_max = self.input.max_rate() * machine_amount
+        output_rate_max = self.output.max_rate() * machine_amount
         
         if input_rate_max < input_required_rate:
             production_rate = input_rate_max

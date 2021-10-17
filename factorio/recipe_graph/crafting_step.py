@@ -1,9 +1,9 @@
 from dataclasses import dataclass, field
 
 from factorio.crafting_environment import CraftingEnvironment
-from factorio.types.material import Material
-from factorio.types.material_collection import MaterialCollection
-from factorio.types.production_config import ProductionConfig
+from factorio.crafting_tree_builder.internal_types.material import Material
+from factorio.crafting_tree_builder.internal_types.material_collection import MaterialCollection
+from factorio.crafting_tree_builder.internal_types.production_config import ProductionConfig
 
 
 @dataclass(repr=False)
@@ -15,7 +15,7 @@ class CraftingStep:
     previous_steps: list = field(default_factory=list)
 
     def __repr__(self, level=0) -> str:
-        result = "\t" * level + repr(self.get_results()) + "\n"
+        result = "\t" * level + repr(self.config.get_results()) + "\n"
         for child in self.previous_steps:
             result += child.__repr__(level + 1)
         return result

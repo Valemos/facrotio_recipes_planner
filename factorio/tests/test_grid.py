@@ -1,7 +1,7 @@
 import unittest
 
 from factorio.blueprint_analysis.object_coordinate_grid import ObjectCoordinateGrid
-from factorio.game_environment.parsing.types.position import Position
+from factorio.game_environment.blueprint.types.position import Position
 
 
 class TestGrid(unittest.TestCase):

@@ -1,12 +1,13 @@
 from copy import deepcopy
 
-from factorio.crafting_tree_builder.objects.material_transport import ItemTransport, FluidTransport
+from factorio.crafting_tree_builder.internal_types.recipe import Recipe
+from factorio.crafting_tree_builder.internal_types.source_production_config import SourceProductionConfig
+from factorio.crafting_tree_builder.placeable_types.infinite_material_transport import InfiniteMaterialTransport
+from factorio.crafting_tree_builder.placeable_types.material_transport import AItemTransport, AFluidTransport
 from factorio.game_environment.game_environment import GameEnvironment
 from factorio.game_environment.object_stats.crafting_category import CraftingCategory
 from factorio.game_environment.object_stats.material_type import MaterialType
-from factorio.types.production_config import ProductionConfig
-from factorio.types.recipe import Recipe
-from factorio.types.source_production_config import SourceProductionConfig
+from factorio.crafting_tree_builder.internal_types.production_config import ProductionConfig
 
 
 class ProductionConfigBuilder:
@@ -31,12 +32,10 @@ class ProductionConfigBuilder:
         # todo add assembler selection
         return self._game_env.category_to_assemblers(category)
 
-    def get_material_transport(self, material_type: MaterialType):
-        # todo add transport creation from game environment and selection
-        if MaterialType.ITEM == material_type:
-            return ItemTransport()
-        if MaterialType.FLUID == material_type:
-            return FluidTransport()
+    @staticmethod
+    def get_material_transport(material_type: MaterialType):
+        # unrestricted material bus for now
+        return InfiniteMaterialTransport(material_type)
 
     def build_source(self, material):
         material_type = self._game_env.get_material_type(material)

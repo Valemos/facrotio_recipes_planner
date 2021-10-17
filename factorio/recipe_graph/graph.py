@@ -5,7 +5,7 @@ from graphviz.dot import Digraph
 from factorio.crafting_environment import CraftingEnvironment, DEFAULT_ENVIRONMENT
 from factorio.recipe_graph.crafting_step import CraftingStep
 from factorio.recipe_graph.crafting_tree import get_crafting_tree
-from factorio.types.material import Material
+from factorio.crafting_tree_builder.internal_types.material import Material
 
 
 def _get_next_node_id(group_id, group_ids, increment=1000):

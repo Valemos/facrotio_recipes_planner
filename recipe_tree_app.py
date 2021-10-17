@@ -6,7 +6,7 @@ from PIL import Image
 
 from factorio.crafting_tree_builder.crafting_tree_builder import CraftingTreeBuilder
 from factorio.recipe_graph.graph import build_recipe_graph, build_crafting_tree_graph
-from factorio.types.material import Material
+from factorio.crafting_tree_builder.internal_types.material import Material
 from gui.crafring_environment_form_widget import CraftingEnvironmentFormWidget
 from gui.name_amount_widget import NameAmountWidget
 

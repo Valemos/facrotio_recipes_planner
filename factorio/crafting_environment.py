@@ -1,14 +1,13 @@
 from copy import deepcopy, copy
-from functools import cached_property
 from pathlib import Path
-from typing import Dict, List, Set
+from typing import Dict, List
 from typing import Union
 
 from factorio.game_environment.game_environment import GameEnvironment
 from factorio.production_config_builder import ProductionConfigBuilder
-from factorio.types.material import Material
-from factorio.types.production_config import ProductionConfig
-from factorio.types.recipe import Recipe
+from factorio.crafting_tree_builder.internal_types.material import Material
+from factorio.crafting_tree_builder.internal_types.production_config import ProductionConfig
+from factorio.crafting_tree_builder.internal_types.recipe import Recipe
 
 
 class CraftingEnvironment:
@@ -19,7 +18,7 @@ class CraftingEnvironment:
                  game_env: GameEnvironment = None,) -> None:
 
         self.final_material = None
-        self.game_env = game_env if game_env is not None else self.load_default_game_env()
+        self.game_env = game_env if game_env is not None else GameEnvironment.load_default()
         self._constrains: Dict[str, ProductionConfig] = {}
 
         self.production_config_builder = builder
@@ -40,10 +39,6 @@ class CraftingEnvironment:
         shallow = copy(self)
         shallow.game_env = copy(self.production_config_builder)
         return shallow
-
-    @staticmethod
-    def load_default_game_env():
-        return GameEnvironment.from_folder(Path('/home/anton/.factorio/script-output/recipe-lister/'))
 
     def add_final_recipe_name(self, recipe_name: str):
         recipe = self.game_env.recipe_collection.get_recipe(recipe_name)

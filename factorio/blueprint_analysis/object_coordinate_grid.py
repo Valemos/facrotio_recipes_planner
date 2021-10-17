@@ -1,7 +1,29 @@
 from typing import Generator
 
-from factorio.blueprint_analysis.grid_object import GridObject
-from factorio.game_environment.parsing.types.position import Position
+from factorio.blueprint_analysis.a_grid_object import AGridObject
+from factorio.game_environment.blueprint.types.position import Position
+
+
+def show_labels_grid(colors, labels, x_numbers, y_numbers, **kw):
+    import numpy as np
+    import matplotlib.pyplot as plt
+
+    plt.figure(figsize=(12, 6))
+    pc = plt.pcolor(colors, edgecolors=None, linewidths=4, cmap='Blues', vmin=0.0, vmax=1.0)
+    pc.update_scalarmappable()
+
+    plt.xticks([i+.5 for i in range(len(x_numbers))], labels=x_numbers)
+    plt.yticks([i+.5 for i in range(len(y_numbers))], labels=y_numbers)
+
+    for p, color in zip(pc.get_paths(), pc.get_facecolors()):
+        x, y = p.vertices[:-2, :].mean(0)
+        if np.all(color[:3] > 0.5):
+            color = (0.0, 0.0, 0.0)
+        else:
+            color = (1.0, 1.0, 1.0)
+        pc.axes.text(x, y, labels[int(x)][int(y)], ha="center", va="center", color=color, **kw)
+
+    plt.show()
 
 
 class ObjectCoordinateGrid:
@@ -23,19 +45,19 @@ class ObjectCoordinateGrid:
 
     @property
     def min_x(self):
-        return - self._array_start_shift.x
+        return int(- self._array_start_shift.x)
 
     @property
     def max_x(self):
-        return self.size_x - 1 - self._array_start_shift.x
+        return int(self.size_x - 1 - self._array_start_shift.x)
 
     @property
     def min_y(self):
-        return - self._array_start_shift.y
+        return int(- self._array_start_shift.y)
 
     @property
     def max_y(self):
-        return self.size_y - 1 - self._array_start_shift.y
+        return int(self.size_y - 1 - self._array_start_shift.y)
 
     def place_object(self, obj, position: Position):
         if self.size_x == 0 and self.size_y == 0:
@@ -48,13 +70,40 @@ class ObjectCoordinateGrid:
         self._set_at_position(None, position)
 
     def get(self, position: Position):
-        return self._grid[self._get_x(position.x)][self._get_y(position.y)]
+        try:
+            return self._grid[self._get_grid_x(position.x)][self._get_grid_y(position.y)]
+        except IndexError:
+            return None
 
-    def _get_x(self, x):
-        return x + self._array_start_shift.x
+    def show_debug_grid(self, highlight: Position = None):
+        if self.size_y == 0:
+            return
 
-    def _get_y(self, y):
-        return y + self._array_start_shift.y
+        from copy import deepcopy
+        import numpy
+
+        labels = deepcopy(self._grid)
+
+        colors = numpy.full((self.size_y, self.size_x), 0, dtype=numpy.float)
+
+        if highlight is not None:
+            colors[self._get_grid_x(highlight.y), self._get_grid_x(highlight.x)] = 1
+
+        for x in range(self.size_x):
+            for y, obj in enumerate(labels[x]):
+                if obj is not None:
+                    labels[x][y] = obj.__class__.__name__
+                    colors[y, x] = 0.5
+
+        x_numbers = numpy.round(numpy.linspace(self.min_x, self.max_x + 1, self.size_x + 1), 2)
+        y_numbers = numpy.round(numpy.linspace(self.min_y, self.max_y + 1, self.size_y), 2)
+        show_labels_grid(colors, labels, x_numbers, y_numbers)
+
+    def _get_grid_x(self, x):
+        return int(x + self._array_start_shift.x)
+
+    def _get_grid_y(self, y):
+        return int(y + self._array_start_shift.y)
 
     def _extend_grid_for_position(self, position: Position):
         # order is important. at first extend rows, than columns in that rows
@@ -62,13 +111,16 @@ class ObjectCoordinateGrid:
         self._extend_to_fit_y(position.y)
 
     def _set_at_position(self, obj, position):
-        self._grid[self._get_x(position.x)][self._get_y(position.y)] = obj
-        if obj not in self._all_objects:
-            self._all_objects.append(obj)
+        self._grid[self._get_grid_x(position.x)][self._get_grid_y(position.y)] = obj
+        if obj is not None:
+            if obj not in self._all_objects:
+                self._all_objects.append(obj)
 
     def _extend_to_fit_x(self, x):
         min_x = self.min_x
         max_x = self.max_x
+
+        x = round(x)
 
         if x < min_x:
             self._extend_x(min_x - x, 0)
@@ -79,6 +131,8 @@ class ObjectCoordinateGrid:
     def _extend_to_fit_y(self, y):
         min_y = self.min_y
         max_y = self.max_y
+
+        y = round(y)
 
         if y < min_y:
             self._extend_y(min_y - y, 0)

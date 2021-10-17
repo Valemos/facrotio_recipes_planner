@@ -1,10 +1,10 @@
 import tkinter as tk
 
-from factorio.types.material import Material
-from factorio.types.material_collection import MaterialCollection
-from factorio.types.recipe import Recipe
-from factorio.crafting_tree_builder.objects import CraftStationType
-from factorio.types.recipes_collection import RecipesCollection
+from factorio.crafting_tree_builder.internal_types.material import Material
+from factorio.crafting_tree_builder.internal_types.material_collection import MaterialCollection
+from factorio.crafting_tree_builder.internal_types.recipe import Recipe
+from factorio.crafting_tree_builder.placeable_types import CraftStationType
+from factorio.crafting_tree_builder.internal_types.recipes_collection import RecipesCollection
 from gui.entry_validator_with_label import EntryFloatWithLabel
 from gui.entry_with_label import EntryWithLabel
 from gui.menu_object_selector_widget import MenuObjectSelectorWidget

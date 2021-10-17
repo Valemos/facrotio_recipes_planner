@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 from factorio.game_environment.object_stats.a_stats import AStats
-from factorio.types.material import Material
+from factorio.crafting_tree_builder.internal_types.material import Material
 from serialization.string_list_json import StringListJson
 
 
@@ -15,5 +15,5 @@ class FluidStats(AStats):
     fuel_value: int = None
     emissions_multiplier: float = None
 
-    def to_object(self):
+    def to_game_object(self):
         return Material(self.name)

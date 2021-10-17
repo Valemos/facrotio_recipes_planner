@@ -1,4 +1,3 @@
-from itertools import chain
 from pathlib import Path
 from typing import Union
 
@@ -13,8 +12,8 @@ from factorio.game_environment.object_stats.mining_drill_stats import MiningDril
 from factorio.game_environment.object_stats.recipe_stats import RecipeStats
 from factorio.game_environment.object_stats.transport_belt_stats import TransportBeltStats
 from factorio.game_environment.stats_reading import read_stats_file
-from factorio.types.material import Material
-from factorio.types.recipes_collection import RecipesCollection
+from factorio.crafting_tree_builder.internal_types.material import Material
+from factorio.crafting_tree_builder.internal_types.recipes_collection import RecipesCollection
 
 
 class GameEnvironment:
@@ -76,7 +75,7 @@ class GameEnvironment:
             raise ValueError(f'provide existing name string, not "{repr(name)}"')
 
     def category_to_assemblers(self, category: CraftingCategory):
-        return [self.get_placeable_stats(name).to_object() for name in self._category_map[category]]
+        return [self.get_placeable_stats(name).to_game_object() for name in self._category_map[category]]
 
     def get_material_type(self, material: Union[str, Material]):
         name = Material.name_from(material)
@@ -98,7 +97,7 @@ class GameEnvironment:
     def create_recipes_collection(recipe_stats):
         recipes_collection = RecipesCollection()
         for _stats in recipe_stats:
-            _recipe = _stats.to_object()
+            _recipe = _stats.to_game_object()
             if _recipe is not None:
                 recipes_collection.add_unique_recipe(_recipe)
 
@@ -106,3 +105,7 @@ class GameEnvironment:
             recipes_collection.add_unique_basic_material(_unresolved_material)
 
         return recipes_collection
+
+    @staticmethod
+    def load_default():
+        return GameEnvironment.from_folder(Path('/home/anton/.factorio/script-output/recipe-lister/'))

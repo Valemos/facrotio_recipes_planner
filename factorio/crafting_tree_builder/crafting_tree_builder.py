@@ -4,7 +4,7 @@ from typing import Union
 from factorio.crafting_environment import CraftingEnvironment
 from factorio.blueprint_analysis.object_coordinate_grid import ObjectCoordinateGrid
 from factorio.recipe_graph.crafting_step import CraftingStep
-from factorio.types.material import Material
+from factorio.crafting_tree_builder.internal_types.material import Material
 
 
 class CraftingTreeBuilder:

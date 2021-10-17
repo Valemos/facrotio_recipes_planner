@@ -2,7 +2,7 @@ import json
 from abc import ABCMeta, abstractmethod
 from pathlib import Path
 
-from factorio.types.recipes_collection import RecipesCollection
+from factorio.crafting_tree_builder.internal_types.recipes_collection import RecipesCollection
 
 
 class ARecipeJsonEditor(metaclass=ABCMeta):

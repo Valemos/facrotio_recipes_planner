@@ -16,7 +16,7 @@ class Material(ACompositeJsonSerializable):
 
     def __add__(self, other):
         assert issubclass(other.__class__, self.__class__)
-        if other.get_id() != self.name: raise ValueError("cannot add items of different types")
+        if other.get_id() != self.name: raise ValueError("cannot add items of different internal_types")
         return Material(self.name, self.amount + other.amount)
 
     def __eq__(self, other):

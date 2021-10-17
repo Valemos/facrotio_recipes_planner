@@ -1,7 +1,7 @@
 from dataclasses import dataclass
-from functools import cache, cached_property
+from functools import cached_property
 
-from factorio.types.recipe import Recipe
+from factorio.crafting_tree_builder.internal_types.recipe import Recipe
 
 
 @dataclass

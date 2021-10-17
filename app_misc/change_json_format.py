@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-from factorio.types.recipes_collection import RecipesCollection
+from factorio.crafting_tree_builder.internal_types.recipes_collection import RecipesCollection
 
 edit_file_path = Path("../recipes/recipes.json")
 

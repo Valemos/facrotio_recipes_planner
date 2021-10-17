@@ -1,13 +1,13 @@
 from pathlib import Path
 
-from factorio.blueprint_analysis.grid_object import GridObject
+from factorio.blueprint_analysis.a_grid_object import AGridObject
 from factorio.blueprint_analysis.object_coordinate_grid import ObjectCoordinateGrid
-from factorio.crafting_tree_builder.objects.assembling_machine import AssemblingMachine
-from factorio.crafting_tree_builder.objects.material_transport import AMaterialTransport
+from factorio.crafting_tree_builder.placeable_types.a_material_transport import AMaterialTransport
+from factorio.crafting_tree_builder.placeable_types.assembling_machine import AssemblingMachine
+from factorio.game_environment.blueprint.blueprint import Blueprint
+from factorio.game_environment.blueprint.blueprint_object import BlueprintObject
+from factorio.game_environment.blueprint.types.position import Position
 from factorio.game_environment.game_environment import GameEnvironment
-from factorio.game_environment.parsing.blueprint import Blueprint
-from factorio.game_environment.parsing.blueprint_object import BlueprintObject
-from factorio.game_environment.parsing.types.position import Position
 
 
 class BlueprintResolver:
@@ -16,44 +16,42 @@ class BlueprintResolver:
         self._game_env = game_env
         self._blueprint = blueprint
         self._grid = ObjectCoordinateGrid()
-        self._objects_by_name: dict[str, list[GridObject]] = {}
-        self._assemblers = []
-        self._material_transport = []
+        self._unresolved_objects: list[AGridObject] = []
+        self._assemblers: list[AssemblingMachine] = []
+        self._material_transports: list[AMaterialTransport] = []
 
         for obj in blueprint.entities:
             self.add_blueprint_object(obj)
 
+    @property
+    def grid(self):
+        return self._grid
+
     def add_blueprint_object(self, obj_info: BlueprintObject):
-        game_object = self._game_env.get_placeable_stats(obj_info.name).to_object()
+        game_object = obj_info.to_game_object(self._game_env)
+        self.add_grid_object(game_object, obj_info.position)
 
-        orientation = None
-        if obj_info.direction is not None:
-            orientation = obj_info.direction
-        elif obj_info.orientation is not None:
-            orientation = obj_info.orientation
+    def add_grid_object(self, game_object, position: Position):
+        if isinstance(game_object, AssemblingMachine):
+            self._assemblers.append(game_object)
+        elif isinstance(game_object, AMaterialTransport):
+            self._add_material_transport(game_object, position)
+        else:
+            self._unresolved_objects.append(game_object)
 
-        grid_object = GridObject(game_object, Position(), orientation)
-        self.add_grid_object(obj_info.name, grid_object)
+        # todo add size of objects if possible
+        self._grid.place_object(game_object, position)
 
-    def add_grid_object(self, name: str, grid_object: GridObject):
-        if name not in self._objects_by_name:
-            self._objects_by_name[name] = []
-        self._objects_by_name[name].append(grid_object)
-        self._grid.place_object(grid_object, grid_object.position)
-
-    def resolve_connections(self):
-        for obj in self._grid.iterate_objects():
-            if isinstance(obj.item, AssemblingMachine):
-                self._assemblers.append(obj)
-            elif isinstance(obj.item, AMaterialTransport):
-                self._material_transport.append(obj)
-
-        # todo merge conveyors to item transport and connect them to assemblers
-        pass
+    def _add_material_transport(self, obj: AMaterialTransport, position: Position):
+        self._material_transports.append(obj)
+        for possible_connection in obj.iterate_connection_spots(position):
+            other_obj = self._grid.get(possible_connection)
+            if isinstance(other_obj, AMaterialTransport):
+                obj.try_connect(other_obj)
 
 
 if __name__ == '__main__':
-    _game_environment = GameEnvironment.from_folder(Path('/home/anton/.factorio/script-output/recipe-lister/'))
+    _game_environment = GameEnvironment.load_default()
 
     _string = "0eNqdmu9u2jAUxd/Fn9PK/x3zKlM10darItEEJWFaVfHug6GFTsTj3POpAqU/ju17fK4Nn+p5dyj7setntflU3cvQT2rz7VNN3Vu" \
               "/3Z3fmz/2RW1UN5d31ah++35+NY/bftoP4/zwXHazOjaq61/LL7Uxx6dGlX7u5q5cSH9efHzvD+/PZTw9UGM0aj9Mp38b+vOnnlG" \
@@ -68,5 +66,11 @@ if __name__ == '__main__':
               "WHQmGrLdGAY2jFobEKoq0oMTd28YBMSmcYvQOjEXExg6JbpRTB0ZpozCJ010/RgaMM0PRjaMomOoR2T6BiaykYMTX11jaE" \
               "jd/D39YN/vcHMiYk0bBwtE2kYOjM7OIQ2mopLkE19473CfmouP13ZfPmlS6N+lnG6PNCetqVsk/dO++iPx9+N+FI3 "
 
-    _resolver = BlueprintResolver(_game_environment, Blueprint.from_factorio_string(_string))
+    _string2 = "0eNqN0WELgjAQBuD/8n5e0uay2l+JCK0jDnSKm5HI/nsuCQwL" \
+               "/Hjb3bPj3YCi7Khp2XqYAXytrYM5DXB8t3kZz3zfEAzYUwUBm1exck3J3lOLIMD2Rk8YGc4CZD17psl4F" \
+               "/3FdlUxdhq5nBZoajcO1Da+FJFMJjuBHmaj0tG+cUvX6V4FsSDVKlJ/wGT3TeofZLqKzP5tmf0g9SryONsyRvkO3Mz+R" \
+               "+BBrZuyOEi9P6q91ulWZzqEF/Qrk9s= "
+
+    _resolver = BlueprintResolver(_game_environment, Blueprint.from_factorio_string(_string2))
+    # _resolver.grid.show_debug_grid()
     pass

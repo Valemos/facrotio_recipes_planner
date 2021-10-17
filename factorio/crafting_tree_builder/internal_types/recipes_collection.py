@@ -1,8 +1,8 @@
 from typing import Union
 
-from factorio.types.material import Material
-from factorio.types.material_collection import MaterialCollection
-from factorio.types.recipe import Recipe
+from factorio.crafting_tree_builder.internal_types.material import Material
+from factorio.crafting_tree_builder.internal_types.material_collection import MaterialCollection
+from factorio.crafting_tree_builder.internal_types.recipe import Recipe
 from serialization.i_json_serializable import IJsonSerializable
 
 
