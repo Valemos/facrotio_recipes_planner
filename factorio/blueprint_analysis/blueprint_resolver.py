@@ -1,5 +1,5 @@
 from factorio.blueprint_analysis.object_coordinate_grid import ObjectCoordinateGrid
-from factorio.crafting_tree_builder.placeable_types.a_material_transport import AMaterialConnectionNode
+from factorio.crafting_tree_builder.placeable_types.a_material_connection_node import AMaterialConnectionNode
 from factorio.crafting_tree_builder.placeable_types.a_sized_grid_object import ASizedGridObject
 from factorio.game_environment.blueprint.blueprint import Blueprint
 from factorio.game_environment.blueprint.blueprint_object import BlueprintObject

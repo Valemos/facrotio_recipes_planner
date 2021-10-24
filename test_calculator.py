@@ -4,7 +4,7 @@ from factorio.recipe_util.recipe_json_reading import read_default
 
 space_recipes = read_default("./recipes/recipes.json")
 
-local = CraftingEnvironment(
+local = VirtualCraftingEnvironment(
     # ['circuit', 'copper plate', 'iron plate', 'steel plate'],
     [],
     assembling_machine_2,

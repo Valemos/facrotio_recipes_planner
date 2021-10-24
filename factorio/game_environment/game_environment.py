@@ -1,8 +1,10 @@
 from pathlib import Path
 from typing import Union
 
+from factorio.crafting_tree_builder.internal_types.material import Material
+from factorio.crafting_tree_builder.internal_types.recipes_collection import RecipesCollection
 from factorio.game_environment.object_stats.a_stats import AStats
-from factorio.game_environment.object_stats.assembling_machine_stats import AssemblingMachineUnit
+from factorio.game_environment.object_stats.assembling_machine_stats import AssemblingMachineStats
 from factorio.game_environment.object_stats.crafting_category import CraftingCategory
 from factorio.game_environment.object_stats.fluid_stats import FluidStats
 from factorio.game_environment.object_stats.inserter_stats import InserterStats
@@ -12,8 +14,6 @@ from factorio.game_environment.object_stats.mining_drill_stats import MiningDril
 from factorio.game_environment.object_stats.recipe_stats import RecipeStats
 from factorio.game_environment.object_stats.transport_belt_stats import TransportBeltStats
 from factorio.game_environment.stats_reading import read_stats_file
-from factorio.crafting_tree_builder.internal_types.material import Material
-from factorio.crafting_tree_builder.internal_types.recipes_collection import RecipesCollection
 
 
 class GameEnvironment:
@@ -22,7 +22,7 @@ class GameEnvironment:
                  recipe_stats: dict[str, RecipeStats],
                  item_stats: dict[str, ItemStats],
                  fluid_stats: dict[str, FluidStats],
-                 assemblers_stats: dict[str, AssemblingMachineUnit],
+                 assemblers_stats: dict[str, AssemblingMachineStats],
                  *other_stats_dicts: dict[str, AStats]):
 
         self.assemblers_stats = assemblers_stats
@@ -45,8 +45,8 @@ class GameEnvironment:
         item_stats = read_stats_file(load_folder / "item.json", ItemStats)
         inserter_stats = read_stats_file(load_folder / "inserter.json", InserterStats)
         transport_belt_stats = read_stats_file(load_folder / "transport-belt.json", TransportBeltStats)
-        assembling_stats = read_stats_file(load_folder / "assembling-machine.json", AssemblingMachineUnit)
-        furnace_stats = read_stats_file(load_folder / "furnace.json", AssemblingMachineUnit)
+        assembling_stats = read_stats_file(load_folder / "assembling-machine.json", AssemblingMachineStats)
+        furnace_stats = read_stats_file(load_folder / "furnace.json", AssemblingMachineStats)
         mining_stats = read_stats_file(load_folder / "mining-drill.json", MiningDrillStats)
         return GameEnvironment(recipe_stats,
                                item_stats,
@@ -86,7 +86,7 @@ class GameEnvironment:
         raise ValueError("material not found")
 
     def _init_categories(self):
-        assembler: AssemblingMachineUnit
+        assembler: AssemblingMachineStats
         for assembler in self.assemblers_stats.values():
             for _category in assembler.crafting_categories.keys():
                 if _category not in self._category_map:

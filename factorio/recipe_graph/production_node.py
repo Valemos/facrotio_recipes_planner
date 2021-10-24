@@ -2,7 +2,7 @@ from factorio.crafting_tree_builder.i_assembler_config import IAssemblerConfig
 from factorio.crafting_tree_builder.internal_types.material import Material
 from factorio.crafting_tree_builder.internal_types.material_collection import MaterialCollection
 from factorio.crafting_tree_builder.internal_types.recipe import Recipe
-from factorio.crafting_tree_builder.placeable_types.a_material_transport import AMaterialConnectionNode
+from factorio.crafting_tree_builder.placeable_types.a_material_connection_node import AMaterialConnectionNode
 from factorio.crafting_tree_builder.placeable_types.assembling_machine_unit import AssemblingMachineUnit
 
 
@@ -27,12 +27,12 @@ class ProductionNode(IAssemblerConfig, AMaterialConnectionNode):
     def set_max_consumers(self, input_materials: MaterialCollection):
         return
 
-    def set_material_rate(self, material: Material):
+    def set_result_rate(self, material: Material):
         pass
 
     def get_source_materials(self):
         basic_materials = MaterialCollection()
-        for step in self.iterate_up_to_bottom():
+        for step in self.iterate_root_to_child():
             if step.is_source_step():
                 basic_materials += step.config.recipe.get_results()
 
@@ -41,7 +41,7 @@ class ProductionNode(IAssemblerConfig, AMaterialConnectionNode):
     def set_machine_amount_by_inputs(self):
         input_materials = MaterialCollection()
         for prev_step in self.get_inputs():
-            input_materials += prev_step.get_results()
+            input_materials += prev_step.recipe.results
 
         self.set_max_consumers(input_materials)
 
@@ -65,6 +65,6 @@ class ProductionNode(IAssemblerConfig, AMaterialConnectionNode):
         ingredient_step: ProductionNode
         for requested_material, ingredient_step in material_source_steps.items():
             if not ingredient_step.constrained:
-                ingredient_step.set_material_rate(requested_material)
+                ingredient_step.set_result_rate(requested_material)
 
             ingredient_step.deduce_infinite_materials()

@@ -40,7 +40,7 @@ class MaterialCollection(AContainerJsonSerializable):
         return self._keytransform(item) in self.items
 
     def __eq__(self, other):
-        return self.items == other.items
+        return set(self.items.keys()) == set(other.items.keys())
 
     def __repr__(self) -> str:
         if len(self.items) > 0:
@@ -86,9 +86,6 @@ class MaterialCollection(AContainerJsonSerializable):
             raise ValueError("trying to access first material in empty collection")
         return next(iter(self.items.values()))
 
-    def get_combined_name(self):
-        return ';'.join(self.items.keys())
-
     def add(self, material: Material):
         if material.name in self.items:
             self.items[material.name] += material
@@ -103,3 +100,18 @@ class MaterialCollection(AContainerJsonSerializable):
             raise ValueError("not a material")
 
         self.items[element.name] = element
+
+    def common_with(self, other):
+        if not isinstance(other, MaterialCollection):
+            raise ValueError(f"not a material collection {repr(other)}")
+
+        new = MaterialCollection()
+        for material in self:
+            if material in other:
+                new.add(material)
+
+        for material in other:
+            if material in self:
+                new.add(material)
+
+        return new

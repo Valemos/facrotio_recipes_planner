@@ -5,8 +5,7 @@ from factorio.crafting_tree_builder.i_assembler_config import IAssemblerConfig
 from .material import Material
 from .material_collection import MaterialCollection
 from .recipe import Recipe
-from ..placeable_types.a_material_bus import AMaterialBus
-from ..placeable_types.a_material_transport import AMaterialConnectionNode
+from ..placeable_types.a_material_connection_node import AMaterialConnectionNode
 
 
 class VirtualAssemblerGroup(IAssemblerConfig, AMaterialConnectionNode):
@@ -16,8 +15,8 @@ class VirtualAssemblerGroup(IAssemblerConfig, AMaterialConnectionNode):
                  assembling_machine: AssemblingMachineUnit = None,
                  recipe: Recipe = None,
                  constrained=False):
-        # todo update usages of production config and AssemblingMachineUnit
-        super().__init__(None, None)
+
+        super().__init__()
         self.assembler = assembling_machine
         self._recipe = recipe
 
@@ -28,12 +27,21 @@ class VirtualAssemblerGroup(IAssemblerConfig, AMaterialConnectionNode):
     def display_tree(self, level=0):
         result = "\t" * level + self.get_short_description() + "\n"
         child: VirtualAssemblerGroup
-        for child in self._inputs:
+        for child in self.get_inputs():
             result += child.display_tree(level + 1)
         return result
 
     def get_short_description(self):
         return f'{self.recipe.name} x {self.producers_amount}'
+
+    def build_subtrees(self, node_builder):
+        if self.is_source_step():
+            return
+
+        for ingredient in self.recipe.ingredients:
+            child_node: VirtualAssemblerGroup = node_builder.build_material(ingredient)
+            self.connect_input(child_node)
+            child_node.build_subtrees(node_builder)
 
     @property
     def recipe(self):
@@ -63,97 +71,33 @@ class VirtualAssemblerGroup(IAssemblerConfig, AMaterialConnectionNode):
     def position(self, pos):
         self.assembler.direction = pos
 
-    def set_max_consumers(self, input_materials: MaterialCollection):
-        pass
+    def set_input_rates(self, new_rates: MaterialCollection):
 
-    def get_required(self):
-        return self.recipe.ingredients * self.producers_amount
+        if not all(material in self.recipe.ingredients for material in new_rates):
+            raise ValueError(f"materials don't match: \n{str(self.recipe.ingredients)}\n{str(new_rates)}")
 
-    def get_results(self):
-        return self.recipe.results * self.producers_amount
+        if len(new_rates) == 0:
+            return
 
-    def get_required_rates(self):
-        return self.recipe.ingredient_rates * self.assembler.crafting_speed * self.producers_amount
+        self.producers_amount = min(self.get_max_consumers(ingredient) for ingredient in new_rates)
 
-    def get_results_rates(self):
+    def get_output_rates(self) -> MaterialCollection:
         return self.recipe.result_rates * self.assembler.crafting_speed * self.producers_amount
 
-    def set_material_rate(self, material_rate: Material):
+    def set_result_rate(self, target_rate: Material):
         """sets desired material rate if possible"""
-        # for recipes with more than one result correcting factor is added to match recipe craft results
-        recipe_results = self.get_results()
-        craft_rate = recipe_results.total() * material_rate.amount / recipe_results[material_rate].amount
 
-        self.producers_amount = self._get_machine_amount_for_craft_rate(craft_rate)
+        production_rate = self.recipe.results[target_rate].amount / self.get_craft_time()
+        self.producers_amount = math.ceil(target_rate.amount / production_rate)
 
-    def set_basic_material_rate(self, material_rate: Material):
-        max_possible_rate = self.output.max_rate()
-        self.producers_amount = min(material_rate.amount, max_possible_rate)
+    def get_max_consumers(self, ingredient_consumed: Material):
+        """uses certain recipe ingredient rate to calculate minimum amount of producers to consume them all"""
 
-    def set_max_consumers(self, input_material_rates: MaterialCollection):
-        """
-        producers amount will be calculated from the input of the most scarce resource 
-        e.g. minimal craft requirements for all materials
-        """
-
-        if not all(material in self.assembler.get_required() for material in input_material_rates):
-            raise ValueError(f"collections don't match: \n"
-                             f"{str(self.recipe.ingredients)}\n"
-                             f"{str(input_material_rates)}")
-
-        # use current producers_amount as max possible at this point
-        consumers_amount = self.producers_amount
-        for ingredient in input_material_rates:
-            max_consumers = self.get_max_consumers(ingredient)
-            if consumers_amount > max_consumers:
-                consumers_amount = max_consumers
-        
-        possible_craft_rate = self._get_config_production_rate(consumers_amount)
-        consumers_amount = self._get_machine_amount_for_craft_rate(possible_craft_rate)
-
-        # if all input resources are infinite, producers amount also infinite
-        self.producers_amount = consumers_amount
-
-    def get_max_consumers(self, ingredient_rate: Material):
-        """uses certain recipe ingredient rate to calculate minimum amount to producers to consume them all"""
-
-        if ingredient_rate.amount == float('inf'):
+        if ingredient_consumed.amount == float('inf'):
             return float('inf')
-        
-        # to get exactly ingredient_rate.amount items in input collection and scale everything else with it
-        craft_input_rates = self.assembler.get_required_rates(1)
-        rate_scaling = ingredient_rate.amount / craft_input_rates[ingredient_rate].amount
-        craft_rate_by_ingredient = self.assembler.craft_rate() * rate_scaling
 
-        return self._get_machine_amount_for_craft_rate(craft_rate_by_ingredient)
+        consumed_rate = self.recipe.ingredients[ingredient_consumed].amount / self.get_craft_time()
+        return math.ceil(ingredient_consumed.amount / consumed_rate)
 
-    def connect_material_bus(self, bus: AMaterialBus):
-        # todo connect material bus and save materials supplied by it. add material check logic
-        pass
-
-    @staticmethod
-    def _warn_rate_too_high(item_name: str, rate: float, bus_type: str = None):
-        message = f'WARNING! production config cannot support {item_name} rate = {rate}'
-        if bus_type is not None:
-            message += f' for {bus_type}'
-        print(message)
-
-    def _get_machine_amount_for_craft_rate(self, craft_rate: float):
-        """
-        resulting productivity rate from self.get_results_rates()
-        will match or will be more than provided material
-        """
-
-        if craft_rate == float('inf'): return float('inf')
-
-        one_machine_rate = self._get_config_production_rate(1)
-        theoretical_machine_amount = math.ceil(craft_rate / one_machine_rate)
-        actual_rate = self._get_config_production_rate(theoretical_machine_amount)
-
-        # if conveyour belts cannot support too much
-        if actual_rate < craft_rate:
-            self._warn_rate_too_high('ingredient', craft_rate, 'output')
-            return self._get_machine_amount_for_craft_rate(actual_rate)
-        else:
-            return theoretical_machine_amount
-
+    def get_craft_time(self):
+        return self.recipe.time * self.assembler.time_multiplier

@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from factorio.crafting_tree_builder.placeable_types.a_material_transport import AMaterialConnectionNode
+from factorio.crafting_tree_builder.placeable_types.a_material_connection_node import AMaterialConnectionNode
 from factorio.crafting_tree_builder.placeable_types.a_item_bus_unit import AItemBusUnit
 from factorio.crafting_tree_builder.placeable_types.a_sized_grid_object import ASizedGridObject
 

@@ -1,5 +1,5 @@
 from factorio.crafting_tree_builder.placeable_types.a_material_bus import AMaterialBus
-from factorio.crafting_tree_builder.placeable_types.a_material_transport import AMaterialConnectionNode
+from factorio.crafting_tree_builder.placeable_types.a_material_connection_node import AMaterialConnectionNode
 from factorio.game_environment.object_stats.material_type import MaterialType
 
 

@@ -4,7 +4,7 @@ from tkinter import messagebox
 
 from PIL import Image
 
-from factorio.crafting_tree_builder.crafting_tree_builder import CraftingGraphBuilder
+from factorio.crafting_tree_builder.virtual_tree_builder import CraftingGraphBuilder
 from factorio.recipe_graph.graph import build_recipe_graph, build_crafting_tree_graph
 from factorio.crafting_tree_builder.internal_types.material import Material
 from gui.crafring_environment_form_widget import CraftingEnvironmentFormWidget

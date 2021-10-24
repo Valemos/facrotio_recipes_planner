@@ -13,10 +13,10 @@ class RecipesCollection(IJsonSerializable):
     def __init__(self) -> None:
         self._basic_materials: set[str] = set()
         self._recipes: dict[str, Recipe] = {}
-        self._material_recipe_mapping: dict[str, list[int]] = {}
+        self._material_recipe_mapping: dict[str, list[str]] = {}
 
     def __getitem__(self, key):
-        return self.get_material_recipe(key)
+        return self.get_material_recipes(key)
 
     def __eq__(self, other):
         return self._recipes == other._recipes and \
@@ -52,23 +52,21 @@ class RecipesCollection(IJsonSerializable):
         self._basic_materials.add(Material.name_from(material))
 
     def add_material_recipe(self, material: Material, recipe: Recipe):
-        recipe_id = recipe.get_id()
-
         if not self.is_recipe_exists(material):
             self._material_recipe_mapping[material.name] = []
-        self._material_recipe_mapping[material.name].append(recipe_id)
+        self._material_recipe_mapping[material.name].append(recipe.name)
 
     def get_recipe(self, recipe_name: str) -> Recipe:
         if recipe_name in self._recipes:
             return self._recipes[recipe_name]
         raise ValueError(f'no recipe with name "{recipe_name}"')
 
-    def get_material_recipe(self, material: Union[str, Material]):
+    def get_material_recipes(self, material: Union[str, Material]):
         if Material.name_from(material) in self._basic_materials:
             return self._get_basic_recipe(material)
 
-        recipe_ids = self._material_recipe_mapping[Material.name_from(material)]
-        return self.get_recipe_by_id(recipe_ids[0])
+        recipe_names = self._material_recipe_mapping[Material.name_from(material)]
+        return [self._recipes[name] for name in recipe_names]
 
     def get_recipe_by_id(self, id_):
         for recipe in self._recipes.values():
@@ -115,7 +113,7 @@ class RecipesCollection(IJsonSerializable):
         self.remove_recipe(self.get_recipe_by_id(Recipe(name=name).get_id()))
 
     def remove_material_recipe_mapping(self, material: Material, recipe: Recipe):
-        self._material_recipe_mapping[material.name].remove(recipe.get_id())
+        self._material_recipe_mapping[material.name].remove(recipe.name)
 
     def _remove_recipe_mappings(self, recipe):
         for material in recipe.get_results():

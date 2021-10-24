@@ -1,6 +1,6 @@
 from abc import abstractmethod, ABC
 
-from factorio.crafting_tree_builder.placeable_types.a_material_transport import AMaterialConnectionNode
+from factorio.crafting_tree_builder.placeable_types.a_material_connection_node import AMaterialConnectionNode
 from factorio.game_environment.object_stats.material_type import MaterialType
 
 
@@ -57,4 +57,4 @@ class AMaterialBus(AMaterialConnectionNode, ABC):
             first.connect_output(out)
 
         for out in first.get_outputs():
-            out.notify_inputs_changed()
+            out.handle_inputs_changed()

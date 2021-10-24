@@ -32,7 +32,7 @@ class SourceConfig(IAssemblerConfig):
     def set_max_consumers(self, input_materials: MaterialCollection):
         print("WARN! trying to set consumers for source material")
 
-    def set_material_rate(self, material: Material):
+    def set_result_rate(self, material: Material):
         assert self.material.name == material.name
         self.material.amount = material.amount
 
@@ -40,4 +40,4 @@ class SourceConfig(IAssemblerConfig):
         return self.material.id
 
     def set_basic_material_rate(self, material_rate: Material):
-        self.set_material_rate(material_rate)
+        self.set_result_rate(material_rate)

@@ -8,6 +8,7 @@ class AssemblingMachineUnit(ASizedGridObject):
         super().__init__()
         self.name = name
         self.crafting_speed = crafting_speed  # amount of work / time unit
+        self.time_multiplier = 1 / crafting_speed  # coefficient to multiply recipe crafting time
 
     def __str__(self):
         return f"Craft speed: {self.crafting_speed}"
