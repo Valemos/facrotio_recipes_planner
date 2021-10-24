@@ -1,10 +1,10 @@
-from factorio.blueprint_analysis.a_sized_grid_object import ASizedGridObject
 from factorio.blueprint_analysis.object_coordinate_grid import ObjectCoordinateGrid
-from factorio.crafting_tree_builder.placeable_types.a_material_transport import AMaterialTransport
-from factorio.crafting_tree_builder.placeable_types.assembling_machine import AssemblingMachineUnit
+from factorio.crafting_tree_builder.placeable_types.a_material_transport import AMaterialConnectionNode
+from factorio.crafting_tree_builder.placeable_types.a_sized_grid_object import ASizedGridObject
 from factorio.game_environment.blueprint.blueprint import Blueprint
 from factorio.game_environment.blueprint.blueprint_object import BlueprintObject
 from factorio.game_environment.game_environment import GameEnvironment
+from factorio.recipe_graph.production_node import ProductionNode
 
 
 class BlueprintResolver:
@@ -13,8 +13,7 @@ class BlueprintResolver:
         self._game_env = game_env
         self._blueprint = blueprint
         self._grid = ObjectCoordinateGrid()
-        self._assemblers: list[AssemblingMachineUnit] = []
-        self._grid_objects: list = []
+        self._nodes: list[ProductionNode] = []
         self._unresolved_objects: list = []
 
         for obj in blueprint.entities:
@@ -30,23 +29,14 @@ class BlueprintResolver:
         if isinstance(game_object, ASizedGridObject):
             self.add_sized_grid_object(game_object)
         else:
-            print(f'unresolved "{repr(game_object)}"')
+            print(f'unresolved object {repr(game_object)}')
             self._unresolved_objects.append(game_object)
 
     def add_sized_grid_object(self, obj: ASizedGridObject):
-        if isinstance(obj, AssemblingMachineUnit):
-            self._assemblers.append(obj)
+        if isinstance(obj, ProductionNode):
+            self._nodes.append(obj)
 
-        self._grid_objects.append(obj)
-
-        if isinstance(obj, AMaterialTransport):
-            for connection_cell in obj.iterate_connection_cells():
-                other_obj = self._grid.get(connection_cell)
-                if isinstance(other_obj, AMaterialTransport):
-                    obj.try_connect(other_obj)
-
-        for object_cell in obj.iterate_object_cells():
-            self._grid.place_object_at_position(obj, object_cell)
+        obj.place_on_grid(self._grid)
 
 
 if __name__ == '__main__':

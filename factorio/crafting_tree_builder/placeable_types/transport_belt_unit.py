@@ -1,25 +1,23 @@
-from dataclasses import dataclass, field
-
-from factorio.crafting_tree_builder.placeable_types.material_transport import AItemTransport
-from factorio.game_environment.blueprint.types.direction_type import DirectionType
+from factorio.crafting_tree_builder.placeable_types.a_item_bus_unit import AItemBusUnit
 
 
-@dataclass
-class TransportBeltUnit(AItemTransport):
-    item_rate: float = field(default=0, hash=True)
-    direction: DirectionType = DirectionType.UP
+class TransportBeltUnit(AItemBusUnit):
+    def __init__(self, item_rate: float = 0):
+        super().__init__()
+        self.item_rate = item_rate
 
     def __str__(self):
-        return f"Rate: {self.item_rate}"
+        return f"Rate: {self.item_rate} Pos: {self.position}"
 
     @property
     def max_rate(self):
         return self.item_rate
 
-    def iterate_object_cells(self):
-        yield self.position.round()
+    def iter_object_cells(self):
+        yield self.grid_position
 
-    def iterate_connection_cells(self):
-        rounded_position = self.position.round()
-        yield from self.iterate_direction_forward(rounded_position)
-        yield from self.iterate_cell_backward(rounded_position)
+    def iter_input_cells(self):
+        yield from self.iter_cell_backward(self.grid_position)
+
+    def iter_output_cells(self):
+        yield from self.iter_cell_forward(self.grid_position)

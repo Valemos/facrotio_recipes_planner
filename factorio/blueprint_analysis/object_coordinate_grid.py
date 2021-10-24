@@ -1,4 +1,5 @@
-from factorio.blueprint_analysis.a_sized_grid_object import ASizedGridObject
+from math import floor
+
 from factorio.game_environment.blueprint.types.position import Position
 
 
@@ -57,23 +58,25 @@ class ObjectCoordinateGrid:
     def max_y(self):
         return int(self.size_y - 1 - self._array_start_shift.y)
 
-    def place_object_at_position(self, obj, position: Position):
+    def place_object(self, obj, position: Position):
         if self.size_x == 0 and self.size_y == 0:
-            self._grid = [[None]]
-            self._array_start_shift = Position(-position.x, -position.y)
+            self._init_grid(position)
         self._extend_grid_for_position(position)
         self._set_at_position(obj, position)
 
-    def place_grid_object(self, obj: ASizedGridObject):
-        self.place_object_at_position(obj, obj.position.round())
+    def _init_grid(self, start_shift):
+        self._grid = [[None]]
+        self._array_start_shift = Position(-start_shift.x, -start_shift.y)
 
-    def remove_object_from_position(self, position: Position):
+    def remove_object(self, position: Position):
         self._set_at_position(None, position)
 
     def get(self, position: Position):
-        try:
-            return self._grid[self._get_grid_x(position.x)][self._get_grid_y(position.y)]
-        except IndexError:
+        grid_x = self._get_grid_x(position.x)
+        grid_y = self._get_grid_y(position.y)
+        if 0 <= grid_x < self.size_x and 0 <= grid_y < self.size_y:
+            return self._grid[grid_x][grid_y]
+        else:
             return None
 
     def show_debug_grid(self, highlight: Position = None):
@@ -119,13 +122,13 @@ class ObjectCoordinateGrid:
         min_x = self.min_x
         max_x = self.max_x
 
-        x = round(x)
+        x = floor(x)
 
         if x < min_x:
             self._extend_x(min_x - x, 0)
-            self._array_start_shift.x = -x
+            self._array_start_shift = self._array_start_shift.add_x(-x)
         elif x > max_x:
-            self._extend_x(x - max_x, self.size_y)
+            self._extend_x(x - max_x, self.size_x)
 
     def _extend_to_fit_y(self, y):
         min_y = self.min_y
@@ -135,7 +138,7 @@ class ObjectCoordinateGrid:
 
         if y < min_y:
             self._extend_y(min_y - y, 0)
-            self._array_start_shift.y = -y
+            self._array_start_shift = self._array_start_shift.add_y(-y)
         elif y > max_y:
             self._extend_y(y - max_y, self.size_y)
 

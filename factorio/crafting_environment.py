@@ -4,9 +4,9 @@ from typing import Dict, List
 from typing import Union
 
 from factorio.game_environment.game_environment import GameEnvironment
-from factorio.production_config_builder import ProductionConfigBuilder
+from factorio.production_config_builder import ProductionNodeBuilder
 from factorio.crafting_tree_builder.internal_types.material import Material
-from factorio.crafting_tree_builder.internal_types.production_config import ProductionConfig
+from factorio.crafting_tree_builder.internal_types.virtual_assembler_group import VirtualAssemblerGroup
 from factorio.crafting_tree_builder.internal_types.recipe import Recipe
 
 
@@ -14,12 +14,12 @@ class CraftingEnvironment:
 
     def __init__(self,
                  final_materials: List[Union[str, Material]] = None,
-                 builder: ProductionConfigBuilder = None,
-                 game_env: GameEnvironment = None,) -> None:
+                 builder: ProductionNodeBuilder = None,
+                 game_env: GameEnvironment = None, ) -> None:
 
         self.final_material = None
         self.game_env = game_env if game_env is not None else GameEnvironment.load_default()
-        self._constrains: Dict[str, ProductionConfig] = {}
+        self._constrains: Dict[str, VirtualAssemblerGroup] = {}
 
         self.production_config_builder = builder
 
@@ -48,10 +48,10 @@ class CraftingEnvironment:
         recipe_id = self.game_env.recipe_collection.get_recipe(recipe_name).get_id()
         self._final_recipe_ids.remove(recipe_id)
 
-    def add_constrain_config(self, config: ProductionConfig):
+    def add_constrain_config(self, config: VirtualAssemblerGroup):
         """constrain amount of recipe crafts that can be produced by system"""
         config.constrained = True
-        self._constrains[config.get_recipe().get_id()] = config
+        self._constrains[config.recipe.get_id()] = config
 
     def constrain_material_rate(self, material: Union[str, Material]):
         config = self.get_material_config(material)
@@ -67,13 +67,13 @@ class CraftingEnvironment:
     def clear_constraints(self):
         self._constrains = {}
 
-    def get_production_config(self, recipe: Recipe) -> ProductionConfig:
+    def get_production_config(self, recipe: Recipe) -> VirtualAssemblerGroup:
         """
         if material production is constrained, user producer config will apply
         
         WARNING! if the same config is requested multiple times, the same object will be returned
         """
-
+        # todo move functionality of creating assembling configs to step providers if needed
         if recipe.get_id() in self._constrains:
             return deepcopy(self._constrains[recipe.get_id()])
 
@@ -88,10 +88,10 @@ class CraftingEnvironment:
             return True
 
         # if not found in ready components, check if object is the simplest component    
-        return len(recipe.get_required()) == 0
+        return len(recipe.ingredients) == 0
 
     def get_config_unconstrained(self, recipe: Recipe):
-        return self.production_config_builder.build(recipe)
+        return self.production_config_builder.build_recipe(recipe)
 
     def get_material_recipe(self, material: Material):
         return self.game_env.recipe_collection.get_material_recipe(material)

@@ -3,8 +3,8 @@ import tkinter as tk
 from factorio.crafting_tree_builder.internal_types.material import Material
 from factorio.crafting_tree_builder.internal_types.material_collection import MaterialCollection
 from factorio.crafting_tree_builder.internal_types.recipe import Recipe
-from factorio.crafting_tree_builder.placeable_types import CraftStationType
 from factorio.crafting_tree_builder.internal_types.recipes_collection import RecipesCollection
+from factorio.game_environment.object_stats.crafting_category import CraftingCategory
 from gui.entry_validator_with_label import EntryFloatWithLabel
 from gui.entry_with_label import EntryWithLabel
 from gui.menu_object_selector_widget import MenuObjectSelectorWidget
@@ -17,8 +17,8 @@ class RecipeFormWidget(tk.Frame):
     def __init__(self, root, **kw):
         tk.Frame.__init__(self, root, **kw)
 
-        self.menu_recipe_type = MenuObjectSelectorWidget(self, 15, {t.name: t for t in CraftStationType})
-        self.menu_recipe_type.set(CraftStationType.ASSEMBLING)
+        self.menu_recipe_type = MenuObjectSelectorWidget(self, 15, {t.name: t for t in CraftingCategory})
+        self.menu_recipe_type.set(CraftingCategory.ASSEMBLING)
 
         self.entry_craft_time = EntryFloatWithLabel(self, "Craft time: ", 10)
         self.widget_ingredients = WidgetList(self, "Add ingredient", NameAmountWidget)
@@ -64,7 +64,7 @@ class RecipeFormWidget(tk.Frame):
 
         recipe = Recipe(name=name,
                         time=self.entry_craft_time.get(),
-                        producer_type=recipe_type,
+                        category=recipe_type,
                         ingredients=ingredients,
                         results=results)
         return recipe
@@ -75,7 +75,7 @@ class RecipeFormWidget(tk.Frame):
         self.menu_recipe_type.set_string(recipe.category.name)
 
         self.widget_ingredients.reset()
-        for ingredient in recipe.get_required():
+        for ingredient in recipe.ingredients:
             widget = self.widget_ingredients.create_empty_widget()
             widget.set_name(ingredient.name)
             widget.set_amount(ingredient.amount)

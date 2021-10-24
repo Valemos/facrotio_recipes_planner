@@ -3,7 +3,7 @@ from pathlib import Path
 
 from app_misc.a_recipe_json_editor import ARecipeJsonEditor
 from factorio.crafting_environment import CraftingEnvironment
-from factorio.production_config_builder import ProductionConfigBuilder
+from factorio.production_config_builder import ProductionNodeBuilder
 from factorio.crafting_tree_builder.internal_types.named_item import NamedObject
 from gui.entry_validator_with_label import EntryExistingPath
 from gui.menu_object_selector_widget import MenuObjectSelectorWidget
@@ -49,5 +49,5 @@ class CraftingEnvironmentFormWidget(tk.Frame, ARecipeJsonEditor):
 
         return CraftingEnvironment(
             final_materials,
-            ProductionConfigBuilder()
+            ProductionNodeBuilder()
         )

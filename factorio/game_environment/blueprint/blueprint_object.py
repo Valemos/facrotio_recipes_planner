@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
-from factorio.blueprint_analysis.a_grid_object import AGridObject
-from factorio.blueprint_analysis.a_sized_grid_object import ASizedGridObject
+from factorio.crafting_tree_builder.placeable_types.a_sized_grid_object import ASizedGridObject
+from factorio.crafting_tree_builder.placeable_types.assembling_machine_unit import AssemblingMachineUnit
 from factorio.game_environment.manual_stats_mapping import ManualStatsMapping
 from factorio.game_environment.blueprint.types.color import Color
 from factorio.game_environment.blueprint.types.direction_type import DirectionType
@@ -13,6 +13,7 @@ from factorio.game_environment.blueprint.types.logistic_filter import LogisticFi
 from factorio.game_environment.blueprint.types.position import Position
 from factorio.game_environment.blueprint.types.side_priority import SidePriority
 from factorio.game_environment.game_environment import GameEnvironment
+from factorio.recipe_graph.production_node import ProductionNode
 from serialization.a_container_json_serializable import AContainerJsonSerializable
 from serialization.a_optional_json_serializable import AOptionalJsonSerializable
 
@@ -49,17 +50,25 @@ class BlueprintObject(AOptionalJsonSerializable):
     color: Color = None
     station: str = None
 
-    def to_game_object(self, game_environment: GameEnvironment) -> AGridObject:
+    def to_game_object(self, game_environment: GameEnvironment) -> ASizedGridObject:
         try:
             obj = game_environment.get_placeable_stats(self.name).to_game_object()
         except ValueError:
             obj = ManualStatsMapping(self.name).get_object()
 
-        if isinstance(obj, AGridObject):
-            if self.position is not None:
-                obj.position = self.position
-            if self.direction is not None:
-                obj.direction = self.direction
+        if isinstance(obj, ASizedGridObject):
+            obj.set_placement(self.direction, self.position)
+
+        if isinstance(obj, AssemblingMachineUnit):
+            if self.recipe is not None:
+                recipe = game_environment.recipe_collection.get_recipe(self.recipe)
+            else:
+                recipe = game_environment.recipe_collection.EMPTY_RECIPE
+
+            obj = ProductionNode(obj, recipe)
+
+        if hasattr(obj, "loader_type"):
+            obj.loader_type = self.type
 
         return obj
 

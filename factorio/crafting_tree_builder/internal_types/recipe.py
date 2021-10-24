@@ -23,6 +23,14 @@ class Recipe(ACompositeJsonSerializable):
     def __hash__(self):
         return hash(self.name)
 
+    @property
+    def ingredient_rates(self):
+        return self.ingredients * (1 / self.time)
+
+    @property
+    def result_rates(self):
+        return self.results * (1 / self.time)
+
     def get_id(self):
         return hash(self)
 
@@ -40,9 +48,6 @@ class Recipe(ACompositeJsonSerializable):
             raise ValueError(f'no such result "{material.name}" for recipe {self.results}')
 
         return self.results.items[material.name].amount
-
-    def get_required(self) -> MaterialCollection:
-        return self.ingredients
 
     def get_results(self) -> MaterialCollection:
         return self.results

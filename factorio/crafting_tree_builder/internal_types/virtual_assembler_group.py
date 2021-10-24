@@ -1,54 +1,91 @@
 import math
-from dataclasses import dataclass
 
-from factorio.crafting_tree_builder.placeable_types import AMaterialTransport
-from factorio.crafting_tree_builder.placeable_types.assembling_machine import AssemblingMachineUnit
+from factorio.crafting_tree_builder.placeable_types.assembling_machine_unit import AssemblingMachineUnit
+from factorio.crafting_tree_builder.i_assembler_config import IAssemblerConfig
 from .material import Material
 from .material_collection import MaterialCollection
 from .recipe import Recipe
+from ..placeable_types.a_material_bus import AMaterialBus
+from ..placeable_types.a_material_transport import AMaterialConnectionNode
 
 
-@dataclass
-class ProductionConfig:
+class VirtualAssemblerGroup(IAssemblerConfig, AMaterialConnectionNode):
     """represents production unit combined with input and output inserters"""
 
-    assembling_machine: AssemblingMachineUnit
-    input: AMaterialTransport
-    output: AMaterialTransport
+    def __init__(self,
+                 assembling_machine: AssemblingMachineUnit = None,
+                 recipe: Recipe = None,
+                 constrained=False):
+        # todo update usages of production config and AssemblingMachineUnit
+        super().__init__(None, None)
+        self.assembler = assembling_machine
+        self._recipe = recipe
 
-    # not fixed config will be updated later during execution
-    producers_amount: float = float('inf')
-    constrained: bool = False
+        # not fixed config will be updated later during optimization
+        self.producers_amount: float = float('inf')
+        self._constrained: bool = constrained
+
+    def display_tree(self, level=0):
+        result = "\t" * level + self.get_short_description() + "\n"
+        child: VirtualAssemblerGroup
+        for child in self._inputs:
+            result += child.display_tree(level + 1)
+        return result
+
+    def get_short_description(self):
+        return f'{self.recipe.name} x {self.producers_amount}'
+
+    @property
+    def recipe(self):
+        return self._recipe
+
+    @property
+    def constrained(self):
+        return self._constrained
+
+    @constrained.setter
+    def constrained(self, value: bool):
+        self._constrained = value
+
+    @property
+    def direction(self):
+        return self.assembler.direction
+
+    @property
+    def position(self):
+        return self.assembler.position
+
+    @direction.setter
+    def direction(self, direction):
+        self.assembler.direction = direction
+
+    @position.setter
+    def position(self, pos):
+        self.assembler.direction = pos
+
+    def set_max_consumers(self, input_materials: MaterialCollection):
+        pass
 
     def get_required(self):
-        return self.assembling_machine.get_required(self.producers_amount)
-
-    def get_required_rates(self):
-        return self.assembling_machine.get_required_rates(self.producers_amount)
+        return self.recipe.ingredients * self.producers_amount
 
     def get_results(self):
-        return self.assembling_machine.get_results(self.producers_amount)
+        return self.recipe.results * self.producers_amount
+
+    def get_required_rates(self):
+        return self.recipe.ingredient_rates * self.assembler.crafting_speed * self.producers_amount
 
     def get_results_rates(self):
-        return self.assembling_machine.get_results_rates(self.producers_amount)
-
-    def get_recipe(self) -> Recipe:
-        return self.assembling_machine.get_recipe()
-
-    def set_recipe(self, recipe: Recipe):
-        self.assembling_machine = self.assembling_machine.copy_with_recipe(recipe)
-
-    def get_production_rate(self):
-        return self._get_config_production_rate(self.producers_amount)
+        return self.recipe.result_rates * self.assembler.crafting_speed * self.producers_amount
 
     def set_material_rate(self, material_rate: Material):
         """sets desired material rate if possible"""
-        # for recipes with more than one result correcting factor is added to match recipe craft results 
+        # for recipes with more than one result correcting factor is added to match recipe craft results
         recipe_results = self.get_results()
         craft_rate = recipe_results.total() * material_rate.amount / recipe_results[material_rate].amount
 
         self.producers_amount = self._get_machine_amount_for_craft_rate(craft_rate)
-    
+
     def set_basic_material_rate(self, material_rate: Material):
         max_possible_rate = self.output.max_rate()
         self.producers_amount = min(material_rate.amount, max_possible_rate)
@@ -59,9 +96,9 @@ class ProductionConfig:
         e.g. minimal craft requirements for all materials
         """
 
-        if not all(material in self.assembling_machine.get_required() for material in input_material_rates):
+        if not all(material in self.assembler.get_required() for material in input_material_rates):
             raise ValueError(f"collections don't match: \n"
-                             f"{str(self.assembling_machine.recipe.get_required())}\n"
+                             f"{str(self.recipe.ingredients)}\n"
                              f"{str(input_material_rates)}")
 
         # use current producers_amount as max possible at this point
@@ -84,11 +121,15 @@ class ProductionConfig:
             return float('inf')
         
         # to get exactly ingredient_rate.amount items in input collection and scale everything else with it
-        craft_input_rates = self.assembling_machine.get_required_rates(1)
+        craft_input_rates = self.assembler.get_required_rates(1)
         rate_scaling = ingredient_rate.amount / craft_input_rates[ingredient_rate].amount
-        craft_rate_by_ingredient = self.assembling_machine.craft_rate() * rate_scaling
+        craft_rate_by_ingredient = self.assembler.craft_rate() * rate_scaling
 
         return self._get_machine_amount_for_craft_rate(craft_rate_by_ingredient)
+
+    def connect_material_bus(self, bus: AMaterialBus):
+        # todo connect material bus and save materials supplied by it. add material check logic
+        pass
 
     @staticmethod
     def _warn_rate_too_high(item_name: str, rate: float, bus_type: str = None):
@@ -97,28 +138,9 @@ class ProductionConfig:
             message += f' for {bus_type}'
         print(message)
 
-    def _get_config_production_rate(self, machine_amount: float = 1):
-        if machine_amount == float('inf'): return float('inf')
-
-        machine_amount = math.ceil(machine_amount)
-        input_required_rate = self.assembling_machine.get_required_rates(machine_amount).total()
-        production_rate = self.assembling_machine.get_results_rates(machine_amount).total()
-
-        # get inserter rates for total production scaling
-        input_rate_max = self.input.max_rate() * machine_amount
-        output_rate_max = self.output.max_rate() * machine_amount
-        
-        if input_rate_max < input_required_rate:
-            production_rate = input_rate_max
-        
-        if output_rate_max < production_rate:
-            production_rate = output_rate_max
-        
-        return production_rate
-
-    def _get_machine_amount_for_craft_rate(self, craft_rate: float):    
+    def _get_machine_amount_for_craft_rate(self, craft_rate: float):
         """
-        resulting productivity rate from self.get_results_rates() 
+        resulting productivity rate from self.get_results_rates()
         will match or will be more than provided material
         """
 

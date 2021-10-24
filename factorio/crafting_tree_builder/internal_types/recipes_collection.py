@@ -132,7 +132,7 @@ class RecipesCollection(IJsonSerializable):
     def get_unresolved_names(self):
         names = set()
         for recipe in self._recipes.values():
-            for ingredient in recipe.get_required():
+            for ingredient in recipe.ingredients:
                 if not self.is_material_known(ingredient):
                     names.add(ingredient.name)
         return names

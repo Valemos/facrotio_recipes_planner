@@ -1,45 +1,57 @@
-from abc import abstractmethod
-from dataclasses import dataclass
+from abc import ABC
 
-from factorio.blueprint_analysis.a_sized_grid_object import ASizedGridObject
-from factorio.crafting_tree_builder.placeable_types.a_material_bus import AMaterialBus
-from factorio.game_environment.object_stats.material_type import MaterialType
+from factorio.blueprint_analysis.object_coordinate_grid import ObjectCoordinateGrid
 
 
-@dataclass
-class AMaterialTransport(ASizedGridObject):
-    _material_bus: AMaterialBus = None
+class AMaterialConnectionNode(ABC):
 
-    @property
-    def material_bus(self) -> AMaterialBus:
-        if self._material_bus is None:
-            self._material_bus = self.create_new_bus()
-            self._material_bus.try_add(self)
-        return self._material_bus
+    def __init__(self) -> None:
+        self._inputs: list[AMaterialConnectionNode] = []
+        self._outputs: list[AMaterialConnectionNode] = []
 
-    @material_bus.setter
-    def material_bus(self, bus):
-        if not isinstance(bus, AMaterialBus):
-            raise ValueError(f'not a material bus {repr(bus)}')
-        self._material_bus = bus
-
-    @property
-    @abstractmethod
-    def max_rate(self):
+    def notify_inputs_changed(self):
         pass
 
-    @property
-    @abstractmethod
-    def material_type(self) -> MaterialType:
-        pass
+    def connect_input(self, input_object):
+        if not isinstance(input_object, AMaterialConnectionNode):
+            raise ValueError("object is not a AMaterialTransport")
+        self._inputs.append(input_object)
+        input_object._outputs.append(self)
 
-    @abstractmethod
-    def create_new_bus(self) -> AMaterialBus:
-        pass
+    def connect_output(self, output_object):
+        if not isinstance(output_object, AMaterialConnectionNode):
+            raise ValueError("object is not a AMaterialTransport")
+        self._outputs.append(output_object)
+        output_object._inputs.append(self)
 
-    def try_connect(self, other):
-        """assumes other object is also AMaterialTransport"""
-        if self.material_type == other.material_type:
-            AMaterialBus.merge(self.material_bus, other.material_bus)
-            return True
-        return False
+    def remove_input(self, input_object):
+        self._inputs.remove(input_object)
+
+    def remove_output(self, output_object):
+        self._outputs.remove(output_object)
+
+    def get_inputs(self):
+        return list(self._inputs)
+
+    def get_outputs(self):
+        return list(self._outputs)
+
+    def is_source_step(self):
+        """returns True if node represents basic resource in crafting tree"""
+        return len(self._inputs) == 0
+
+    def iterate_up_to_bottom(self):
+        yield self
+        for prev_step in self._inputs:
+            yield from prev_step.iterate_up_to_bottom()
+
+    def iterate_bottom_to_up(self):
+        for prev_step in self._inputs:
+            yield from prev_step.iterate_bottom_to_up()
+        yield self
+
+    def get_root_step(self):
+        root_step = self
+        while root_step.outputs is not None:
+            root_step = root_step.outputs
+        return root_step

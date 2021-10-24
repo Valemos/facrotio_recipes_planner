@@ -1,12 +1,13 @@
 from dataclasses import dataclass
 
-from factorio.crafting_tree_builder.placeable_types.material_transport import AItemTransport
-from factorio.game_environment.blueprint.types.direction_type import DirectionType
-from factorio.game_environment.blueprint.types.position import Position
+from factorio.crafting_tree_builder.placeable_types.a_material_transport import AMaterialConnectionNode
+from factorio.crafting_tree_builder.placeable_types.a_item_bus_unit import AItemBusUnit
+from factorio.crafting_tree_builder.placeable_types.a_sized_grid_object import ASizedGridObject
 
 
 @dataclass(eq=True, unsafe_hash=True)
-class InserterUnit(AItemTransport):
+class InserterUnit(AMaterialConnectionNode, ASizedGridObject):
+
     cycle_speed: float = 1
     capacity: float = 1
     range: int = 1
@@ -18,12 +19,18 @@ class InserterUnit(AItemTransport):
     def max_rate(self):
         return self.cycle_speed * self.capacity
 
-    def iterate_connection_cells(self, start_position: Position):
-        if self.direction == DirectionType.UP or self.direction == DirectionType.DOWN:
-            yield start_position.add_y(1)
-            yield start_position.add_y(-1)
-        elif self.direction == DirectionType.LEFT or self.direction == DirectionType.RIGHT:
-            yield start_position.add_x(1)
-            yield start_position.add_x(-1)
-        else:
-            raise ValueError(f"cannot understand direction {self.direction.name}")
+    def connect_on_grid(self, grid):
+        for cell in self.iter_input_cells():
+            pass
+
+        for cell in self.iter_output_cells():
+            pass
+
+    def iter_object_cells(self):
+        yield self.grid_position
+
+    def iter_input_cells(self):
+        yield from self.iter_cell_forward(self.grid_position, 1)
+
+    def iter_output_cells(self):
+        yield from self.iter_cell_backward(self.grid_position, 1)
