@@ -10,7 +10,7 @@ from .material_collection import MaterialCollection
 class Recipe(ACompositeJsonSerializable):
 
     name: str = ""
-    time: float = 0  # in seconds per craft
+    time: float = float("inf")  # in seconds per craft
     category: CraftingCategory = CraftingCategory.NO_CATEGORY
     ingredients: MaterialCollection = field(default_factory=MaterialCollection)
     results: MaterialCollection = field(default_factory=MaterialCollection)

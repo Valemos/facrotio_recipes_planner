@@ -1,6 +1,7 @@
 import unittest
 
 from factorio.crafting_tree_builder.placeable_types.assembling_machine_unit import AssemblingMachineUnit
+from factorio.crafting_tree_builder.placeable_types.pipe_unit import PipeUnit
 from factorio.crafting_tree_builder.placeable_types.splitter_unit import SplitterUnit
 from factorio.crafting_tree_builder.placeable_types.transport_belt_unit import TransportBeltUnit
 from factorio.game_environment.blueprint.types.direction_type import DirectionType
@@ -10,16 +11,15 @@ from factorio.game_environment.blueprint.types.position import Position
 class TestUnitGridProfiles(unittest.TestCase):
 
     def obj_test(self, unit, obj_cells, input_cells, output_cells):
-        s = unit
-        self.assertEqual(obj_cells, set(s.iter_object_cells()))
-        self.assertEqual(input_cells, set(s.iter_input_cells()))
-        self.assertEqual(output_cells, set(s.iter_output_cells()))
+        self.assertEqual(obj_cells, set(unit.iter_object_cells()))
+        self.assertEqual(input_cells, set(unit.iter_input_cells()))
+        self.assertEqual(output_cells, set(unit.iter_output_cells()))
 
     def test_splitter_directions(self):
         obj_pos1 = Position(163.5, -23)
         h_body = {Position(163, -23), Position(163, -24)}
-        h_left = {p.add_x(1) for p in h_body}
-        h_right = {p.add_x(-1) for p in h_body}
+        h_left = {p.add_x(-1) for p in h_body}
+        h_right = {p.add_x(1) for p in h_body}
         self.obj_test(SplitterUnit().set_placement(obj_pos1, DirectionType.RIGHT), h_body, h_left, h_right)
         self.obj_test(SplitterUnit().set_placement(obj_pos1, DirectionType.LEFT), h_body, h_right, h_left)
 
@@ -32,11 +32,12 @@ class TestUnitGridProfiles(unittest.TestCase):
 
     def test_belt_directions(self):
         obj_pos = Position(-120.5, 66.5)
-        body = {Position(-120, 66)}
-        cells_up = {obj_pos.add_y(1)}
-        cells_down = {obj_pos.add_y(-1)}
-        cells_right = {obj_pos.add_x(1)}
-        cells_left = {obj_pos.add_x(-1)}
+        floored_pos = obj_pos.floor()
+        body = {floored_pos}
+        cells_up = {floored_pos.add_y(1)}
+        cells_down = {floored_pos.add_y(-1)}
+        cells_right = {floored_pos.add_x(1)}
+        cells_left = {floored_pos.add_x(-1)}
 
         self.obj_test(TransportBeltUnit().set_placement(obj_pos, DirectionType.LEFT), body, cells_right, cells_left)
         self.obj_test(TransportBeltUnit().set_placement(obj_pos, DirectionType.RIGHT), body, cells_left, cells_right)
@@ -45,13 +46,11 @@ class TestUnitGridProfiles(unittest.TestCase):
 
     def test_pipe_directions(self):
         obj_pos = Position(-120.5, 66.5)
-        body = {Position(-120, 66)}
-        cells_up = {obj_pos.add_y(1)}
-        cells_down = {obj_pos.add_y(-1)}
-        cells_right = {obj_pos.add_x(1)}
-        cells_left = {obj_pos.add_x(-1)}
+        floored = obj_pos.floor()
+        body = {floored}
+        cells = {floored.add_x(1), floored.add_x(-1), floored.add_y(1), floored.add_y(-1)}
 
-        self.obj_test(TransportBeltUnit().set_placement(obj_pos, DirectionType.LEFT), body, cells_right, cells_left)
-        self.obj_test(TransportBeltUnit().set_placement(obj_pos, DirectionType.RIGHT), body, cells_left, cells_right)
-        self.obj_test(TransportBeltUnit().set_placement(obj_pos, DirectionType.UP), body, cells_down, cells_up)
-        self.obj_test(TransportBeltUnit().set_placement(obj_pos, DirectionType.DOWN), body, cells_up, cells_down)
+        self.obj_test(PipeUnit().set_placement(obj_pos, DirectionType.LEFT), body, cells, cells)
+        self.obj_test(PipeUnit().set_placement(obj_pos, DirectionType.RIGHT), body, cells, cells)
+        self.obj_test(PipeUnit().set_placement(obj_pos, DirectionType.UP), body, cells, cells)
+        self.obj_test(PipeUnit().set_placement(obj_pos, DirectionType.DOWN), body, cells, cells)

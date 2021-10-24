@@ -1,15 +1,14 @@
 from dataclasses import dataclass
-from math import floor
 
+from factorio.blueprint_analysis.object_coordinate_grid import ObjectCoordinateGrid
 from factorio.crafting_tree_builder.placeable_types.a_item_bus_unit import AItemBusUnit
-from factorio.game_environment.blueprint.types.position import Position
 
 
 @dataclass
 class SplitterUnit(AItemBusUnit):
 
-    def __init__(self, item_rate: float = 0, direction=None, position=None):
-        super().__init__(direction, position)
+    def __init__(self, item_rate: float = 0):
+        super().__init__()
         self.item_rate = item_rate
 
     def __str__(self):
@@ -21,13 +20,13 @@ class SplitterUnit(AItemBusUnit):
 
     def iter_input_cells(self):
         obj_cells_generator = self.iter_object_cells()
-        yield from self.iter_cell_forward(next(obj_cells_generator))
-        yield from self.iter_cell_forward(next(obj_cells_generator))
+        yield from self.iter_cell_backward(next(obj_cells_generator))
+        yield from self.iter_cell_backward(next(obj_cells_generator))
 
     def iter_output_cells(self):
         obj_cells_generator = self.iter_object_cells()
-        yield from self.iter_cell_backward(next(obj_cells_generator))
-        yield from self.iter_cell_backward(next(obj_cells_generator))
+        yield from self.iter_cell_forward(next(obj_cells_generator))
+        yield from self.iter_cell_forward(next(obj_cells_generator))
 
     def iter_object_cells(self):
         first = self.grid_position

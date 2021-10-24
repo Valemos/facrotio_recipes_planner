@@ -64,17 +64,13 @@ class ObjectCoordinateGrid:
         self._extend_grid_for_position(position)
         self._set_at_position(obj, position)
 
-    def _init_grid(self, start_shift):
-        self._grid = [[None]]
-        self._array_start_shift = Position(-start_shift.x, -start_shift.y)
-
     def remove_object(self, position: Position):
         self._set_at_position(None, position)
 
     def get(self, position: Position):
         grid_x = self._get_grid_x(position.x)
         grid_y = self._get_grid_y(position.y)
-        if 0 <= grid_x < self.size_x and 0 <= grid_y < self.size_y:
+        if self.is_position_in_grid(grid_x, grid_y):
             return self._grid[grid_x][grid_y]
         else:
             return None
@@ -101,6 +97,13 @@ class ObjectCoordinateGrid:
         y_numbers = numpy.round(numpy.linspace(self.min_y, self.max_y + 1, self.size_y), 2)
         _show_labels_grid(colors, labels, x_numbers, y_numbers)
 
+    def is_position_in_grid(self, grid_x, grid_y):
+        return 0 <= grid_x < self.size_x and 0 <= grid_y < self.size_y
+
+    def _init_grid(self, start_shift):
+        self._grid = [[None]]
+        self._array_start_shift = Position(-start_shift.x, -start_shift.y)
+
     def _get_grid_x(self, x):
         return int(x + self._array_start_shift.x)
 
@@ -113,7 +116,12 @@ class ObjectCoordinateGrid:
         self._extend_to_fit_y(position.y)
 
     def _set_at_position(self, obj, position):
-        self._grid[self._get_grid_x(position.x)][self._get_grid_y(position.y)] = obj
+        grid_x = self._get_grid_x(position.x)
+        grid_y = self._get_grid_y(position.y)
+        if not self.is_position_in_grid(grid_x, grid_y):
+            raise ValueError(f"cannot set at position ({grid_x}, {grid_y})")
+
+        self._grid[grid_x][grid_y] = obj
         if obj is not None:
             if obj not in self._all_objects:
                 self._all_objects.append(obj)
@@ -125,8 +133,9 @@ class ObjectCoordinateGrid:
         x = floor(x)
 
         if x < min_x:
-            self._extend_x(min_x - x, 0)
-            self._array_start_shift = self._array_start_shift.add_x(-x)
+            extend_amount = min_x - x
+            self._extend_x(extend_amount, 0)
+            self._array_start_shift = self._array_start_shift.add_x(extend_amount)
         elif x > max_x:
             self._extend_x(x - max_x, self.size_x)
 
@@ -134,11 +143,12 @@ class ObjectCoordinateGrid:
         min_y = self.min_y
         max_y = self.max_y
 
-        y = round(y)
+        y = floor(y)
 
         if y < min_y:
-            self._extend_y(min_y - y, 0)
-            self._array_start_shift = self._array_start_shift.add_y(-y)
+            extend_amount = min_y - y
+            self._extend_y(extend_amount, 0)
+            self._array_start_shift = self._array_start_shift.add_y(extend_amount)
         elif y > max_y:
             self._extend_y(y - max_y, self.size_y)
 
