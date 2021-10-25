@@ -72,6 +72,10 @@ class MaterialCollection(AContainerJsonSerializable):
 
         return new_collection
 
+    def __truediv__(self, divider):
+        assert isinstance(divider, float) or isinstance(divider, int)
+        return self * (1 / divider)
+
     @staticmethod
     def _keytransform(key: Union[str, Material]):
         if issubclass(key.__class__, Material):

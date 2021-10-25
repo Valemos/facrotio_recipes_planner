@@ -1,5 +1,6 @@
 from abc import abstractmethod, ABC
 
+from factorio.crafting_tree_builder.internal_types.material_collection import MaterialCollection
 from factorio.crafting_tree_builder.placeable_types.a_material_connection_node import AMaterialConnectionNode
 from factorio.game_environment.object_stats.material_type import MaterialType
 
@@ -35,6 +36,9 @@ class AMaterialBus(AMaterialConnectionNode, ABC):
     @abstractmethod
     def material_type(self) -> MaterialType:
         pass
+
+    def is_hidden_node(self) -> bool:
+        return True
 
     @staticmethod
     def merge(first, second):

@@ -4,7 +4,7 @@ from math import floor
 from serialization.a_composite_json_serializable import ACompositeJsonSerializable
 
 
-@dataclass(frozen=True)
+@dataclass(unsafe_hash=True)
 class Position(ACompositeJsonSerializable):
     x: float = field(default=0, hash=True)
     y: float = field(default=0, hash=True)

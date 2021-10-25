@@ -21,6 +21,10 @@ class ProductionNode(IAssemblerConfig, AMaterialConnectionNode):
     def constrained(self) -> bool:
         return False
 
+    @property
+    def is_hidden_node(self) -> bool:
+        return False
+
     def get_required_rates(self) -> MaterialCollection:
         return self._recipe.ingredient_rates * self._assembler.crafting_speed
 
@@ -32,7 +36,7 @@ class ProductionNode(IAssemblerConfig, AMaterialConnectionNode):
 
     def get_source_materials(self):
         basic_materials = MaterialCollection()
-        for step in self.iterate_root_to_child():
+        for step in self.iter_root_to_child():
             if step.is_source_step():
                 basic_materials += step.config.recipe.get_results()
 

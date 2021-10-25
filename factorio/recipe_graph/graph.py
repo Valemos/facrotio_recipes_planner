@@ -50,9 +50,9 @@ def build_graph(root: AMaterialConnectionNode):
     graph = Digraph()
     nodes = {}
 
-    for node in root.iterate_root_to_child():
+    for node in root.iter_root_to_child():
         nodes[id(node)] = node
 
-    for parent_node, child_node, material in root.iterate_connections():
-        # todo finish
+    for parent_node, child_node, material in root.iter_connections():
+        # todo finish with hidden nodes
         pass

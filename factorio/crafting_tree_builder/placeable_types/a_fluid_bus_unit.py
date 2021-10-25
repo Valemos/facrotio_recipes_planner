@@ -9,6 +9,10 @@ from factorio.game_environment.object_stats.material_type import MaterialType
 class AFluidBusUnit(AMaterialBusUnit, ABC):
 
     @property
+    def is_hidden_node(self) -> bool:
+        return True
+
+    @property
     def material_type(self):
         return MaterialType.FLUID
 

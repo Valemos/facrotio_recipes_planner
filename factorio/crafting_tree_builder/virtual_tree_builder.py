@@ -7,7 +7,7 @@ def build_for_material(material: Material, env: VirtualCraftingEnvironment):
     root = env.node_config_builder.build_material(material)
     root.build_subtrees(env.node_config_builder)
 
-    for node in root.iterate_all_sources():
+    for node in root.iter_sources():
         if node.get_output_rates().first().amount == float("inf"):
             print(f'source material has infinite output "{node.recipe.name}"')
         node.handle_inputs_changed()

@@ -28,7 +28,7 @@ class RecipeStats(AStats):
 
     def to_game_object(self) -> Optional[Recipe]:
         if self.hidden or self.hidden_from_player_crafting:
-            print(f'recipe for "{self.name}" is hidden')
+            # print(f'recipe for "{self.name}" is hidden')
             return None
 
         return Recipe(name=self.name,
