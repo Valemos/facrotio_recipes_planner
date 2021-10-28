@@ -3,6 +3,7 @@ from typing import Dict, List
 from typing import Union
 
 from factorio.crafting_tree_builder.internal_types.material import Material
+from factorio.crafting_tree_builder.internal_types.material_collection import MaterialCollection
 from factorio.crafting_tree_builder.internal_types.recipe import Recipe
 from factorio.crafting_tree_builder.internal_types.virtual_assembler_group import VirtualAssemblerGroup
 from factorio.game_environment.game_environment import GameEnvironment
@@ -12,7 +13,7 @@ from factorio.production_config_builder import VirtualProductionConfigBuilder
 class VirtualCraftingEnvironment:
 
     def __init__(self,
-                 final_materials: List[Union[str, Material]] = None,
+                 ready_materials: List[Union[str, Material]] = None,
                  builder: VirtualProductionConfigBuilder = None, ) -> None:
 
         if builder is None:
@@ -23,27 +24,17 @@ class VirtualCraftingEnvironment:
         self.game_env = self.node_config_builder.game_env
         self._constrains: Dict[str, VirtualAssemblerGroup] = {}
 
-        self._final_recipe_ids = set()
-        if final_materials is not None:
-            for material in final_materials:
-                recipes = self.game_env.recipe_collection.get_material_recipes(material)
-                for recipe in recipes:
-                    self.add_final_recipe(recipe)
+        self._ready_materials = MaterialCollection()
+        for m in ready_materials:
+            self._ready_materials.add(Material.from_obj(m, default_amount=float("inf")))
 
     def __copy__(self):
         shallow = copy(self)
         shallow.game_env = self.game_env
         shallow.node_config_builder = deepcopy(self.node_config_builder)
         shallow._constrains = deepcopy(self._constrains)
-        shallow._final_recipe_ids = deepcopy(self._final_recipe_ids)
+        shallow._final_recipe_ids = deepcopy(self._ready_materials)
         return shallow
-
-    def add_final_recipe(self, recipe: Recipe):
-        self._final_recipe_ids.add(recipe.get_id())
-
-    def remove_final_recipe(self, recipe_name: str):
-        recipe_id = self.game_env.recipe_collection.get_recipe(recipe_name).get_id()
-        self._final_recipe_ids.remove(recipe_id)
 
     def add_constrain_config(self, config: VirtualAssemblerGroup):
         """constrain amount of recipe crafts that can be produced by system"""
@@ -69,19 +60,11 @@ class VirtualCraftingEnvironment:
         if material production is constrained, user producer config will apply
         """
 
-        config = self.node_config_builder.build_material_node(material)
+        if material in self._ready_materials:
+            return self.node_config_builder.build_source_node(self._ready_materials[material])
 
+        config = self.node_config_builder.build_material_node(material)
         if config.recipe.get_id() in self._constrains:
             return deepcopy(self._constrains[config.recipe.get_id()])
 
-        if self.is_final_recipe(config.recipe):
-            return self.node_config_builder.build_source_node(material)
-
         return config
-
-    def is_final_recipe(self, recipe: Recipe):
-        if recipe.get_id() in self._final_recipe_ids:
-            return True
-
-        # if not found in ready components, check if object is the simplest component    
-        return len(recipe.ingredients) == 0

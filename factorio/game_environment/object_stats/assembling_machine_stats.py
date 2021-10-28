@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from functools import lru_cache
 
 from factorio.crafting_tree_builder.placeable_types.assembling_machine_unit import AssemblingMachineUnit
-from serialization.string_list_json import StringListJson
+from serialization.string_list_json import BasicListJson
 from .a_stats import AStats
 from .crafting_category import CategoriesMapping
 from .effects_dict import EffectsDict
@@ -12,7 +12,7 @@ from ..blueprint.types.color import Color
 @dataclass
 class AssemblingMachineStats(AStats):
     name: str = None
-    localised_name: StringListJson = None
+    localised_name: BasicListJson = None
     type: str = None
     energy_usage: float = None
     ingredient_count: int = None

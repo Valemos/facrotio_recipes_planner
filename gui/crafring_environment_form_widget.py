@@ -8,7 +8,7 @@ from factorio.crafting_tree_builder.internal_types.named_item import NamedObject
 from gui.entry_validator_with_label import EntryExistingPath
 from gui.menu_object_selector_widget import MenuObjectSelectorWidget
 from gui.name_amount_widget import NameAmountWidget
-from gui.widget_list import WidgetList
+from gui.modified_widget_list import DynamicWidgetList
 
 
 class CraftingEnvironmentFormWidget(tk.Frame, ARecipeJsonEditor):
@@ -23,11 +23,11 @@ class CraftingEnvironmentFormWidget(tk.Frame, ARecipeJsonEditor):
 
         def create_material_name_entry(_root):
             return tk.Entry(_root, width=15)
-        self.list_ready_materials = WidgetList(self, "Add ready material", create_material_name_entry)
+        self.list_ready_materials = DynamicWidgetList(self, create_material_name_entry, "Add ready material")
 
         # todo add selection sequence for all crafting benches
 
-        self.list_constrains = WidgetList(self, "Add constrain", NameAmountWidget)
+        self.list_constrains = DynamicWidgetList(self, NameAmountWidget, "Add constrain")
 
         self.entry_path.pack(side=tk.TOP, anchor=tk.CENTER)
         self.list_ready_materials.pack(side=tk.TOP, anchor=tk.CENTER)

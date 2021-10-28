@@ -1,4 +1,5 @@
 from factorio.crafting_tree_builder.placeable_types.a_sized_grid_object import ASizedGridObject
+from factorio.deterministic_hash import hash_det
 
 
 class AssemblingMachineUnit(ASizedGridObject):
@@ -11,10 +12,10 @@ class AssemblingMachineUnit(ASizedGridObject):
         self.time_multiplier = 1 / crafting_speed  # coefficient to multiply recipe crafting time
 
     def __str__(self):
-        return f"Craft speed: {self.crafting_speed}"
+        return f"{self.name}: {self.crafting_speed} work/s"
 
     def __hash__(self):
-        return hash((super().__hash__(), self.name))
+        return hash_det((self.position, self.direction, self.name))
 
     def get_id(self):
         return hash(self.name)

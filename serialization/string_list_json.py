@@ -1,5 +1,5 @@
-from serialization.a_container_json_serializable import AContainerJsonSerializable
+from serialization.a_container_json_serializable import ABasicContainerJsonSerializable
 
 
-class StringListJson(list, AContainerJsonSerializable):
-    __element_type__ = str
+class BasicListJson(list, ABasicContainerJsonSerializable):
+    pass

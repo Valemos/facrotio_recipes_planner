@@ -12,7 +12,7 @@ class InserterUnit(AMaterialConnectionNode, ASizedGridObject):
     range: int = 1
 
     def __str__(self):
-        return f"Cycle: {self.cycle_speed} Size: {self.capacity}"
+        return f"Inserter Cycle: {self.cycle_speed} Size: {self.capacity} Range: {self.range}"
 
     @property
     def is_hidden_node(self) -> bool:

@@ -8,7 +8,7 @@ from factorio.game_environment.object_stats.crafting_category import CraftingCat
 from gui.entry_validator_with_label import EntryFloatWithLabel
 from gui.entry_with_label import EntryWithLabel
 from gui.menu_object_selector_widget import MenuObjectSelectorWidget
-from gui.widget_list import WidgetList
+from gui.modified_widget_list import DynamicWidgetList
 from gui.name_amount_widget import NameAmountWidget
 
 
@@ -21,8 +21,8 @@ class RecipeFormWidget(tk.Frame):
         self.menu_recipe_type.set(CraftingCategory.ASSEMBLING)
 
         self.entry_craft_time = EntryFloatWithLabel(self, "Craft time: ", 10)
-        self.widget_ingredients = WidgetList(self, "Add ingredient", NameAmountWidget)
-        self.widget_products = WidgetList(self, "Add product", NameAmountWidget)
+        self.widget_ingredients = DynamicWidgetList(self, NameAmountWidget, "Add ingredient")
+        self.widget_products = DynamicWidgetList(self, NameAmountWidget, "Add product")
         self.entry_recipe_name = EntryWithLabel(self, "Recipe name: ", 15)
 
         self.entry_recipe_name.pack(side=tk.TOP, anchor=tk.CENTER, pady=5, padx=5)

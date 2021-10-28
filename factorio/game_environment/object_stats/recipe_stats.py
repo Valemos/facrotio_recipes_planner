@@ -6,13 +6,13 @@ from factorio.crafting_tree_builder.internal_types.recipe import Recipe
 from factorio.game_environment.object_stats.a_stats import AStats
 from factorio.game_environment.object_stats.crafting_category import CraftingCategory
 from factorio.game_environment.object_stats.material_stats import MaterialStatsList, MaterialStats
-from serialization.string_list_json import StringListJson
+from serialization.string_list_json import BasicListJson
 
 
 @dataclass
 class RecipeStats(AStats):
     name: str = None
-    localised_name: StringListJson = None
+    localised_name: BasicListJson = None
     enabled: bool = None
     hidden: bool = None
     hidden_from_player_crafting: bool = None

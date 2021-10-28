@@ -9,24 +9,9 @@ class InfiniteMaterialBus(AMaterialBus):
         super().__init__()
         self._material_type = material_type
 
-    @property
-    def material_type(self) -> MaterialType:
-        return self._material_type
-
-
-class InfiniteMaterialTransportUnit(AMaterialConnectionNode):
-
-    def __init__(self, material_type: MaterialType) -> None:
-        super().__init__()
-        self._material_type = material_type
-
-    @property
-    def max_rate(self):
-        return float("inf")
+    def get_node_message(self) -> str:
+        return ""
 
     @property
     def material_type(self) -> MaterialType:
         return self._material_type
-
-    def create_new_bus(self) -> AMaterialBus:
-        return InfiniteMaterialBus(self._material_type)

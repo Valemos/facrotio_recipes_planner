@@ -1,5 +1,6 @@
 from abc import abstractmethod, ABC
 
+from factorio.deterministic_hash import hash_det
 from factorio.game_environment.blueprint.types.direction_type import DirectionType
 from factorio.game_environment.blueprint.types.position import Position
 
@@ -11,7 +12,7 @@ class ASizedGridObject(ABC):
         self._position: Position = Position()
 
     def __hash__(self):
-        return hash((self._direction, self._position))
+        return hash_det((self._direction, self._position))
 
     def __eq__(self, other):
         return self._direction == other.direction and \

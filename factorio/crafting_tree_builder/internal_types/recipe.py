@@ -4,6 +4,7 @@ from factorio.game_environment.object_stats.crafting_category import CraftingCat
 from serialization.a_composite_json_serializable import ACompositeJsonSerializable
 from .material import Material
 from .material_collection import MaterialCollection
+from ...deterministic_hash import hash_det
 
 
 @dataclass
@@ -21,7 +22,10 @@ class Recipe(ACompositeJsonSerializable):
                other.category == self.category
 
     def __hash__(self):
-        return hash(self.name)
+        return hash_det(self.name)
+
+    def __str__(self):
+        return f"Recipe {self.name}"
 
     @property
     def ingredient_rates(self):

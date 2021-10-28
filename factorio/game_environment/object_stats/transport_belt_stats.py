@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 from factorio.crafting_tree_builder.placeable_types.transport_belt_unit import TransportBeltUnit
-from serialization.string_list_json import StringListJson
+from serialization.string_list_json import BasicListJson
 from .a_stats import AStats
 from ..blueprint.types.color import Color
 from ..blueprint.types.direction_type import DirectionType
@@ -12,7 +12,7 @@ class TransportBeltStats(AStats):
     __ignored__ = ["energy_source"]
 
     name: str = None
-    localised_name: StringListJson = None
+    localised_name: BasicListJson = None
     belt_speed: float = None
     friendly_map_color: Color = None
     enemy_map_color: Color = None

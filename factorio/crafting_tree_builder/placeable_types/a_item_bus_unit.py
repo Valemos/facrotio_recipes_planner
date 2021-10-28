@@ -12,6 +12,9 @@ class AItemBusUnit(AMaterialBusUnit, ABC):
     def is_hidden_node(self) -> bool:
         return True
 
+    def get_node_message(self) -> str:
+        return ""
+
     @property
     def material_type(self):
         return MaterialType.ITEM

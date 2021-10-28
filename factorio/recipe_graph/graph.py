@@ -10,16 +10,16 @@ from factorio.virtual_crafting_environment import VirtualCraftingEnvironment
 
 def _add_node(node: AMaterialConnectionNode, graph: Digraph):
     if node.display_compact:
-        graph.node(id(node), shape="point", width=0.1, height=0.1)
+        graph.node(str(id(node)), shape="point", width=0.1, height=0.1)
     else:
-        graph.node(id(node), node.get_node_message())
+        graph.node(str(id(node)), node.get_node_message())
 
 
 def _add_edge(node1: AMaterialConnectionNode,
               node2: AMaterialConnectionNode,
               material: Material,
               graph: Digraph):
-    graph.edge(id(node1), id(node2), f"{material.name} x {material.amount:.3f}")
+    graph.edge(str(id(node1)), str(id(node2)), f"{material.name} x {material.amount:.3f}")
 
 
 def build_graph(root: AMaterialConnectionNode):
@@ -28,13 +28,13 @@ def build_graph(root: AMaterialConnectionNode):
     nodes = {}
 
     for node in root.iter_root_to_child():
-        nodes[id(node)] = node
+        nodes[str(id(node))] = node
 
     for parent_node, child_node, material in root.iter_connections():
 
         _add_node(parent_node, graph)
         _add_node(child_node, graph)
-        _add_edge(parent_node, child_node, material, graph)
+        _add_edge(child_node, parent_node, material, graph)
 
     return graph
 

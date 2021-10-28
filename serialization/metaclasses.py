@@ -7,17 +7,16 @@ from serialization.i_json_serializable import IJsonSerializable
 class SingleTypeScheme(type):
     """holds one type for all elements in container"""
 
-    __element_type__: Type[IJsonSerializable]
+    __element_type__: Optional[Type[IJsonSerializable]]
     __scheme_initialized = {}
 
-    def __call__(cls, *args: Any, **kwds: Any) -> Any:
+    def __init__(cls, name, bases, namespace):
+        super().__init__(name, bases, namespace)
+        cls._initialize_scheme()
+
+    def __call__(cls, *args, **kwds) -> Any:
         obj = type.__call__(cls, *args, **kwds)
-
-        if not cls._is_scheme_initialized():
-            cls._initialize_scheme()
-
         cls._validate_object(obj)
-
         return obj
 
     def _is_scheme_initialized(cls):
@@ -27,18 +26,28 @@ class SingleTypeScheme(type):
             return cls.__scheme_initialized[cls.__qualname__]
 
     def _initialize_scheme(cls):
-        if not hasattr(cls, "__element_type__"):
-            raise ValueError('"__element_type__" was not defined')
-
-        if IJsonSerializable.is_serializable_type(cls.__element_type__):
-            cls.__scheme_initialized[cls.__qualname__] = True
+        if hasattr(cls, "__element_type__"):
+            if not IJsonSerializable.is_serializable_type(cls.__element_type__):
+                raise ValueError(f'cannot serialize "{repr(cls.__element_type__)}"')
         else:
-            raise ValueError(f'cannot serialize "{repr(cls.__element_type__)}"')
+            cls.__element_type__ = None
 
     def _validate_object(cls, obj):
-        for elem in obj:
-            if not isinstance(elem, cls.__element_type__):
-                raise ValueError(f'incorrect type of elements, must be "{repr(cls.__element_type__)}"')
+        if cls.__element_type__ is None:
+            for elem in obj:
+                cls._validate_element_serializable(elem)
+        else:
+            for elem in obj:
+                cls._validate_element_type(elem)
+
+    @staticmethod
+    def _validate_element_serializable(elem):
+        if not IJsonSerializable.is_serializable_type(type(elem)):
+            raise ValueError(f'list type not serializable {type(elem)}')
+
+    def _validate_element_type(cls, elem):
+        if not isinstance(elem, cls.__element_type__):
+            raise ValueError(f'incorrect type of elements, must be "{repr(cls.__element_type__)}"')
 
 
 class CompositeJsonScheme(type):

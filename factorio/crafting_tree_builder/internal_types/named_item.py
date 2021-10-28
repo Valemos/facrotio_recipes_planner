@@ -1,6 +1,8 @@
 from dataclasses import dataclass
 from typing import Any
 
+from factorio.deterministic_hash import hash_det
+
 
 @dataclass
 class NamedObject:
@@ -19,4 +21,4 @@ class NamedObject:
             raise ValueError(f"incorrect type {repr(other.__class__)}")
 
     def __hash__(self):
-        return hash(self.name)
+        return hash_det(self.name)

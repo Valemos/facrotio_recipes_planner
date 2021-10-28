@@ -4,7 +4,7 @@ from factorio.crafting_tree_builder.placeable_types.a_fluid_bus_unit import AFlu
 class PipeUnit(AFluidBusUnit):
 
     def __str__(self):
-        return f'Pos: {str(self.position)}'
+        return f'Pipe Pos: {str(self.position)}'
 
     def iter_object_cells(self):
         yield self.grid_position

@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from serialization.string_list_json import StringListJson
+from serialization.string_list_json import BasicListJson
 from .a_stats import AStats
 from ..blueprint.types.color import Color
 from ...crafting_tree_builder.placeable_types.inserter_unit import InserterUnit
@@ -9,7 +9,7 @@ from ...crafting_tree_builder.placeable_types.inserter_unit import InserterUnit
 @dataclass
 class InserterStats(AStats):
     name: str = None
-    localised_name: StringListJson = None
+    localised_name: BasicListJson = None
     max_energy_usage: int = None
     inserter_extension_speed: float = None
     inserter_rotation_speed: float = None

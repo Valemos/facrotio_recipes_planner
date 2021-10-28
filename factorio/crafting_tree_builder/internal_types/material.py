@@ -1,12 +1,13 @@
 from dataclasses import dataclass, field
 
+from factorio.deterministic_hash import hash_det
 from serialization.a_composite_json_serializable import ACompositeJsonSerializable
 
 
 @dataclass
 class Material(ACompositeJsonSerializable):
     name: str = field(default="", hash=True)
-    amount: float = field(default=1, hash=True)  # inf value indicates is considered an unconstrained amount
+    amount: float = field(default=1, hash=False)  # inf value indicates is considered an unconstrained amount
 
     def __mul__(self, multiplier):
         assert isinstance(multiplier, float) or isinstance(multiplier, int)
@@ -21,7 +22,7 @@ class Material(ACompositeJsonSerializable):
         return other.name == self.name and other.amount == self.amount
 
     def __hash__(self):
-        return hash(self.name)
+        return hash_det(self.name)
 
     @property
     def id(self):

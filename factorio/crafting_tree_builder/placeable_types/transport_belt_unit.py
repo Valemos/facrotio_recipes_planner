@@ -7,7 +7,7 @@ class TransportBeltUnit(AItemBusUnit):
         self.item_rate = item_rate
 
     def __str__(self):
-        return f"Rate: {self.item_rate} Pos: {self.position}"
+        return f"Belt Rate: {self.item_rate} Pos: {self.position}"
 
     @property
     def max_rate(self):

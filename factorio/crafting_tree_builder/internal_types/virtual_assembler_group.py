@@ -48,7 +48,8 @@ class VirtualAssemblerGroup(IAssemblerConfig, AMaterialConnectionNode):
         for ingredient in self.recipe.ingredients:
             child_node: VirtualAssemblerGroup = environment.build_material_node(ingredient)
             self.connect_input(child_node)
-            child_node.build_subtrees(environment)
+            if not child_node.is_source_step:
+                child_node.build_subtrees(environment)
 
     @property
     def recipe(self):

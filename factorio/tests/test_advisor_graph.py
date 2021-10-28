@@ -2,6 +2,7 @@ import unittest
 
 from factorio.crafting_tree_builder.internal_types.material import Material
 from factorio.crafting_tree_builder.internal_types.material_collection import MaterialCollection
+from factorio.crafting_tree_builder.user_object_choice import CollectionHash
 from factorio.game_environment.game_environment import GameEnvironment
 from factorio.production_config_builder import VirtualProductionConfigBuilder
 from factorio.recipe_graph.graph import build_recipe_graph
@@ -35,7 +36,8 @@ class TestCraftingAdvisorGraph(unittest.TestCase):
         node.set_max_consumers(component_rates)
         self.assertEqual(node.get_output_rates(), MaterialCollection([material * 3]))
 
-    def test_show_graph(self):
-        environment = VirtualCraftingEnvironment()
-        graph = build_recipe_graph("electronic-circuit", environment)
-        graph.render("test_graph", "/media/data/coding/Python_codes/factorio/graph", format="png")
+    def test_collection_hash(self):
+        collection = [1, 2, 3, 4, 5]
+        h = CollectionHash.from_collection(collection)
+
+        self.assertNotEqual(h.to_json(), CollectionHash.from_collection([1, 2, 3, 4]).to_json())

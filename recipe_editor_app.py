@@ -2,7 +2,6 @@ import tkinter as tk
 from pathlib import Path
 from tkinter import messagebox
 
-from factorio.recipe_util.recipe_json_reading import read_default
 from factorio.crafting_tree_builder.internal_types.recipes_collection import RecipesCollection
 from gui.entry_validator_with_label import EntryExistingPath
 from gui.left_right_buttons import LeftRightButtons

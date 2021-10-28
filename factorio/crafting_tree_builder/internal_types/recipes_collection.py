@@ -31,7 +31,7 @@ class RecipesCollection(IJsonSerializable):
         return (name for name in self._recipes.keys())
 
     def add_unique_recipe(self, recipe: Recipe):
-        if recipe in self._recipes:
+        if recipe.name in self._recipes:
             print(f'recipe "{recipe.name}" already exists')
             return
 

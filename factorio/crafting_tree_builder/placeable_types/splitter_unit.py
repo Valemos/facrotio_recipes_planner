@@ -13,7 +13,7 @@ class SplitterUnit(AItemBusUnit):
         self._cell_output_rates = MaterialCollection()
 
     def __str__(self):
-        return f"Rate: {self.item_rate}"
+        return f"Splitter Rate: {self.item_rate}"
 
     @property
     def max_rate(self):
