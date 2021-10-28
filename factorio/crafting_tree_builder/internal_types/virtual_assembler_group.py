@@ -24,6 +24,13 @@ class VirtualAssemblerGroup(IAssemblerConfig, AMaterialConnectionNode):
         self.producers_amount: float = float('inf')
         self._constrained: bool = constrained
 
+    @property
+    def is_hidden_node(self) -> bool:
+        return False
+
+    def get_node_message(self) -> str:
+        return f"{self.recipe.name} x {self.producers_amount}\n{1 / self.get_craft_time():.3f} craft/s"
+
     def display_tree(self, level=0):
         result = "\t" * level + self.get_short_description() + "\n"
         child: VirtualAssemblerGroup
@@ -34,14 +41,14 @@ class VirtualAssemblerGroup(IAssemblerConfig, AMaterialConnectionNode):
     def get_short_description(self):
         return f'{self.recipe.name} x {self.producers_amount}'
 
-    def build_subtrees(self, node_builder):
-        if self.is_source_step():
+    def build_subtrees(self, environment):
+        if self.is_source_step:
             return
 
         for ingredient in self.recipe.ingredients:
-            child_node: VirtualAssemblerGroup = node_builder.build_material(ingredient)
+            child_node: VirtualAssemblerGroup = environment.build_material_node(ingredient)
             self.connect_input(child_node)
-            child_node.build_subtrees(node_builder)
+            child_node.build_subtrees(environment)
 
     @property
     def recipe(self):

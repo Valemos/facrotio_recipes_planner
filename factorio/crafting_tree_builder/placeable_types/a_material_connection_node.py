@@ -17,6 +17,20 @@ class AMaterialConnectionNode(ABC):
     def is_hidden_node(self) -> bool:
         pass
 
+    @property
+    def display_compact(self) -> bool:
+        """this node will be displayed as point without any """
+        return False
+
+    @property
+    def is_source_step(self):
+        """returns True if node represents basic resource in crafting tree"""
+        return False
+
+    @abstractmethod
+    def get_node_message(self) -> str:
+        pass
+
     def get_output_rates(self) -> MaterialCollection:
         return self._source_rates
 
@@ -26,10 +40,6 @@ class AMaterialConnectionNode(ABC):
     def get_outputs(self):
         return self._outputs
 
-    def is_source_step(self):
-        """returns True if node represents basic resource in crafting tree"""
-        return len(self._inputs) == 0
-
     def iter_material_sources(self):
         for material, nodes in self._source_nodes.items():
             for source_node in nodes:
@@ -37,9 +47,10 @@ class AMaterialConnectionNode(ABC):
 
     def _add_material_source(self, input_node, material: Material):
         self._source_rates.add(material)
-        if material in self._source_nodes:
-            self._source_nodes[material] = []
-        self._source_nodes[material].append(input_node)
+        if material not in self._source_nodes:
+            self._source_nodes[material] = [input_node]
+        else:
+            self._source_nodes[material].append(input_node)
 
     def connect_input(self, input_object):
         if not isinstance(input_object, AMaterialConnectionNode):
@@ -88,14 +99,18 @@ class AMaterialConnectionNode(ABC):
 
     def iter_sources(self):
         for step in self.iter_root_to_child():
-            if step.is_source_step():
+            if step.is_source_step:
                 yield step
 
     def iter_connections(self):
         """returns tuple of parent_node, child_node, material and hidden flag"""
 
         for material, source in self.iter_material_sources():
-            yield self, source, material
+            if source.is_hidden_node:
+                for _, child_source, _ in source.iter_connections():
+                    yield self, child_source, material
+            else:
+                yield self, source, material
 
         for inp in self._inputs:
             yield from inp.iter_connections()

@@ -13,14 +13,15 @@ class VirtualCraftingEnvironment:
 
     def __init__(self,
                  final_materials: List[Union[str, Material]] = None,
-                 builder: VirtualProductionConfigBuilder = None,
-                 game_env: GameEnvironment = None, ) -> None:
+                 builder: VirtualProductionConfigBuilder = None, ) -> None:
 
-        self.final_material = None
-        self.game_env = game_env if game_env is not None else GameEnvironment.load_default()
+        if builder is None:
+            self.node_config_builder = VirtualProductionConfigBuilder(GameEnvironment.load_default())
+        else:
+            self.node_config_builder = builder
+
+        self.game_env = self.node_config_builder.game_env
         self._constrains: Dict[str, VirtualAssemblerGroup] = {}
-
-        self.node_config_builder = builder
 
         self._final_recipe_ids = set()
         if final_materials is not None:
@@ -50,31 +51,31 @@ class VirtualCraftingEnvironment:
         self._constrains[config.recipe.get_id()] = config
 
     def constrain_material_rate(self, material: Union[str, Material]):
-        config = self.get_material_config(material)
+        config = self.build_material_node(material)
         config.set_result_rate(material)
         self.add_constrain_config(config)
 
     def constrain_producers_amount(self, recipe_name: str, amount: float):
         recipe = self.game_env.recipe_collection.get_recipe(recipe_name)
-        config = self.node_config_builder.build_recipe(recipe)
+        config = self.node_config_builder.build_recipe_node(recipe)
         config.producers_amount = amount
         self.add_constrain_config(config)
 
     def clear_constraints(self):
         self._constrains = {}
 
-    def get_material_config(self, material: Material) -> VirtualAssemblerGroup:
+    def build_material_node(self, material: Material) -> VirtualAssemblerGroup:
         """
         if material production is constrained, user producer config will apply
         """
 
-        config = self.node_config_builder.build_material(material)
+        config = self.node_config_builder.build_material_node(material)
 
         if config.recipe.get_id() in self._constrains:
             return deepcopy(self._constrains[config.recipe.get_id()])
 
         if self.is_final_recipe(config.recipe):
-            return self.node_config_builder.build_source(material)
+            return self.node_config_builder.build_source_node(material)
 
         return config
 

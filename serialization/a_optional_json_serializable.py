@@ -3,7 +3,10 @@ from serialization.metaclasses import CompositeJsonScheme
 
 
 class AOptionalJsonSerializable(IJsonSerializable, metaclass=CompositeJsonScheme):
-    """if field is optional to serialize, it must be set by default to None"""
+    """
+    Only annotated attributes will be serialized
+    if field is optional to serialize, it must be set by default to None
+    """
 
     def to_json(self):
         result = {}

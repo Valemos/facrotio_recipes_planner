@@ -37,7 +37,7 @@ class ProductionNode(IAssemblerConfig, AMaterialConnectionNode):
     def get_source_materials(self):
         basic_materials = MaterialCollection()
         for step in self.iter_root_to_child():
-            if step.is_source_step():
+            if step.is_source_step:
                 basic_materials += step.config.recipe.get_results()
 
         return basic_materials
