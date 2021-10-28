@@ -63,7 +63,7 @@ class RecipesCollection(IJsonSerializable):
 
     def get_material_recipes(self, material: Union[str, Material]):
         if Material.name_from(material) in self._basic_materials:
-            return self._get_basic_recipe(material)
+            return [self._get_basic_recipe(material)]
 
         recipe_names = self._material_recipe_mapping[Material.name_from(material)]
         return [self._recipes[name] for name in recipe_names]

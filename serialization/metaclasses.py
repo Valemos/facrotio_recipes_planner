@@ -46,38 +46,22 @@ class CompositeJsonScheme(type):
     __ignored__: tuple
     __serializable_children__: dict
 
-    __scheme_initialized = {}
-
-    def __call__(cls, *args, **kwargs):
+    def __init__(cls, name, bases, namespace) -> None:
+        super().__init__(name, bases, namespace)
         if not hasattr(cls, "__ignored__"):
             cls.__ignored__ = tuple()
 
-        obj = type.__call__(cls, *args, **kwargs)
+        cls._initialize_scheme()
 
-        if not cls._is_scheme_initialized():
-            cls._initialize_scheme(obj)
-
-        return obj
-
-    def _is_scheme_initialized(cls):
-        if cls.__qualname__ not in cls.__scheme_initialized:
-            return False
-        else:
-            return cls.__scheme_initialized[cls.__qualname__]
-
-    def _initialize_scheme(cls, obj):
-        cls.__serialized__ = tuple(cls._get_fields_iter(obj))
+    def _initialize_scheme(cls):
+        cls.__serialized__ = tuple(cls.__annotations__.keys())
         cls.__serializable_children__ = {}
         for attr in cls.__serialized__:
             if attr in cls.__ignored__: continue
             attr_type = cls._get_annotation_type(attr)
-            if attr_type is None:
-                attr_type = getattr(obj, attr).__class__
 
             if issubclass(attr_type, IJsonSerializable):
                 cls.__serializable_children__[attr] = attr_type
-
-        cls.__scheme_initialized[cls.__qualname__] = True
 
     @staticmethod
     def _get_fields_iter(obj):
@@ -86,7 +70,6 @@ class CompositeJsonScheme(type):
                 yield member_name
 
     def _get_annotation_type(cls, attribute) -> Optional[Type]:
-        # try to use annotations
         if attribute in cls.__annotations__:
             return cls.__annotations__[attribute]
         return None

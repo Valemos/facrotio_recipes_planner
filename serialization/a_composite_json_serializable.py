@@ -3,6 +3,7 @@ from serialization.metaclasses import CompositeJsonScheme
 
 
 class ACompositeJsonSerializable(IJsonSerializable, metaclass=CompositeJsonScheme):
+    """Only annotated attributes will be serialized"""
 
     def to_json(self):
         result = {}

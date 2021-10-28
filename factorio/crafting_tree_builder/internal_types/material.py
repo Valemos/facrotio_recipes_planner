@@ -5,10 +5,8 @@ from serialization.a_composite_json_serializable import ACompositeJsonSerializab
 
 @dataclass
 class Material(ACompositeJsonSerializable):
-    """a bunch of items of the same type"""
-
     name: str = field(default="", hash=True)
-    amount: float = field(default=1, hash=False)  # inf value indicates is considered an unconstrained amount
+    amount: float = field(default=1, hash=True)  # inf value indicates is considered an unconstrained amount
 
     def __mul__(self, multiplier):
         assert isinstance(multiplier, float) or isinstance(multiplier, int)
