@@ -1,14 +1,14 @@
 import tkinter as tk
+
 from pathlib import Path
+
+from tkinter_extension.entry import EntryExistingPath, EntryNameAmount
+from tkinter_extension.widget_list.dynamic_widget_list import DynamicWidgetList
 
 from app_misc.a_recipe_json_editor import ARecipeJsonEditor
 from factorio.virtual_crafting_environment import VirtualCraftingEnvironment
 from factorio.production_config_builder import VirtualProductionConfigBuilder
 from factorio.crafting_tree_builder.internal_types.named_item import NamedObject
-from gui.entry_validator_with_label import EntryExistingPath
-from gui.menu_object_selector_widget import MenuObjectSelectorWidget
-from gui.name_amount_widget import NameAmountWidget
-from gui.modified_widget_list import DynamicWidgetList
 
 
 class CraftingEnvironmentFormWidget(tk.Frame, ARecipeJsonEditor):
@@ -25,9 +25,7 @@ class CraftingEnvironmentFormWidget(tk.Frame, ARecipeJsonEditor):
             return tk.Entry(_root, width=15)
         self.list_ready_materials = DynamicWidgetList(self, create_material_name_entry, "Add ready material")
 
-        # todo add selection sequence for all crafting benches
-
-        self.list_constrains = DynamicWidgetList(self, NameAmountWidget, "Add constrain")
+        self.list_constrains = DynamicWidgetList(self, EntryNameAmount, "Add constrain")
 
         self.entry_path.pack(side=tk.TOP, anchor=tk.CENTER)
         self.list_ready_materials.pack(side=tk.TOP, anchor=tk.CENTER)

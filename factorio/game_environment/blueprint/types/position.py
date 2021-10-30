@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from math import floor
 
-from serialization.a_composite_json_serializable import ACompositeJsonSerializable
+from json_automatic.a_composite_json_serializable import ACompositeJsonSerializable
 
 
 @dataclass(unsafe_hash=True)

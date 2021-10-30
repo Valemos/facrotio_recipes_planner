@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 
+from json_automatic.a_optional_json_serializable import AOptionalJsonSerializable
+
 from factorio.crafting_tree_builder.placeable_types.a_sized_grid_object import ASizedGridObject
 from factorio.crafting_tree_builder.placeable_types.assembling_machine_unit import AssemblingMachineUnit
 from factorio.game_environment.manual_stats_mapping import ManualStatsMapping
@@ -14,8 +16,6 @@ from factorio.game_environment.blueprint.types.position import Position
 from factorio.game_environment.blueprint.types.side_priority import SidePriority
 from factorio.game_environment.game_environment import GameEnvironment
 from factorio.recipe_graph.production_node import ProductionNode
-from serialization.a_container_json_serializable import AContainerJsonSerializable
-from serialization.a_optional_json_serializable import AOptionalJsonSerializable
 
 
 @dataclass(eq=True)

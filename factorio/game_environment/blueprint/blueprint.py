@@ -1,6 +1,7 @@
 from dataclasses import dataclass, field
 
-from serialization.a_optional_json_serializable import AOptionalJsonSerializable
+from json_automatic.a_optional_json_serializable import AOptionalJsonSerializable
+
 from .blueprint_object import BlueprintObjectList
 from .types.icon import IconList
 from .types.tile import TileList

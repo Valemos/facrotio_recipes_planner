@@ -1,7 +1,8 @@
 from dataclasses import dataclass, field
 
+from json_automatic.a_composite_json_serializable import ACompositeJsonSerializable
+
 from factorio.game_environment.object_stats.crafting_category import CraftingCategory
-from serialization.a_composite_json_serializable import ACompositeJsonSerializable
 from .material import Material
 from .material_collection import MaterialCollection
 from ...deterministic_hash import hash_det

@@ -1,7 +1,8 @@
 from copy import deepcopy
 from typing import Dict, Union
 
-from serialization.a_container_json_serializable import AContainerJsonSerializable
+from json_automatic.a_container_json_serializable import AContainerJsonSerializable
+
 from .material import Material
 
 

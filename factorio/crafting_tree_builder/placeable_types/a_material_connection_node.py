@@ -31,6 +31,9 @@ class AMaterialConnectionNode(ABC):
     def get_node_message(self) -> str:
         pass
 
+    def get_input_rates(self) -> MaterialCollection:
+        return self._source_rates
+
     def get_output_rates(self) -> MaterialCollection:
         return self._source_rates
 
@@ -72,20 +75,22 @@ class AMaterialConnectionNode(ABC):
     def remove_output(self, output_object):
         self._outputs.remove(output_object)
 
-    def handle_inputs_changed(self):
-        new_inputs = MaterialCollection()
+    def set_input_rates(self, new_rates: MaterialCollection):
+        pass
 
+    def set_output_rates(self, new_rates: MaterialCollection):
+        pass
+
+    def handle_inputs_changed(self):
+        input_rates = MaterialCollection()
         for inp in self._inputs:
             for rate in inp.get_output_rates():
-                new_inputs.add(rate)
+                input_rates.add(rate)
 
-        self.set_input_rates(new_inputs)
+        self.set_input_rates(input_rates)
 
         for out in self._outputs:
             out.handle_inputs_changed()
-
-    def set_input_rates(self, new_rates: MaterialCollection):
-        pass
 
     def iter_root_to_child(self):
         yield self

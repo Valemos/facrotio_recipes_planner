@@ -1,4 +1,4 @@
-from serialization.enum_json import EnumByValueJson
+from json_automatic.enum_json import EnumByValueJson
 
 
 class LoaderType(EnumByValueJson):

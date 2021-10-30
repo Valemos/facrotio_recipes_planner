@@ -1,9 +1,10 @@
 from typing import Union
 
+from json_automatic.i_json_serializable import IJsonSerializable
+
 from factorio.crafting_tree_builder.internal_types.material import Material
 from factorio.crafting_tree_builder.internal_types.material_collection import MaterialCollection
 from factorio.crafting_tree_builder.internal_types.recipe import Recipe
-from serialization.i_json_serializable import IJsonSerializable
 
 
 class RecipesCollection(IJsonSerializable):

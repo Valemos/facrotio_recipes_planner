@@ -29,7 +29,7 @@ class VirtualAssemblerGroup(IAssemblerConfig, AMaterialConnectionNode):
         return False
 
     def get_node_message(self) -> str:
-        return f"{self.recipe.name} x {self.producers_amount}\n{1 / self.get_craft_time():.3f} craft/s"
+        return f"{self.recipe.name} x {self.producers_amount}\n{1 / self.get_craft_time():.2f} craft/s"
 
     def display_tree(self, level=0):
         result = "\t" * level + self.get_short_description() + "\n"
@@ -79,18 +79,26 @@ class VirtualAssemblerGroup(IAssemblerConfig, AMaterialConnectionNode):
     def position(self, pos):
         self.assembler.direction = pos
 
-    def set_input_rates(self, new_rates: MaterialCollection):
+    def set_input_rates(self, rates: MaterialCollection):
+        if len(rates) == 0: return
+        self.producers_amount = min(self.get_max_consumers(ingredient) for ingredient in rates)
 
-        if not all(material in self.recipe.ingredients for material in new_rates):
-            raise ValueError(f"materials don't match: \n{str(self.recipe.ingredients)}\n{str(new_rates)}")
+    def set_output_rates(self, rates: MaterialCollection):
+        if len(rates) == 0: return
+        self.producers_amount = max(self.get_min_producers(output) for output in rates)
+        self.propagate_sufficient_inputs()
 
-        if len(new_rates) == 0:
-            return
+    def propagate_sufficient_inputs(self):
+        consumed_rates = self.get_input_rates()
 
-        self.producers_amount = min(self.get_max_consumers(ingredient) for ingredient in new_rates)
+        for inputs in self._source_nodes.values():
+            inputs[0].set_output_rates(consumed_rates)
+
+    def get_input_rates(self):
+        return self.recipe.ingredient_rates * self.producers_amount * self.get_craft_time()
 
     def get_output_rates(self) -> MaterialCollection:
-        return self.recipe.result_rates * self.assembler.crafting_speed * self.producers_amount
+        return self.recipe.result_rates * self.producers_amount * self.get_craft_time()
 
     def set_result_rate(self, target_rate: Material):
         """sets desired material rate if possible"""
@@ -98,14 +106,23 @@ class VirtualAssemblerGroup(IAssemblerConfig, AMaterialConnectionNode):
         production_rate = self.recipe.results[target_rate].amount / self.get_craft_time()
         self.producers_amount = math.ceil(target_rate.amount / production_rate)
 
-    def get_max_consumers(self, ingredient_consumed: Material):
+    def get_max_consumers(self, input_rate: Material):
         """uses certain recipe ingredient rate to calculate minimum amount of producers to consume them all"""
 
-        if ingredient_consumed.amount == float('inf'):
+        if input_rate.amount == float('inf'):
             return float('inf')
 
-        consumed_rate = self.recipe.ingredients[ingredient_consumed].amount / self.get_craft_time()
-        return math.ceil(ingredient_consumed.amount / consumed_rate)
+        consumed_rate = self.recipe.ingredients[input_rate].amount / self.get_craft_time()
+        return math.ceil(input_rate.amount / consumed_rate)
+
+    def get_min_producers(self, output_rate: Material):
+        """uses certain recipe output rate to calculate maximum needed amount of producers to satisfy demand"""
+
+        if output_rate.amount == float('inf'):
+            return float('inf')
+
+        consumed_rate = self.recipe.results[output_rate].amount / self.get_craft_time()
+        return math.ceil(output_rate.amount / consumed_rate)
 
     def get_craft_time(self):
         return self.recipe.time * self.assembler.time_multiplier

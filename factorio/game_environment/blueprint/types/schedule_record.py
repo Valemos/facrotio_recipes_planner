@@ -1,8 +1,9 @@
 from dataclasses import dataclass
 
+from json_automatic.a_composite_json_serializable import ACompositeJsonSerializable
+from json_automatic.a_container_json_serializable import AContainerJsonSerializable
+
 from factorio.game_environment.blueprint.types.wait_condition import WaitConditionList
-from serialization.a_composite_json_serializable import ACompositeJsonSerializable
-from serialization.a_container_json_serializable import AContainerJsonSerializable
 
 
 @dataclass

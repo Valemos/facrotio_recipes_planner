@@ -1,15 +1,14 @@
 import tkinter as tk
 
+from tkinter_extension.entry import EntryNameAmount, EntryWithLabel, EntryFloatWithLabel
+from tkinter_extension.menu import MenuObjectSelectorWidget
+from tkinter_extension.widget_list.dynamic_widget_list import DynamicWidgetList
+
 from factorio.crafting_tree_builder.internal_types.material import Material
 from factorio.crafting_tree_builder.internal_types.material_collection import MaterialCollection
 from factorio.crafting_tree_builder.internal_types.recipe import Recipe
 from factorio.crafting_tree_builder.internal_types.recipes_collection import RecipesCollection
 from factorio.game_environment.object_stats.crafting_category import CraftingCategory
-from gui.entry_validator_with_label import EntryFloatWithLabel
-from gui.entry_with_label import EntryWithLabel
-from gui.menu_object_selector_widget import MenuObjectSelectorWidget
-from gui.modified_widget_list import DynamicWidgetList
-from gui.name_amount_widget import NameAmountWidget
 
 
 class RecipeFormWidget(tk.Frame):
@@ -21,8 +20,8 @@ class RecipeFormWidget(tk.Frame):
         self.menu_recipe_type.set(CraftingCategory.ASSEMBLING)
 
         self.entry_craft_time = EntryFloatWithLabel(self, "Craft time: ", 10)
-        self.widget_ingredients = DynamicWidgetList(self, NameAmountWidget, "Add ingredient")
-        self.widget_products = DynamicWidgetList(self, NameAmountWidget, "Add product")
+        self.widget_ingredients = DynamicWidgetList(self, EntryNameAmount, "Add ingredient")
+        self.widget_products = DynamicWidgetList(self, EntryNameAmount, "Add product")
         self.entry_recipe_name = EntryWithLabel(self, "Recipe name: ", 15)
 
         self.entry_recipe_name.pack(side=tk.TOP, anchor=tk.CENTER, pady=5, padx=5)
@@ -37,9 +36,9 @@ class RecipeFormWidget(tk.Frame):
         self.entry_craft_time.set_raw("")
 
         self.widget_ingredients.reset()
-        self.widget_ingredients.create_empty_widget()
+        self.widget_ingredients.create_empty_widget(EntryNameAmount)
         self.widget_products.reset()
-        self.widget_products.create_empty_widget()
+        self.widget_products.create_empty_widget(EntryNameAmount)
 
     def set_basic_material(self, material_name):
         self.widget_products.get_widget_at(0).set_name(material_name)
@@ -76,13 +75,13 @@ class RecipeFormWidget(tk.Frame):
 
         self.widget_ingredients.reset()
         for ingredient in recipe.ingredients:
-            widget = self.widget_ingredients.create_empty_widget()
+            widget = self.widget_ingredients.create_empty_widget(EntryNameAmount)
             widget.set_name(ingredient.name)
             widget.set_amount(ingredient.amount)
 
         self.widget_products.reset()
         for result in recipe.get_results():
-            widget = self.widget_products.create_empty_widget()
+            widget = self.widget_products.create_empty_widget(EntryNameAmount)
             widget.set_name(result.name)
             widget.set_amount(result.amount)
 

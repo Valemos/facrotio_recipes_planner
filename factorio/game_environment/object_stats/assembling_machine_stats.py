@@ -1,8 +1,8 @@
 from dataclasses import dataclass
-from functools import lru_cache
+
+from json_automatic.string_list_json import BasicListJson
 
 from factorio.crafting_tree_builder.placeable_types.assembling_machine_unit import AssemblingMachineUnit
-from serialization.string_list_json import BasicListJson
 from .a_stats import AStats
 from .crafting_category import CategoriesMapping
 from .effects_dict import EffectsDict

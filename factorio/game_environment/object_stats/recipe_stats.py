@@ -1,12 +1,13 @@
 from dataclasses import dataclass
 from typing import Optional
 
+from json_automatic.string_list_json import BasicListJson
+
 from factorio.crafting_tree_builder.internal_types.material_collection import MaterialCollection
 from factorio.crafting_tree_builder.internal_types.recipe import Recipe
 from factorio.game_environment.object_stats.a_stats import AStats
 from factorio.game_environment.object_stats.crafting_category import CraftingCategory
 from factorio.game_environment.object_stats.material_stats import MaterialStatsList, MaterialStats
-from serialization.string_list_json import BasicListJson
 
 
 @dataclass
