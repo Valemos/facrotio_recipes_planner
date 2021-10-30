@@ -1,14 +1,10 @@
 import tkinter as tk
 
-from gui.menu_object_selector_widget import MenuObjectSelectorWidget
-from gui.tk_context_wrapper import TkContextWrapper
+from tkinter_extension.menu import MenuObjectSelectorWidget
+from tkinter_extension.tk_context import TkContext
 
 
 class ChoiceFormApp(tk.Frame):
-
-    @classmethod
-    def run(cls):
-        return TkContextWrapper(ChoiceFormApp)
 
     def __init__(self, root, **kw) -> None:
         tk.Frame.__init__(self, root, **kw)
@@ -30,8 +26,8 @@ class ChoiceFormApp(tk.Frame):
 
     @classmethod
     def choose(cls, collection, default_index=-1):
-        with ChoiceFormApp.run() as app:
-            return app.choose_from_collection(collection, default_index)
+        with TkContext() as app:
+            return ChoiceFormApp(app).choose_from_collection(collection, default_index)
 
     def choose_from_collection(self, collection, default_index):
         self.widget_objects.set_objects(collection)

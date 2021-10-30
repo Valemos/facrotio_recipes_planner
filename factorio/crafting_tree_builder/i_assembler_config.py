@@ -1,11 +1,9 @@
-from abc import abstractmethod
+from abc import abstractmethod, ABCMeta
 
-from factorio.crafting_tree_builder.internal_types.material import Material
-from factorio.crafting_tree_builder.internal_types.material_collection import MaterialCollection
 from factorio.crafting_tree_builder.internal_types.recipe import Recipe
 
 
-class IAssemblerConfig:
+class IAssemblerConfig(metaclass=ABCMeta):
 
     @property
     @abstractmethod
@@ -20,8 +18,4 @@ class IAssemblerConfig:
     @constrained.setter
     @abstractmethod
     def constrained(self, value: bool):
-        pass
-
-    @abstractmethod
-    def set_result_rate(self, material: Material):
         pass

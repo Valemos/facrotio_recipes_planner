@@ -1,8 +1,9 @@
 from dataclasses import dataclass
 from typing import Optional
 
+from json_automatic.string_list_json import BasicListJson
+
 from factorio.crafting_tree_builder.placeable_types.assembling_machine_unit import AssemblingMachineUnit
-from serialization.string_list_json import BasicListJson
 from .a_stats import AStats
 from .effects_dict import EffectsDict
 from .resource_category import ResourceCategoryMapping

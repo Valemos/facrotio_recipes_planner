@@ -8,7 +8,7 @@ class AMaterialConnectionNode(ABC):
 
     def __init__(self) -> None:
         self._inputs: list[AMaterialConnectionNode] = []
-        self._source_rates = MaterialCollection()
+        self._output_rates = MaterialCollection()
         self._source_nodes: dict[Material, list[AMaterialConnectionNode]] = {}
         self._outputs: list[AMaterialConnectionNode] = []
 
@@ -31,11 +31,22 @@ class AMaterialConnectionNode(ABC):
     def get_node_message(self) -> str:
         pass
 
+    def propagate_sufficient_inputs(self):
+        pass
+
     def get_input_rates(self) -> MaterialCollection:
-        return self._source_rates
+        return self._output_rates
 
     def get_output_rates(self) -> MaterialCollection:
-        return self._source_rates
+        return MaterialCollection()
+
+    def get_requested_outputs(self):
+        requested_outputs = MaterialCollection()
+        for out in self.get_outputs():
+            for requested_rate in out.get_input_rates():
+                requested_outputs.add(requested_rate)
+
+        return requested_outputs
 
     def get_inputs(self):
         return self._inputs
@@ -46,10 +57,10 @@ class AMaterialConnectionNode(ABC):
     def iter_material_sources(self):
         for material, nodes in self._source_nodes.items():
             for source_node in nodes:
-                yield self._source_rates[material], source_node
+                yield self._output_rates[material], source_node
 
     def _add_material_source(self, input_node, material: Material):
-        self._source_rates.add(material)
+        self._output_rates.add(material)
         if material not in self._source_nodes:
             self._source_nodes[material] = [input_node]
         else:

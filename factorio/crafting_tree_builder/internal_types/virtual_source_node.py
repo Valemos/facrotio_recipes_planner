@@ -11,8 +11,8 @@ class VirtualSourceNode(IAssemblerConfig, AMaterialConnectionNode):
         super().__init__()
         self.material = material
         self._constrained = constrained
-        self._recipe = Recipe(self.material.name, results=MaterialCollection([self.material]))
-        self._source_rates = MaterialCollection([material])
+        self._output_rates = MaterialCollection([material])
+        self._recipe = Recipe(self.material.name, results=self._output_rates)
 
     @property
     def is_source_step(self):
@@ -37,15 +37,14 @@ class VirtualSourceNode(IAssemblerConfig, AMaterialConnectionNode):
     def constrained(self, value):
         self._constrained = value
 
+    def get_input_rates(self) -> MaterialCollection:
+        return MaterialCollection()
+
+    def get_output_rates(self) -> MaterialCollection:
+        return self._output_rates
+
     def set_max_consumers(self, input_materials: MaterialCollection):
         print("WARN! trying to set consumers for source material")
 
-    def set_result_rate(self, material: Material):
-        assert self.material.name == material.name
-        self.material.amount = material.amount
-
     def get_id(self):
         return self.material.id
-
-    def set_basic_material_rate(self, material_rate: Material):
-        self.set_result_rate(material_rate)

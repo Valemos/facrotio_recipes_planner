@@ -1,7 +1,7 @@
 import math
 
-from factorio.crafting_tree_builder.placeable_types.assembling_machine_unit import AssemblingMachineUnit
-from factorio.crafting_tree_builder.i_assembler_config import IAssemblerConfig
+from ..placeable_types.assembling_machine_unit import AssemblingMachineUnit
+from ..i_assembler_config import IAssemblerConfig
 from .material import Material
 from .material_collection import MaterialCollection
 from .recipe import Recipe
@@ -21,7 +21,7 @@ class VirtualAssemblerGroup(IAssemblerConfig, AMaterialConnectionNode):
         self._recipe = recipe
 
         # not fixed config will be updated later during optimization
-        self.producers_amount: float = float('inf')
+        self.producers_amount: float = 0
         self._constrained: bool = constrained
 
     @property
@@ -29,7 +29,7 @@ class VirtualAssemblerGroup(IAssemblerConfig, AMaterialConnectionNode):
         return False
 
     def get_node_message(self) -> str:
-        return f"{self.recipe.name} x {self.producers_amount}\n{1 / self.get_craft_time():.2f} craft/s"
+        return f"{self.recipe.name} x {self.producers_amount}"
 
     def display_tree(self, level=0):
         result = "\t" * level + self.get_short_description() + "\n"
@@ -85,14 +85,16 @@ class VirtualAssemblerGroup(IAssemblerConfig, AMaterialConnectionNode):
 
     def set_output_rates(self, rates: MaterialCollection):
         if len(rates) == 0: return
-        self.producers_amount = max(self.get_min_producers(output) for output in rates)
-        self.propagate_sufficient_inputs()
+        sufficient_producers = max(self.get_min_producers(output) for output in rates if output in self.recipe.results)
+        self.producers_amount = max(self.producers_amount, sufficient_producers)
 
     def propagate_sufficient_inputs(self):
         consumed_rates = self.get_input_rates()
 
         for inputs in self._source_nodes.values():
-            inputs[0].set_output_rates(consumed_rates)
+            inp = inputs[0]
+            inp.set_output_rates(consumed_rates)
+            inp.propagate_sufficient_inputs()
 
     def get_input_rates(self):
         return self.recipe.ingredient_rates * self.producers_amount * self.get_craft_time()
@@ -100,9 +102,7 @@ class VirtualAssemblerGroup(IAssemblerConfig, AMaterialConnectionNode):
     def get_output_rates(self) -> MaterialCollection:
         return self.recipe.result_rates * self.producers_amount * self.get_craft_time()
 
-    def set_result_rate(self, target_rate: Material):
-        """sets desired material rate if possible"""
-
+    def set_result_material_rate(self, target_rate: Material):
         production_rate = self.recipe.results[target_rate].amount / self.get_craft_time()
         self.producers_amount = math.ceil(target_rate.amount / production_rate)
 
@@ -117,6 +117,9 @@ class VirtualAssemblerGroup(IAssemblerConfig, AMaterialConnectionNode):
 
     def get_min_producers(self, output_rate: Material):
         """uses certain recipe output rate to calculate maximum needed amount of producers to satisfy demand"""
+
+        if output_rate not in self.recipe.results:
+            raise ValueError(f"material {output_rate.name} not found in recipe results {self.recipe.name}")
 
         if output_rate.amount == float('inf'):
             return float('inf')

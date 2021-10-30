@@ -43,7 +43,7 @@ class VirtualCraftingEnvironment:
 
     def constrain_material_rate(self, material: Union[str, Material]):
         config = self.build_material_node(material)
-        config.set_result_rate(material)
+        config.set_result_material_rate(material)
         self.add_constrain_config(config)
 
     def constrain_producers_amount(self, recipe_name: str, amount: float):

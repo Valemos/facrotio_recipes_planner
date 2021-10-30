@@ -4,6 +4,7 @@ from typing import Union
 from choice_form_app import ChoiceFormApp
 from factorio.crafting_tree_builder.choice_collection import UserChoiceCollection
 from factorio.crafting_tree_builder.internal_types.material import Material
+from factorio.crafting_tree_builder.internal_types.material_collection import MaterialCollection
 from factorio.crafting_tree_builder.internal_types.recipe import Recipe
 from factorio.crafting_tree_builder.internal_types.virtual_source_node import VirtualSourceNode
 from factorio.crafting_tree_builder.internal_types.virtual_assembler_group import VirtualAssemblerGroup
@@ -23,7 +24,9 @@ class VirtualProductionConfigBuilder:
 
     def build_material_node(self, material: Union[str, Material]):
         recipes = self.game_env.recipe_collection.get_material_recipes(material)
-        return self.build_recipe_node(self.choices.choose_from(recipes))
+        recipe_node = self.build_recipe_node(self.choices.choose_from(recipes))
+        recipe_node.set_output_rates(MaterialCollection([material]))
+        return recipe_node
 
     def build_recipe_node(self, recipe: Recipe) -> VirtualAssemblerGroup:
         return VirtualAssemblerGroup(self.get_assembler(recipe.category), recipe)

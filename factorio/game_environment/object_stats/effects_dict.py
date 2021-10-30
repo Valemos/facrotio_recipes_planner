@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from serialization.a_optional_json_serializable import AOptionalJsonSerializable
+from json_automatic.a_optional_json_serializable import AOptionalJsonSerializable
 
 
 @dataclass

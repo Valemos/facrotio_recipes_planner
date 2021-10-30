@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
-from serialization.a_composite_json_serializable import ACompositeJsonSerializable
-from serialization.a_container_json_serializable import AContainerJsonSerializable
+from json_automatic.a_composite_json_serializable import ACompositeJsonSerializable
+from json_automatic.a_container_json_serializable import AContainerJsonSerializable
 
 
 @dataclass

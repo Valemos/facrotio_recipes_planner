@@ -1,7 +1,8 @@
+from factorio.crafting_tree_builder.internal_types.material import Material
 from factorio.recipe_graph.graph import build_recipe_graph
 from factorio.virtual_crafting_environment import VirtualCraftingEnvironment
 
 environment = VirtualCraftingEnvironment(["iron-plate", "copper-plate", "stone"])
-graph = build_recipe_graph("electronic-circuit", environment)
+graph = build_recipe_graph(Material("electronic-circuit", 1), environment)
 
 graph.render("test_graph", "/media/data/coding/Python_codes/factorio/graph", format="png")

@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 
-from serialization.string_list_json import BasicListJson
+from json_automatic.string_list_json import BasicListJson
+
 from .a_stats import AStats
 from ..blueprint.types.color import Color
 from ...crafting_tree_builder.placeable_types.inserter_unit import InserterUnit

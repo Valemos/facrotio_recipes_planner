@@ -1,5 +1,5 @@
-from serialization.enum_json import EnumByValueJson
-from serialization.enum_mapping_json import EnumMappingJson
+from json_automatic.enum_json import EnumByValueJson
+from json_automatic.enum_mapping_json import EnumMappingJson
 
 
 class ResourceCategory(EnumByValueJson):

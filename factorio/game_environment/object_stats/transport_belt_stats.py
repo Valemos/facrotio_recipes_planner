@@ -1,7 +1,8 @@
 from dataclasses import dataclass
 
+from json_automatic.string_list_json import BasicListJson
+
 from factorio.crafting_tree_builder.placeable_types.transport_belt_unit import TransportBeltUnit
-from serialization.string_list_json import BasicListJson
 from .a_stats import AStats
 from ..blueprint.types.color import Color
 from ..blueprint.types.direction_type import DirectionType
