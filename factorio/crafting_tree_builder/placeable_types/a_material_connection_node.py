@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
 
-from factorio.crafting_tree_builder.internal_types.material import Material
 from factorio.crafting_tree_builder.internal_types.material_collection import MaterialCollection
 
 
@@ -8,8 +7,6 @@ class AMaterialConnectionNode(ABC):
 
     def __init__(self) -> None:
         self._inputs: list[AMaterialConnectionNode] = []
-        self._output_rates = MaterialCollection()
-        self._source_nodes: dict[Material, list[AMaterialConnectionNode]] = {}
         self._outputs: list[AMaterialConnectionNode] = []
 
     @property
@@ -35,17 +32,20 @@ class AMaterialConnectionNode(ABC):
         pass
 
     def get_input_rates(self) -> MaterialCollection:
-        return self._output_rates
+        rates = MaterialCollection()
+        for source in self._inputs:
+            for inp_rate in source.get_output_rates():
+                rates.add(inp_rate)
+        return rates
 
     def get_output_rates(self) -> MaterialCollection:
         return MaterialCollection()
 
     def get_requested_outputs(self):
         requested_outputs = MaterialCollection()
-        for out in self.get_outputs():
+        for out in self._outputs:
             for requested_rate in out.get_input_rates():
                 requested_outputs.add(requested_rate)
-
         return requested_outputs
 
     def get_inputs(self):
@@ -55,24 +55,15 @@ class AMaterialConnectionNode(ABC):
         return self._outputs
 
     def iter_material_sources(self):
-        for material, nodes in self._source_nodes.items():
-            for source_node in nodes:
-                yield self._output_rates[material], source_node
-
-    def _add_material_source(self, input_node, material: Material):
-        self._output_rates.add(material)
-        if material not in self._source_nodes:
-            self._source_nodes[material] = [input_node]
-        else:
-            self._source_nodes[material].append(input_node)
+        for source_node in self._inputs:
+            for material_rate in source_node.get_output_rates():
+                yield material_rate, source_node
 
     def connect_input(self, input_object):
         if not isinstance(input_object, AMaterialConnectionNode):
             raise ValueError("object is not a AMaterialTransport")
         self._inputs.append(input_object)
         input_object._outputs.append(self)
-        for material in input_object.get_output_rates():
-            self._add_material_source(input_object, material)
 
     def connect_output(self, output_object):
         if not isinstance(output_object, AMaterialConnectionNode):

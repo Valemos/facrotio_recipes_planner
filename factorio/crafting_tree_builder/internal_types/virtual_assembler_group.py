@@ -91,8 +91,7 @@ class VirtualAssemblerGroup(IAssemblerConfig, AMaterialConnectionNode):
     def propagate_sufficient_inputs(self):
         consumed_rates = self.get_input_rates()
 
-        for inputs in self._source_nodes.values():
-            inp = inputs[0]
+        for inp in self.get_inputs():
             inp.set_output_rates(consumed_rates)
             inp.propagate_sufficient_inputs()
 

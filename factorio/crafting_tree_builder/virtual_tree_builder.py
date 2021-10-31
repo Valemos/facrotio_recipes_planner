@@ -16,8 +16,5 @@ def build_for_material(material: Material, env: VirtualCraftingEnvironment):
         if node.constrained:
             node.handle_inputs_changed()
             node.propagate_sufficient_inputs()
-        elif node.is_source_step:
-            rates = node.get_requested_outputs()
-            node.set_output_rates(rates)
 
     return output

@@ -19,7 +19,7 @@ def _add_edge(node1: AMaterialConnectionNode,
               node2: AMaterialConnectionNode,
               material: Material,
               graph: Digraph):
-    graph.edge(str(id(node1)), str(id(node2)), f"{material.name} x {material.amount:.3f}")
+    graph.edge(str(id(node1)), str(id(node2)), f"{material.name} x {material.amount:.1f}")
 
 
 def build_graph(root: AMaterialConnectionNode):
