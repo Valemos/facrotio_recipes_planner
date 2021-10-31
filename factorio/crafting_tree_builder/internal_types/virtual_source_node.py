@@ -35,7 +35,7 @@ class VirtualSourceNode(IAssemblerConfig, AMaterialConnectionNode):
     def constrained(self, value):
         self._constrained = value
 
-    def get_input_rates(self) -> MaterialCollection:
+    def get_required_input_rates(self) -> MaterialCollection:
         return MaterialCollection()
 
     def get_output_rates(self) -> MaterialCollection:

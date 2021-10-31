@@ -1,10 +1,11 @@
+from pathlib import Path
 from typing import Union
 
-from graphviz.dot import Digraph
+from PIL import Image
+from graphviz.dot import Digraph, Dot
 
 from factorio.crafting_tree_builder.internal_types.material import Material
 from factorio.crafting_tree_builder.placeable_types.a_material_connection_node import AMaterialConnectionNode
-from factorio.crafting_tree_builder.virtual_tree_builder import build_for_material
 from factorio.virtual_crafting_environment import VirtualCraftingEnvironment
 
 
@@ -39,5 +40,15 @@ def build_graph(root: AMaterialConnectionNode):
     return graph
 
 
-def build_recipe_graph(material: Union[str, Material], environment: VirtualCraftingEnvironment):
-    return build_graph(build_for_material(Material.from_obj(material, 1), environment))
+def build_recipe_graph(material: Union[str, Material], environment: VirtualCraftingEnvironment,
+                       render_path=Path("/home/anton/coding/Python_codes/factorio/graph/test_graph.png")):
+    tree = environment.build_for_material(Material.from_obj(material, 1))
+    graph = build_graph(tree)
+    render(graph, render_path)
+    return graph
+
+
+def render(graph: Dot, path: Path):
+    graph.render(path.with_suffix("").name,
+                 path.parent,
+                 format=''.join(filter(lambda c: c != '.', path.suffix)))

@@ -4,6 +4,7 @@ from typing import Union
 
 from factorio.crafting_tree_builder.internal_types.material import Material
 from factorio.crafting_tree_builder.internal_types.material_collection import MaterialCollection
+from factorio.crafting_tree_builder.internal_types.output_material_node import OutputMaterialNode
 from factorio.crafting_tree_builder.internal_types.recipe import Recipe
 from factorio.crafting_tree_builder.internal_types.virtual_assembler_group import VirtualAssemblerGroup
 from factorio.game_environment.game_environment import GameEnvironment
@@ -25,8 +26,9 @@ class VirtualCraftingEnvironment:
         self._constrains: Dict[str, VirtualAssemblerGroup] = {}
 
         self._ready_materials = MaterialCollection()
-        for m in ready_materials:
-            self._ready_materials.add(Material.from_obj(m, default_amount=float("inf")))
+        if ready_materials is not None:
+            for m in ready_materials:
+                self._ready_materials.add(Material.from_obj(m, default_amount=float("inf")))
 
     def __copy__(self):
         shallow = copy(self)
@@ -68,3 +70,22 @@ class VirtualCraftingEnvironment:
             return deepcopy(self._constrains[config.recipe.get_id()])
 
         return config
+
+    def build_for_material(self, material: Material):
+
+        output = OutputMaterialNode(material)
+        root_recipe = self.node_config_builder.build_material_node(material)
+        root_recipe.constrained = True
+        output.connect_input(root_recipe)
+
+        root_recipe.build_subtrees(self)
+
+        for node in root_recipe.iter_child_to_root():
+            if node.constrained:
+                node.propagate_sufficient_inputs()
+                constrained_rates = node.get_output_rates()
+                for output in node.get_outputs():
+                    output.set_input_rates(constrained_rates)
+
+        return output
+

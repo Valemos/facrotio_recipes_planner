@@ -31,6 +31,9 @@ class VirtualAssemblerGroup(IAssemblerConfig, AMaterialConnectionNode):
     def get_node_message(self) -> str:
         return f"{self.recipe.name} x {self.producers_amount}"
 
+    def get_legend_message(self):
+        return f"{self.assembler.name}\tcrafting speed:{self.assembler.crafting_speed}"
+
     def display_tree(self, level=0):
         result = "\t" * level + self.get_short_description() + "\n"
         child: VirtualAssemblerGroup
@@ -45,7 +48,7 @@ class VirtualAssemblerGroup(IAssemblerConfig, AMaterialConnectionNode):
         if self.is_source_step:
             return
 
-        for ingredient in self.recipe.ingredients:
+        for ingredient in self.get_required_input_rates():
             child_node: VirtualAssemblerGroup = environment.build_material_node(ingredient)
             self.connect_input(child_node)
             if not child_node.is_source_step:
@@ -89,17 +92,17 @@ class VirtualAssemblerGroup(IAssemblerConfig, AMaterialConnectionNode):
         self.producers_amount = max(self.producers_amount, sufficient_producers)
 
     def propagate_sufficient_inputs(self):
-        consumed_rates = self.get_input_rates()
+        consumed_rates = self.get_required_input_rates()
 
         for inp in self.get_inputs():
             inp.set_output_rates(consumed_rates)
             inp.propagate_sufficient_inputs()
 
-    def get_input_rates(self):
-        return self.recipe.ingredient_rates * self.producers_amount * self.get_craft_time()
+    def get_required_input_rates(self):
+        return self.recipe.ingredients / self.get_craft_time() * self.producers_amount
 
     def get_output_rates(self) -> MaterialCollection:
-        return self.recipe.result_rates * self.producers_amount * self.get_craft_time()
+        return self.recipe.results / self.get_craft_time() * self.producers_amount
 
     def set_result_material_rate(self, target_rate: Material):
         production_rate = self.recipe.results[target_rate].amount / self.get_craft_time()
@@ -124,7 +127,10 @@ class VirtualAssemblerGroup(IAssemblerConfig, AMaterialConnectionNode):
             return float('inf')
 
         consumed_rate = self.recipe.results[output_rate].amount / self.get_craft_time()
-        return math.ceil(output_rate.amount / consumed_rate)
+        if consumed_rate > 0:
+            return math.ceil(output_rate.amount / consumed_rate)
+        else:
+            return 0
 
     def get_craft_time(self):
         return self.recipe.time * self.assembler.time_multiplier

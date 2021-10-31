@@ -14,7 +14,7 @@ class OutputMaterialNode(IAssemblerConfig, AMaterialConnectionNode):
         return False
 
     def get_node_message(self) -> str:
-        rates = self.get_input_rates()
+        rates = self.get_required_input_rates()
         return f"{self.material.name} {rates[self.material].amount} total items/s"
 
     @property

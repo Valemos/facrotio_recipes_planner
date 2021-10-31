@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import Optional
 
 from factorio.crafting_tree_builder.internal_types.material_collection import MaterialCollection
 
@@ -28,10 +29,13 @@ class AMaterialConnectionNode(ABC):
     def get_node_message(self) -> str:
         pass
 
+    def get_legend_message(self) -> Optional[str]:
+        return None
+
     def propagate_sufficient_inputs(self):
         pass
 
-    def get_input_rates(self) -> MaterialCollection:
+    def get_required_input_rates(self) -> MaterialCollection:
         rates = MaterialCollection()
         for source in self._inputs:
             for inp_rate in source.get_output_rates():
@@ -44,7 +48,7 @@ class AMaterialConnectionNode(ABC):
     def get_requested_outputs(self):
         requested_outputs = MaterialCollection()
         for out in self._outputs:
-            for requested_rate in out.get_input_rates():
+            for requested_rate in out.get_required_input_rates():
                 requested_outputs.add(requested_rate)
         return requested_outputs
 
@@ -55,9 +59,12 @@ class AMaterialConnectionNode(ABC):
         return self._outputs
 
     def iter_material_sources(self):
-        for source_node in self._inputs:
-            for material_rate in source_node.get_output_rates():
-                yield material_rate, source_node
+        consumed_rates = self.get_required_input_rates()
+        for source_node in self.get_inputs():
+            source_rates = source_node.get_output_rates()
+            for consumed in consumed_rates:
+                if consumed in source_rates:
+                    yield consumed, source_node
 
     def connect_input(self, input_object):
         if not isinstance(input_object, AMaterialConnectionNode):
