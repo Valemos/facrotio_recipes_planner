@@ -5,8 +5,7 @@ from factorio.crafting_tree_builder.internal_types.named_item import NamedObject
 from factorio.crafting_tree_builder.placeable_types.pipe_unit import PipeUnit
 from factorio.crafting_tree_builder.placeable_types.splitter_unit import SplitterUnit
 from factorio.crafting_tree_builder.placeable_types.underground_pipe_unit import UndergroundPipeUnit
-from factorio.game_environment.object_stats.a_stats import AStats
-from factorio.game_environment.underground_belt_unit import UndergroundBeltUnit
+from factorio.crafting_tree_builder.placeable_types.underground_belt_unit import UndergroundBeltUnit
 
 
 class ManualStatsMapping(IJsonSerializable, EnumNamedObjects):

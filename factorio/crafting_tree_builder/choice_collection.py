@@ -10,9 +10,9 @@ class UserChoiceCollection:
 
     choice_save_file = Path("./object_choices.json")
 
-    def __init__(self, dialog_handler=None) -> None:
+    def __init__(self, dialog_handler=None, made_choices=None) -> None:
         self._dialog_handler = dialog_handler
-        self._temporary_choices = UserObjectChoiceCollection()
+        self._temporary_choices = made_choices if made_choices is not None else UserObjectChoiceCollection()
         self._permanent_choices = self._load_permanent_choices()
 
     def choose_from(self, collection):
@@ -32,6 +32,9 @@ class UserChoiceCollection:
             return self._get_object_by_id(choice.choice_id, collection)
 
         return self._choose_from_dialog(collection)
+
+    def get_temporary(self):
+        return self._temporary_choices
 
     @staticmethod
     def _get_object_by_id(object_id, collection):

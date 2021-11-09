@@ -40,12 +40,11 @@ def build_graph(root: AMaterialConnectionNode):
     return graph
 
 
-def build_recipe_graph(material: Union[str, Material], environment: VirtualCraftingEnvironment,
-                       render_path=Path("/home/anton/coding/Python_codes/factorio/graph/test_graph.png")):
+def build_recipe_graph(material: Union[str, Material], environment: VirtualCraftingEnvironment, render_path):
     tree = environment.build_for_material(Material.from_obj(material, 1))
     graph = build_graph(tree)
     render(graph, render_path)
-    return graph
+    return graph, tree
 
 
 def render(graph: Dot, path: Path):

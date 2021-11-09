@@ -17,11 +17,7 @@ class VirtualCraftingEnvironment:
                  ready_materials: List[Union[str, Material]] = None,
                  builder: VirtualProductionConfigBuilder = None, ) -> None:
 
-        if builder is None:
-            self.node_config_builder = VirtualProductionConfigBuilder(GameEnvironment.load_default())
-        else:
-            self.node_config_builder = builder
-
+        self.node_config_builder = builder if builder is not None else VirtualProductionConfigBuilder()
         self.game_env = self.node_config_builder.game_env
         self._constrains: Dict[str, VirtualAssemblerGroup] = {}
 

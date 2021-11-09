@@ -14,8 +14,8 @@ from factorio.game_environment.object_stats.crafting_category import CraftingCat
 
 class VirtualProductionConfigBuilder:
 
-    def __init__(self, game_environment: GameEnvironment, choices: UserChoiceCollection = None) -> None:
-        self.game_env = game_environment
+    def __init__(self, game_environment: GameEnvironment = None, choices: UserChoiceCollection = None) -> None:
+        self.game_env = game_environment if game_environment is not None else GameEnvironment.load_default()
         self.choices = choices if choices is not None else UserChoiceCollection(ChoiceFormApp)
 
     def get_assembler(self, category: CraftingCategory):
