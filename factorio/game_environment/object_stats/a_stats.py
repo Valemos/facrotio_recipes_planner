@@ -1,7 +1,6 @@
 from abc import abstractmethod
 
-from json_automatic.a_optional_json_serializable import AOptionalJsonSerializable
-
+from json_annotated.a_optional_json_serializable import AOptionalJsonSerializable
 
 class AStats(AOptionalJsonSerializable):
 

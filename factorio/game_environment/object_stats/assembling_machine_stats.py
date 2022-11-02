@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from json_automatic.string_list_json import BasicListJson
+from json_annotated.string_list_json import BasicListJson
 
 from factorio.crafting_tree_builder.placeable_types.assembling_machine_unit import AssemblingMachineUnit
 from .a_stats import AStats
